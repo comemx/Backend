@@ -9,6 +9,15 @@ In this file is where we put all the routes, here we put the endpoints and infor
   - DELETE - Delete information from the server.
   - OPTIONS - Ask for information about methods (know if we can execute any of the previous methods).
 
+  1.- CODE INDEX
+
+    1 [POST] c lient user creation
+    2 [PUT] client user modification
+    3 [PUT] client user image modification
+    4 [DELETE] client user deletion
+  
+  2.- MODULE EXPORTS
+
 */
 
 const express = require('express');
@@ -17,6 +26,8 @@ const controller = require('./controller');
 const router = express.Router();
 const { upload } = require('../../../libs/multer');
 
+//------------------------------------------------------------------------------------------------
+//1 client user creation
 //------------------------------------------------------------------------------------------------
 
 router.post('/signup', upload, async (req, res) => {
@@ -29,8 +40,9 @@ router.post('/signup', upload, async (req, res) => {
     }
   })
 
-  //------------------------------------------------------------------------------------------------
-
+//------------------------------------------------------------------------------------------------
+//2 client user modification
+//------------------------------------------------------------------------------------------------
   router.put('/:id', async (req, res) => {
     const { id } = req.params
     const { body: user } = req
@@ -44,13 +56,29 @@ router.post('/signup', upload, async (req, res) => {
     }
   })
 
-  //------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
+//3 client user image modification
+//------------------------------------------------------------------------------------------------
 
 router.post('/editimage/:id', upload, async (req, res) =>{
   const { id } = req.params
   try {
     const userImage = await controller.editImage(id, req.file)
     response.success(req, res, userImage, 201)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
+})
+
+//------------------------------------------------------------------------------------------------
+//4 client user deletion
+//------------------------------------------------------------------------------------------------
+
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    const user = await controller.deleteUser(id)
+    response.success(res, res, `User ${id} has been removed`)
   } catch (error) {
     response.error(req, res, error.message, 400, error)
   }

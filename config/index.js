@@ -6,6 +6,16 @@ const config = { // Definimos un objeto config
 	env: process.env.ENV,
 	// de igual forma llamamos al puerto
 	port: process.env.PORT,
+
+	mongo: process.env.MONGO,
+
+	bucket_name: process.env.BUCKET_NAME,
+
+	aws_access_key: process.env.AWS_ACCESS_KEY,
+
+	aws_secret_access_key: process.env.AWS_SECRET_ACCESS_KEY,
+
+	s3_endpoint: process.env.S3_ENDPOINT,
 };
 
 //exportamos el objeto config

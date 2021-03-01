@@ -10,9 +10,15 @@ sends the information to response.js and route.js
 const express = require('express');
 const { config } = require('./config');
 const user = require('./api/components/user/network');
+const bodyParser = require('body-parser');
+const multer = require('multer');
 const cors = require('cors');
 const app = express();
 const db = require('./storage/index');
+const morgan = require('morgan');
+
+//middlewares
+app.use(morgan('dev'));
 
 // [initializing database]
 db('')

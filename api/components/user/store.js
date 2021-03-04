@@ -14,18 +14,18 @@ It is in charge of managing the database, here it is specified, where and when t
 
 */
 
-const Model = require('../../../storage/models/user')
+const userModel = require('../../../storage/models/user')
 
 //------------------------------------------------------------------------------------------------
 //1.1.1 eliminacion de usuario cliente
 //------------------------------------------------------------------------------------------------
 
 const addUser = async (user) => {
-  const myUser = new Model(user)
+  const myUser = new userModel(user)
   try {
     return await myUser.save()
   } catch (error) {
-    throw new Error(error)
+    throw new User(error)
   }
 }
 
@@ -34,7 +34,7 @@ const addUser = async (user) => {
 //------------------------------------------------------------------------------------------------
 
 const updateUser = async (filter, update) => {
-  return await Model.findOneAndUpdate(filter, update, {
+  return await userModel.findOneAndUpdate(filter, update, {
     returnOriginal: false
   })
 }
@@ -45,7 +45,7 @@ const updateUser = async (filter, update) => {
 
 const putImage = async (filter, update) => {
   console.log("informacion", filter, update)
-  return await Model.findOneAndUpdate(filter, update, {
+  return await userModel.findOneAndUpdate(filter, update, {
     returnOriginal: false
   })
 }
@@ -55,7 +55,7 @@ const putImage = async (filter, update) => {
 //------------------------------------------------------------------------------------------------
 
 const removeUser = async (filter) => {
-  const data = await Model.findByIdAndRemove(filter)
+  const data = await userModel.findByIdAndRemove(filter)
   if (!data) {
     throw new Error('User not found')
   }
@@ -66,7 +66,7 @@ const removeUser = async (filter) => {
 //------------------------------------------------------------------------------------------------
 
 const getOneByFilter = async (filter) => {
-  const data = await Model.find(filter)
+  const data = await userModel.find(filter)
   return data
 }
 

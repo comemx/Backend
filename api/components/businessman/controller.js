@@ -26,9 +26,9 @@ const auth = require('../../../auth/index')
 //1.1 client user creation
 //------------------------------------------------------------------------------------------------
 
-const addUser = async (fullname, email, username, password, image) => {
+const addUser = async (name, email, password, image) => {
 
-  if (!fullname || !email || !username || !password) {
+  if (!name || !email || !password) {
     throw new Error('Missing data')
   }
 
@@ -36,6 +36,8 @@ const addUser = async (fullname, email, username, password, image) => {
   if(image) {
     imageUrl = image.location
   }
+
+  let number = ''
 
   const emailExists = await storage.getOneByFilter({ email })
 
@@ -53,11 +55,11 @@ const addUser = async (fullname, email, username, password, image) => {
       })
 
     const user = {
-      fullname,
+      name,
       email,
+      password: hashedPassword,
       image: imageUrl,
-      username,
-      password: hashedPassword
+      phoneNumber: number,
     }
 
       return storage.add(user)

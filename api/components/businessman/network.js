@@ -32,10 +32,10 @@ const checkAuth = require('../../../auth/check-auth');
 //1 client user creation
 //------------------------------------------------------------------------------------------------
 
-router.post('/signup', upload, async (req, res) => {
-  const { fullname, email, username, password} = req.body
+router.post('/signup', async (req, res) => {
+  const { name, email, password} = req.body
     try {
-      const user = await controller.add(fullname, email, username, password, req.file)
+      const user = await controller.add(name, email, password)
       response.success(req, res, user, 201)
     } catch (error) {
       response.error(req, res, error.message, 400, error)

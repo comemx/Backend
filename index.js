@@ -10,6 +10,7 @@ sends the information to response.js and route.js
 const express = require('express');
 const { config } = require('./config');
 const user = require('./api/components/user/network');
+const businessman = require('./api/components/businessman/network');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const cors = require('cors');
@@ -37,6 +38,7 @@ if(config.env === 'development'){
 
 // [routes]
 app.use('/api/user', user);
+app.use('/api/businessman', businessman);
 
 // [static files]
 app.use('/app', express.static('public'))

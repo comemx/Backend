@@ -11,8 +11,7 @@ const express = require('express');
 const { config } = require('./config');
 const user = require('./api/components/user/network');
 const businessman = require('./api/components/businessman/network');
-const bodyParser = require('body-parser');
-const multer = require('multer');
+const local = require('./api/components/local/network');
 const cors = require('cors');
 const app = express();
 const db = require('./storage/index');
@@ -39,6 +38,7 @@ if(config.env === 'development'){
 // [routes]
 app.use('/api/user', user);
 app.use('/api/businessman', businessman);
+app.use('/api/local', local);
 
 // [static files]
 app.use('/app', express.static('public'))

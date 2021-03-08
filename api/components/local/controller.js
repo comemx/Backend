@@ -18,44 +18,54 @@ in this file is all the logic, everything that is modify, change or check, is do
 */
 
 const storage = require('./store')
-const bcrypt = require('bcrypt')
-const { upload, s3 } = require("../../../libs/multer");
-const auth = require('../../../auth/index')
 
 //------------------------------------------------------------------------------------------------
 //1.1 businessman local creation
 //------------------------------------------------------------------------------------------------
 
-const addUser = async (localName, phoneNumber, address, days, image) => {
-
-  if (!localName || !phoneNumber || !address || !days || !image) {
+const addLocal = async (localName, phoneNumber, address, days, image) => {
+  console.log("controller, show image variable", image)
+  try{
+  if (!localName || !phoneNumber || !address || !days) {
     throw new Error('Missing data')
   }
-
+  console.log("vista1",image)
   let imageUrl = ''
   if(image) {
     imageUrl = image.location
   }
 
-    const user = {
+  
+  const arrayOfImage = image.map(function (image) {
+    return image.location
+  })
+
+  console.log("arrayOfImage",arrayOfImage)
+
+  console.log("vista2",image)
+    const local = {
       localName,
       phoneNumber,
       address,
       days,
-      image: imageUrl,
+      arrayOfImage,
     }
-
-    const newLocal = await storage.add(user)
+    console.log("local",local)
+    const newLocal = await storage.add(local)
 
     finalResponse = {
       newLocal,
       'System message': 'Local successfully created'
     }
+    
+    return (finalResponse)
+  } catch (error) {
+    throw new Error(error)
+  }
 }
 
-
 module.exports = {
-  add: addUser,
+  addLocal,
 }
 
 

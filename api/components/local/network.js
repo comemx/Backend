@@ -32,10 +32,11 @@ const checkAuth = require('../../../auth/check-auth');
 //1 client user creation
 //------------------------------------------------------------------------------------------------
 
-router.post('/addlocal ', upload, async (req, res) => {
-  const { localName, phoneNumber, address, days } = req.body
-    try {
-      const local = await controller.add(localName, phoneNumber, address, days, req.file)
+router.post('/addlocal', upload, async (req, res) => {
+  try {
+      const { localName, phoneNumber, address, days } = req.body
+      const local = await controller.addLocal(localName, phoneNumber, address, days, req.files)
+      //console.log("network, show image variable", req.files)
       response.success(req, res, local, 201)
     } catch (error) {
       response.error(req, res, error.message, 400, error)

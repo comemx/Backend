@@ -7,7 +7,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
-  image: String,
+  image: {
+    type: [String],
+    default: undefined
+  },
   fullname: String,
   email: {
     type: String,

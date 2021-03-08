@@ -24,6 +24,6 @@ const upload = multer({
       cb(null, file.originalname);
     },
   }),
-}).array("image");//nombre del input o campo por el cual se va a subir / single es para un archivo y array para muchos
+}).array('image',3);//nombre del input o campo por el cual se va a subir / single es para un archivo y array para muchos
 
 module.exports = { upload, s3 };

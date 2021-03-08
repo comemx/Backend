@@ -21,9 +21,9 @@ const upload = multer({
     },
     key: (request, file, cb) => {// propiedad key, coloca el nombre mas la extension
       console.log(file);
-      cb(null, file.originalname);
+      cb(null, file.originalname);// const filetypes = /jpg|png/ https://www.youtube.com/watch?v=AbJ-y2vZgBs&ab_channel=Fazt
     },
   }),
-}).single("image");//nombre del input o campo por el cual se va a subir / single es para un archivo y array para muchos
+}).array('image');//nombre del input o campo por el cual se va a subir / single es para un archivo y array para muchos
 
 module.exports = { upload, s3 };

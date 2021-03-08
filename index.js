@@ -7,12 +7,28 @@ sends the information to response.js and route.js
 
 */
 
-const expres = require('express');
+const express = require('express');
 const { config } = require('./config');
-const cors = require('cors')
-const app = expres();
+const user = require('./api/components/user/network');
+const businessman = require('./api/components/businessman/network');
+const local = require('./api/components/local/network');
+const cors = require('cors');
+const app = express();
+const db = require('./storage/index');
+const morgan = require('morgan');
 
-// [configuration body-parser]
+//middlewares
+app.use(morgan('dev'));
+
+// [initializing database]
+db('')
+
+
+
+// [server configuration]
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(cors())
 
 //validación que sí estemos en desarrollo
 if(config.env === 'development'){
@@ -20,13 +36,15 @@ if(config.env === 'development'){
 }
 
 // [routes]
+app.use('/api/user', user);
+app.use('/api/businessman', businessman);
+app.use('/api/local', local);
 
 // [static files]
+app.use('/app', express.static('public'))
 
 // [starting server]
-app.use('/', function(req, res){
-    res.send('hola mundo');
-})
+
 
 app.listen(config.port, (err) => {
     if (err) console.error();

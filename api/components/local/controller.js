@@ -23,34 +23,33 @@ const storage = require('./store')
 //1.1 businessman local creation
 //------------------------------------------------------------------------------------------------
 
-const addLocal = async (localName, phoneNumber, address, days, image) => {
-  console.log("controller, show image variable", image)
+const addLocal = async (localName, phoneNumber, address, days, arrayOfImage) => {
+  console.log("controller, show arrayOfImage variable", arrayOfImage)
   try{
   if (!localName || !phoneNumber || !address || !days) {
     throw new Error('Missing data')
   }
-  console.log("vista1",image)
+  console.log("vista1",arrayOfImage)
+
   let imageUrl = ''
-  if(image) {
-    imageUrl = image.location
+  if(arrayOfImage) {
+    imageUrl = arrayOfImage.location
   }
 
-  
-  const arrayOfImage = image.map(function (image) {
-    return image.location
+  const image = arrayOfImage.map(function (arrayOfImage) {
+    return arrayOfImage.location
   })
 
-  console.log("arrayOfImage",arrayOfImage)
+  console.log("image",image)
 
-  console.log("vista2",image)
     const local = {
       localName,
       phoneNumber,
       address,
       days,
-      arrayOfImage,
+      image,
     }
-    console.log("local",local)
+
     const newLocal = await storage.add(local)
 
     finalResponse = {

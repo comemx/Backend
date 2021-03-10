@@ -46,8 +46,36 @@ const remove = (id) => {
   })
 }
 
+const get = async (flocalName, fphoneNumber, faddress, fdays) => {
+
+  filter = {}
+
+  if (flocalName !== null) {
+    filter = {
+      localName: flocalName
+    }
+  } else if (fphoneNumber !== null) {
+    filter = {
+      phoneNumber: fphoneNumber
+    }
+  } else if (faddress !== null) {
+    filter = {
+      address: faddress
+    }
+  } else if (fdays !== null) {
+    filter = {
+      days: fdays
+    }
+  }
+
+  const locals = await localModel.find(filter)
+  return locals
+
+}
+
 module.exports = {
   add,
   update,
   remove,
+  get,
 }

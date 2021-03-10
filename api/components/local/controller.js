@@ -111,10 +111,17 @@ const deleteLocal = (id) => {
   })
 }
 
+const getAllPost = async (localName, phoneNumber, address, days) => {
+  const result = await storage.get(localName, phoneNumber, address, days)
+  return result
+}
+
+
 module.exports = {
   addLocal,
   updateLocal,
   deleteLocal,
+  getAllPost,
 }
 
 

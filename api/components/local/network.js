@@ -77,10 +77,26 @@ router.delete('/:id', (req, res) => {
       response.error(req, res, error.message, 400, error)
     })
 })
-//------------------------------------------------------------------------------------------------
-//5 client user login
-//------------------------------------------------------------------------------------------------
 
+
+router.get('/', async (req, res) => {
+  const localName = req.query.localName || null
+  const phoneNumber = req.query.phoneNumber || null
+  const address = req.query.address || null
+  const days = req.query.days || null
+
+  try {
+    const result = await controller.getAllPost(localName, phoneNumber, address, days)
+    if (result === false) {
+      response.status(400).json({
+        message: 'Post not found'
+      })
+    }
+    response.success(req, res, result, 200)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
+})
 
 
 module.exports = router;

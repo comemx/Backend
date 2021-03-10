@@ -25,6 +25,22 @@ const add = async (local) => {
   return newLocal.save()
 }
 
+const update = async (id, local) => {
+  let retrievedLocal = await localModel.findOne({
+    _id: id
+  })
+
+  let entrie = Object.entries(retrievedLocal)
+  entrie = Object.entries(local)
+
+  retrievedLocal = Object.fromEntries(entrie)
+
+  console.log(retrievedLocal)
+  const newdLocal = await localModel.findByIdAndUpdate(id, retrievedLocal)
+  return newdLocal
+}
+
 module.exports = {
   add,
+  update,
 }

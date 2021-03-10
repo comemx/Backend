@@ -18,18 +18,18 @@ in this file is all the logic, everything that is modify, change or check, is do
 */
 
 const storage = require('./store')
+const { upload } = require('../../../libs/multer');
 
 //------------------------------------------------------------------------------------------------
 //1.1 businessman local creation
 //------------------------------------------------------------------------------------------------
 
 const addLocal = async (localName, phoneNumber, address, days, arrayOfImage) => {
-  console.log("controller, show arrayOfImage variable", arrayOfImage)
+console.log("imagenes",arrayOfImage)
   try{
-  if (!localName || !phoneNumber || !address || !days) {
+  if (!localName || !phoneNumber || !address || !days || !arrayOfImage) {
     throw new Error('Missing data')
   }
-  console.log("vista1",arrayOfImage)
 
   let imageUrl = ''
   if(arrayOfImage) {
@@ -39,8 +39,6 @@ const addLocal = async (localName, phoneNumber, address, days, arrayOfImage) => 
   const image = arrayOfImage.map(function (arrayOfImage) {
     return arrayOfImage.location
   })
-
-  console.log("image",image)
 
     const local = {
       localName,
@@ -62,9 +60,45 @@ const addLocal = async (localName, phoneNumber, address, days, arrayOfImage) => 
     throw new Error(error)
   }
 }
+//------------------------------------------------------------------------------
+
+const updateLocal = (id, localName, phoneNumber, address, days, arrayOfImage) => {
+  return new Promise((resolve, reject) => {
+    if (!id || !localName || !phoneNumber || !address || !days) {
+      reject('Missing data')
+    }
+
+    let imageUrl = ''
+  if(arrayOfImage) {
+    imageUrl = arrayOfImage.location
+  }
+
+  const image = arrayOfImage.map(function (arrayOfImage) {
+    return arrayOfImage.location
+  })
+
+    const local = {
+      localName,
+      phoneNumber,
+      address,
+      days,
+      image,
+    }
+
+    const result = storage.update(id, local)
+
+    const finalResponse = {
+      local,
+      'System Message': 'Local succesfully updated'
+    }
+    resolve(finalResponse)
+  })
+}
+
 
 module.exports = {
   addLocal,
+  updateLocal,
 }
 
 

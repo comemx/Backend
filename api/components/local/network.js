@@ -25,18 +25,18 @@ const express = require('express');
 const response = require('../../../network/response');
 const controller = require('./controller');
 const router = express.Router();
-const { upload } = require('../../../libs/multerArray');
+const { upload } = require('../../../libs/multer');
 const checkAuth = require('../../../auth/check-auth');
 
 //------------------------------------------------------------------------------------------------
 //1 client user creation
 //------------------------------------------------------------------------------------------------
 
-router.post('/addlocal', upload, async (req, res) => {
+router.post('/addlocal', upload.array("image", 3), async (req, res) => {
   try {
       const { localName, phoneNumber, address, days } = req.body
       const local = await controller.addLocal(localName, phoneNumber, address, days, req.files)
-      //console.log("network, show image variable", req.files)
+      console.log(req.files)
       response.success(req, res, local, 201)
     } catch (error) {
       response.error(req, res, error.message, 400, error)
@@ -46,7 +46,17 @@ router.post('/addlocal', upload, async (req, res) => {
 //------------------------------------------------------------------------------------------------
 //2 client user modification
 //------------------------------------------------------------------------------------------------
- 
+router.put('/:id', upload.array("image", 3), (req, res) => {
+  const { localName, phoneNumber, address, days } = req.body
+
+  controller.updateLocal(req.params.id, localName, phoneNumber, address, days, req.files)
+    .then(data => {
+      response.success(req, res, data, 200)
+    })
+    .catch(error => {
+      response.success(req, res, error.message, 400, error)
+    })
+})
 //------------------------------------------------------------------------------------------------
 //3 client user image modification
 //------------------------------------------------------------------------------------------------

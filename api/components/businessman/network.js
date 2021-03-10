@@ -62,7 +62,7 @@ router.post('/signup', async (req, res) => {
 //3 client user image modification
 //------------------------------------------------------------------------------------------------
 
-router.post('/editimage/:id', checkAuth, upload, async (req, res) =>{
+router.post('/editimage/:id', checkAuth, async (req, res) =>{
   const { id } = req.params
   try {
     const userImage = await controller.editImage(id, req.file)

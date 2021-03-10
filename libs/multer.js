@@ -24,6 +24,6 @@ const upload = multer({
       cb(null, file.originalname);// const filetypes = /jpg|png/ https://www.youtube.com/watch?v=AbJ-y2vZgBs&ab_channel=Fazt
     },
   }),
-}).array('image');//nombre del input o campo por el cual se va a subir / single es para un archivo y array para muchos
+});//nombre del input o campo por el cual se va a subir / single es para un archivo y array para muchos
 
-module.exports = { upload, s3 };
+module.exports = { upload, s3, };

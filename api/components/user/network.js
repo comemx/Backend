@@ -32,7 +32,7 @@ const checkAuth = require('../../../auth/check-auth');
 //1 client user creation
 //------------------------------------------------------------------------------------------------
 
-router.post('/signup', upload, async (req, res) => {
+router.post('/signup', async (req, res) => {
   const { fullname, email, username, password} = req.body
     try {
       const user = await controller.add(fullname, email, username, password, req.file)
@@ -62,7 +62,7 @@ router.post('/signup', upload, async (req, res) => {
 //3 client user image modification
 //------------------------------------------------------------------------------------------------
 
-router.post('/editimage/:id', checkAuth, upload, async (req, res) =>{
+router.post('/editimage/:id', checkAuth, async (req, res) =>{
   const { id } = req.params
   try {
     const userImage = await controller.editImage(id, req.file)

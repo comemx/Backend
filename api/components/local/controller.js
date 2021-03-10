@@ -116,12 +116,16 @@ const getAllPost = async (localName, phoneNumber, address, days) => {
   return result
 }
 
-
+const getPost = async (id) => {
+  const result = await storage.getFilter(id)
+  return result
+}
 module.exports = {
   addLocal,
   updateLocal,
   deleteLocal,
   getAllPost,
+  getPost,
 }
 
 

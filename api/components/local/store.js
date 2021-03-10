@@ -73,9 +73,15 @@ const get = async (flocalName, fphoneNumber, faddress, fdays) => {
 
 }
 
+const getFilter = async (id) => {
+  const posts = await localModel.findOne({ _id: id })
+  return posts
+}
+
 module.exports = {
   add,
   update,
   remove,
   get,
+  getFilter,
 }

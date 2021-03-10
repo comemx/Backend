@@ -40,7 +40,14 @@ const update = async (id, local) => {
   return newdLocal
 }
 
+const remove = (id) => {
+  return localModel.deleteOne({
+    _id: id
+  })
+}
+
 module.exports = {
   add,
   update,
+  remove,
 }

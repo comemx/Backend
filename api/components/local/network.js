@@ -68,7 +68,15 @@ router.put('/:id', upload.array("image", 3), (req, res) => {
 //------------------------------------------------------------------------------------------------
 
 
-
+router.delete('/:id', (req, res) => {
+  controller.deleteLocal(req.params.id)
+    .then(data => {
+      response.success(req, res, data, 200)
+    })
+    .catch(error => {
+      response.error(req, res, error.message, 400, error)
+    })
+})
 //------------------------------------------------------------------------------------------------
 //5 client user login
 //------------------------------------------------------------------------------------------------

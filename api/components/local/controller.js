@@ -95,10 +95,26 @@ const updateLocal = (id, localName, phoneNumber, address, days, arrayOfImage) =>
   })
 }
 
+const deleteLocal = (id) => {
+  return new Promise((resolve, reject) => {
+    if (!id) {
+      reject('Missing data')
+    }
+
+    storage.remove(id)
+      .then(() => {
+        resolve('Local deleted')
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
 
 module.exports = {
   addLocal,
   updateLocal,
+  deleteLocal,
 }
 
 

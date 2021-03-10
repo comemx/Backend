@@ -25,6 +25,63 @@ const add = async (local) => {
   return newLocal.save()
 }
 
+const update = async (id, local) => {
+  let retrievedLocal = await localModel.findOne({
+    _id: id
+  })
+
+  let entrie = Object.entries(retrievedLocal)
+  entrie = Object.entries(local)
+
+  retrievedLocal = Object.fromEntries(entrie)
+
+  console.log(retrievedLocal)
+  const newdLocal = await localModel.findByIdAndUpdate(id, retrievedLocal)
+  return newdLocal
+}
+
+const remove = (id) => {
+  return localModel.deleteOne({
+    _id: id
+  })
+}
+
+const get = async (flocalName, fphoneNumber, faddress, fdays) => {
+
+  filter = {}
+
+  if (flocalName !== null) {
+    filter = {
+      localName: flocalName
+    }
+  } else if (fphoneNumber !== null) {
+    filter = {
+      phoneNumber: fphoneNumber
+    }
+  } else if (faddress !== null) {
+    filter = {
+      address: faddress
+    }
+  } else if (fdays !== null) {
+    filter = {
+      days: fdays
+    }
+  }
+
+  const locals = await localModel.find(filter)
+  return locals
+
+}
+
+const getFilter = async (id) => {
+  const posts = await localModel.findOne({ _id: id })
+  return posts
+}
+
 module.exports = {
   add,
+  update,
+  remove,
+  get,
+  getFilter,
 }

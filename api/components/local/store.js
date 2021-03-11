@@ -2,28 +2,31 @@
 
 It is in charge of managing the database, here it is specified, where and when the information is saved
 
-  1.- CODE INDEX
+  - CODE INDEX
 
-    1.1.1 [addUser] client user creation
-    2.2.2 [updateUser] client user modification
-    3.3.3 [putImage] client user image modification
-    4.4.4 [removeUser] client user deletion
-    5.5.5 [getOneByFilter] client user login
-  
-  2.- MODULE EXPORTS
+    1.1.1 [POST] ( CREATE ) LOCAL
+    2.2.2 [PUT] ( UPDATE ) LOCAL
+    3.3.3 [DELETE] ( DELETE ) LOCAL
+    4.4.4 [GET] ( SHOW ) ALL LOCALS
+    5.5.5 [GET] ( SHOW ) LOCAL BY ID
+
+  - MODULE EXPORTS
 
 */
 
 const localModel = require('../../../storage/models/local')
 
 //------------------------------------------------------------------------------------------------
-//1.1.1 eliminacion de usuario cliente
+//1.1.1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
 const add = async (local) => {
   const newLocal = new localModel(local)
   return newLocal.save()
 }
+//------------------------------------------------------------------------------------------------
+//2.2.2 ( UPDATE ) LOCAL
+//------------------------------------------------------------------------------------------------
 
 const update = async (id, local) => {
   let retrievedLocal = await localModel.findOne({
@@ -39,12 +42,18 @@ const update = async (id, local) => {
   const newdLocal = await localModel.findByIdAndUpdate(id, retrievedLocal)
   return newdLocal
 }
+//------------------------------------------------------------------------------------------------
+//3.3. ( DELETE ) LOCAL
+//------------------------------------------------------------------------------------------------
 
 const remove = (id) => {
   return localModel.deleteOne({
     _id: id
   })
 }
+//------------------------------------------------------------------------------------------------
+//4.4.4 ( SHOW ) ALL LOCALS
+//------------------------------------------------------------------------------------------------
 
 const get = async (flocalName, fphoneNumber, faddress, fdays) => {
 
@@ -72,11 +81,17 @@ const get = async (flocalName, fphoneNumber, faddress, fdays) => {
   return locals
 
 }
+//------------------------------------------------------------------------------------------------
+//5.5.5 ( SHOW ) LOCAL BY ID
+//------------------------------------------------------------------------------------------------
 
 const getFilter = async (id) => {
   const posts = await localModel.findOne({ _id: id })
   return posts
 }
+//------------------------------------------------------------------------------------------------
+//MODULE EXPORTS
+//------------------------------------------------------------------------------------------------
 
 module.exports = {
   add,

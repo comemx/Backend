@@ -5,15 +5,17 @@ A controller is a function that you write to control data.
 With a self-written controller, you can modify the data the way you want,
 in this file is all the logic, everything that is modify, change or check, is done in that file.
 
-  1.- CODE INDEX
+  - CODE INDEX
 
-    1.1 [addUser] client user creation
-    2.2 [updateUser] client user modification
-    3.3 [editImage] client user image modification
-    4.4 [deleteUser] client user deletion
-    5.5 [POST] client user login
-  
-  2.- MODULE EXPORTS
+    1.1 [POST] ( CREATE ) USER
+    2.2 [PUT] ( UPDATE ) USER
+    3.3 [PUT] ( UPDATE ) USER IMAGE
+    4.4 [DELETE] ( DELETE ) USER
+    5.5 [POST] ( LOGIN ) USER
+    6.6 [GET] ( SHOW ) ALL USERS
+    7.7 [GET] ( SHOW ) USER BY ID
+
+  - MODULE EXPORTS
 
 */
 
@@ -23,7 +25,9 @@ const { upload, s3 } = require("../../../libs/multer");
 const auth = require('../../../auth/index')
 
 //------------------------------------------------------------------------------------------------
-//1.1 client user creation
+//CODE INDEX
+//------------------------------------------------------------------------------------------------
+//1.1 ( CREATE ) USER
 //------------------------------------------------------------------------------------------------
 
 const addUser = async (fullname, email, username, password, image) => {
@@ -65,7 +69,7 @@ const addUser = async (fullname, email, username, password, image) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//2.2 client user modification
+//2.2 ( UPDATE ) USER
 //------------------------------------------------------------------------------------------------
 
 const updateUser = async (userUpdate) => {
@@ -99,7 +103,7 @@ const updateUser = async (userUpdate) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//3.3 client user image modification
+//3.3 ( UPDATE ) USER IMAGE
 //------------------------------------------------------------------------------------------------
 
 const editImage = async (id, image) => {
@@ -121,7 +125,7 @@ console.log(image)
 }
 
 //------------------------------------------------------------------------------------------------
-//4.4 client user deletion
+//4.4 ( DELETE ) USER
 //------------------------------------------------------------------------------------------------
 
 const deleteUser = async(id) => {
@@ -137,7 +141,7 @@ const deleteUser = async(id) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//5.5 client user login
+//5.5 ( LOGIN ) USER
 //------------------------------------------------------------------------------------------------
 
 const loginController = async (email, password) => {
@@ -154,7 +158,30 @@ const loginController = async (email, password) => {
   }
 }
 
+//------------------------------------------------------------------------------------------------
+//6.6 ( SHOW ) ALL USERS
+//------------------------------------------------------------------------------------------------
 
+const getAll = () => {
+  return storage.getAllUsers()
+}
+
+//------------------------------------------------------------------------------------------------
+//7.7 ( SHOW ) USER BY ID
+//------------------------------------------------------------------------------------------------
+
+const getOne = async (id) => {
+  if (!id) {
+    throw new Error('id needed')
+  } else {
+    const data = await storage.getOneUser(id)
+    return data
+  }
+}
+
+//------------------------------------------------------------------------------------------------
+//MODULE EXPORTS
+//------------------------------------------------------------------------------------------------
 
 module.exports = {
   add: addUser,
@@ -162,6 +189,8 @@ module.exports = {
   editImage,
   deleteUser,
   loginController,
+  getAll,
+  getOne,
 }
 
 

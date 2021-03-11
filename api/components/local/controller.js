@@ -24,7 +24,7 @@ const { upload } = require('../../../libs/multer');
 //1.1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const addLocal = async (localName, phoneNumber, address, days, arrayOfImage) => {
+const createLocal = async (localName, phoneNumber, address, days, arrayOfImage) => {
 console.log("imagenes",arrayOfImage)
   try{
   if (!localName || !phoneNumber || !address || !days || !arrayOfImage) {
@@ -122,8 +122,8 @@ const deleteLocal = (id) => {
 //4.4 ( SHOW ) ALL LOCALS
 //------------------------------------------------------------------------------------------------
 
-const getAllPost = async (localName, phoneNumber, address, days) => {
-  const result = await storage.get(localName, phoneNumber, address, days)
+const getAllLocals = async (localName, phoneNumber, address, days) => {
+  const result = await storage.getAllLocalsDb(localName, phoneNumber, address, days)
   return result
 }
 
@@ -131,8 +131,8 @@ const getAllPost = async (localName, phoneNumber, address, days) => {
 //5.5 ( SHOW ) LOCAL BY ID
 //------------------------------------------------------------------------------------------------
 
-const getPost = async (id) => {
-  const result = await storage.getFilter(id)
+const getLocalById = async (id) => {
+  const result = await storage.getOneUserByIdDb(id)
   return result
 }
 
@@ -141,11 +141,11 @@ const getPost = async (id) => {
 //------------------------------------------------------------------------------------------------
 
 module.exports = {
-  addLocal,
+  createLocal,
   updateLocal,
   deleteLocal,
-  getAllPost,
-  getPost,
+  getAllLocals,
+  getLocalById,
 }
 
 

@@ -9,15 +9,15 @@ In this file is where we put all the routes, here we put the endpoints and infor
   - DELETE - Delete information from the server.
   - OPTIONS - Ask for information about methods (know if we can execute any of the previous methods).
 
-  1.- CODE INDEX
+  - CODE INDEX
 
-    1 [POST] client user creation
-    2 [PUT] client user modification
-    3 [PUT] client user image modification
-    4 [DELETE] client user deletion
-    5 [POST] client user login
-  
-  2.- MODULE EXPORTS
+    1 [POST] ( CREATE ) LOCAL
+    2 [PUT] ( UPDATE ) LOCAL
+    3 [DELETE] ( DELETE ) LOCAL
+    4 [GET] ( SHOW ) ALL LOCALS
+    5 [GET] ( SHOW ) LOCAL BY ID
+
+  - MODULE EXPORTS
 
 */
 
@@ -29,7 +29,7 @@ const { upload } = require('../../../libs/multer');
 const checkAuth = require('../../../auth/check-auth');
 
 //------------------------------------------------------------------------------------------------
-//1 client user creation
+//1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
 router.post('/addlocal', upload.array("image", 3), async (req, res) => {
@@ -44,8 +44,9 @@ router.post('/addlocal', upload.array("image", 3), async (req, res) => {
   })
 
 //------------------------------------------------------------------------------------------------
-//2 client user modification
+//2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
+
 router.put('/:id', upload.array("image", 3), (req, res) => {
   const { localName, phoneNumber, address, days } = req.body
 
@@ -57,16 +58,10 @@ router.put('/:id', upload.array("image", 3), (req, res) => {
       response.success(req, res, error.message, 400, error)
     })
 })
-//------------------------------------------------------------------------------------------------
-//3 client user image modification
-//------------------------------------------------------------------------------------------------
-
-
 
 //------------------------------------------------------------------------------------------------
-//4 client user deletion
+//3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
-
 
 router.delete('/:id', (req, res) => {
   controller.deleteLocal(req.params.id)
@@ -78,6 +73,9 @@ router.delete('/:id', (req, res) => {
     })
 })
 
+//------------------------------------------------------------------------------------------------
+//4 ( SHOW ) ALL LOCALS
+//------------------------------------------------------------------------------------------------
 
 router.get('/', async (req, res) => {
   const localName = req.query.localName || null
@@ -98,6 +96,10 @@ router.get('/', async (req, res) => {
   }
 })
 
+//------------------------------------------------------------------------------------------------
+//5 ( SHOW ) LOCAL BY ID
+//------------------------------------------------------------------------------------------------
+
 router.get('/:id', async (req, res) => {
   try {
     const result = await controller.getPost(req.params.id)
@@ -111,5 +113,9 @@ router.get('/:id', async (req, res) => {
     response.error(req, res, error.message, 400, error)
   }
 })
+
+//------------------------------------------------------------------------------------------------
+//MODULE EXPORTS
+//------------------------------------------------------------------------------------------------
 
 module.exports = router;

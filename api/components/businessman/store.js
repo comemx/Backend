@@ -2,22 +2,26 @@
 
 It is in charge of managing the database, here it is specified, where and when the information is saved
 
-  1.- CODE INDEX
+  - CODE INDEX
 
-    1.1.1 [addUser] client user creation
-    2.2.2 [updateUser] client user modification
-    3.3.3 [putImage] client user image modification
-    4.4.4 [removeUser] client user deletion
-    5.5.5 [getOneByFilter] client user login
-  
-  2.- MODULE EXPORTS
+    1.1.1 [POST] ( CREATE ) USER
+    2.2.2 [PUT] ( UPDATE ) USER
+    3.3.3 [PUT] ( UPDATE ) USER IMAGE
+    4.4.4 [DELETE] ( DELETE ) USER
+    5.5.5 [POST] ( LOGIN ) USER
+    6.6.X [GET] ( SHOW ) ALL USERS
+    7.7.7 [GET] ( SHOW ) USER BY ID
+
+  - MODULE EXPORTS
 
 */
 
 const businessmanModel = require('../../../storage/models/businessman')
 
 //------------------------------------------------------------------------------------------------
-//1.1.1 eliminacion de usuario cliente
+//CODE INDEX
+//------------------------------------------------------------------------------------------------
+//1.1.1 ( CREATE ) USER
 //------------------------------------------------------------------------------------------------
 
 const addUser = async (user) => {
@@ -30,7 +34,7 @@ const addUser = async (user) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//2.2.2 eliminacion de usuario cliente
+//2.2.2 ( UPDATE ) USER
 //------------------------------------------------------------------------------------------------
 
 const updateUser = async (filter, update) => {
@@ -40,7 +44,7 @@ const updateUser = async (filter, update) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//3.3.3 eliminacion de usuario cliente
+//3.3.3 ( UPDATE ) USER IMAGE
 //------------------------------------------------------------------------------------------------
 
 const putImage = async (filter, update) => {
@@ -51,7 +55,7 @@ const putImage = async (filter, update) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//4.4.4 eliminacion de usuario cliente
+//4.4.4 ( DELETE ) USER
 //------------------------------------------------------------------------------------------------
 
 const removeUser = async (filter) => {
@@ -62,7 +66,7 @@ const removeUser = async (filter) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//5.5.5 client user login
+//5.5.5 ( LOGIN ) USER
 //------------------------------------------------------------------------------------------------
 
 const getOneByFilter = async (filter) => {
@@ -70,10 +74,38 @@ const getOneByFilter = async (filter) => {
   return data
 }
 
+//------------------------------------------------------------------------------------------------
+//6.6.X ( SHOW ) ALL USERS
+//------------------------------------------------------------------------------------------------
+
+const getAllUsers = () => {
+  return businessmanModel.find({})
+}
+
+//------------------------------------------------------------------------------------------------
+//7.7.7 ( SHOW ) USER BY ID
+//------------------------------------------------------------------------------------------------
+
+const getOneUser = async (id) => {
+  const data = await businessmanModel.findById(id).exec()
+
+  if (data) {
+    return data
+  } else {
+    throw new Error('User not found')
+  }
+}
+
+//------------------------------------------------------------------------------------------------
+//MODULE EXPORTS
+//------------------------------------------------------------------------------------------------
+
 module.exports = {
   add: addUser,
   updateUser,
   putImage,
   removeUser,
   getOneByFilter,
+  getAllUsers,
+  getOneUser,
 }

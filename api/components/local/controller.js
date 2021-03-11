@@ -41,11 +41,11 @@ console.log("imagenes",arrayOfImage)
   })
 
     const local = {
+      image,
       localName,
       phoneNumber,
       address,
       days,
-      image,
     }
 
     const newLocal = await storage.add(local)

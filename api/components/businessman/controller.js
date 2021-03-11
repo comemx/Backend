@@ -29,18 +29,11 @@ const auth = require('../../../auth/index')
 //1.1 ( CREATE ) USER
 //------------------------------------------------------------------------------------------------
 
-const createUser = async (name, email, password, image) => {
+const createUser = async (fullname, email, password) => {
 
-  if (!name || !email || !password) {
+  if (!fullname || !email || !password) {
     throw new Error('Missing data')
   }
-
-  let imageUrl = ''
-  if(image) {
-    imageUrl = image.location
-  }
-
-  let number = ''
 
   const emailExists = await storage.getOneByFilter({ email })
 
@@ -58,11 +51,11 @@ const createUser = async (name, email, password, image) => {
       })
 
     const user = {
-      name,
+      image: [],
+      fullname,
       email,
+      phoneNumber: '',
       password: hashedPassword,
-      image: imageUrl,
-      phoneNumber: number,
     }
 
       return storage.add(user)

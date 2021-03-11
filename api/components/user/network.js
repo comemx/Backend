@@ -37,9 +37,9 @@ const checkAuth = require('../../../auth/check-auth');
 //------------------------------------------------------------------------------------------------
 
 router.post('/registro', async (req, res) => {
-  const { fullname, email, username, password} = req.body
+  const {fullname, email, password} = req.body
     try {
-      const user = await controller.createUser(fullname, email, username, password, req.file)
+      const user = await controller.createUser(fullname, email, password)
       response.success(req, res, user, 201)
     } catch (error) {
       response.error(req, res, error.message, 400, error)

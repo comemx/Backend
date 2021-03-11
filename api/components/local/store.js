@@ -43,7 +43,7 @@ const update = async (id, local) => {
   return newdLocal
 }
 //------------------------------------------------------------------------------------------------
-//3.3. ( DELETE ) LOCAL
+//3.3.3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
 const remove = (id) => {
@@ -55,7 +55,7 @@ const remove = (id) => {
 //4.4.4 ( SHOW ) ALL LOCALS
 //------------------------------------------------------------------------------------------------
 
-const get = async (flocalName, fphoneNumber, faddress, fdays) => {
+const getAllLocalsDb = async (flocalName, fphoneNumber, faddress, fdays) => {
 
   filter = {}
 
@@ -85,7 +85,7 @@ const get = async (flocalName, fphoneNumber, faddress, fdays) => {
 //5.5.5 ( SHOW ) LOCAL BY ID
 //------------------------------------------------------------------------------------------------
 
-const getFilter = async (id) => {
+const getOneUserByIdDb = async (id) => {
   const posts = await localModel.findOne({ _id: id })
   return posts
 }
@@ -97,6 +97,6 @@ module.exports = {
   add,
   update,
   remove,
-  get,
-  getFilter,
+  getAllLocalsDb,
+  getOneUserByIdDb,
 }

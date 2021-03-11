@@ -32,10 +32,10 @@ const checkAuth = require('../../../auth/check-auth');
 //1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.post('/addlocal', upload.array("image", 3), async (req, res) => {
+router.post('/addlocal', upload.array('image', 3), async (req, res) => {
   try {
       const { localName, phoneNumber, address, days } = req.body
-      const local = await controller.addLocal(localName, phoneNumber, address, days, req.files)
+      const local = await controller.createLocal(localName, phoneNumber, address, days, req.files)
       console.log(req.files)
       response.success(req, res, local, 201)
     } catch (error) {
@@ -47,7 +47,7 @@ router.post('/addlocal', upload.array("image", 3), async (req, res) => {
 //2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', upload.array("image", 3), (req, res) => {
+router.put('/:id', upload.array('image', 3), checkAuth, (req, res) => {
   const { localName, phoneNumber, address, days } = req.body
 
   controller.updateLocal(req.params.id, localName, phoneNumber, address, days, req.files)
@@ -63,7 +63,7 @@ router.put('/:id', upload.array("image", 3), (req, res) => {
 //3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', checkAuth, (req, res) => {
   controller.deleteLocal(req.params.id)
     .then(data => {
       response.success(req, res, data, 200)
@@ -84,7 +84,7 @@ router.get('/', async (req, res) => {
   const days = req.query.days || null
 
   try {
-    const result = await controller.getAllPost(localName, phoneNumber, address, days)
+    const result = await controller.getAllLocals(localName, phoneNumber, address, days)
     if (result === false) {
       response.status(400).json({
         message: 'Post not found'
@@ -102,7 +102,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const result = await controller.getPost(req.params.id)
+    const result = await controller.getLocalById(req.params.id)
     if (result === false) {
       response.status(400).json({
         message: 'Post not found'

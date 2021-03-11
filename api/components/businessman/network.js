@@ -36,10 +36,10 @@ const checkAuth = require('../../../auth/check-auth');
 //1 ( CREATE ) USER
 //------------------------------------------------------------------------------------------------
 
-router.post('/signup', async (req, res) => {
+router.post('/registro', async (req, res) => {
   const { name, email, password} = req.body
     try {
-      const user = await controller.add(name, email, password)
+      const user = await controller.createUser(name, email, password)
       response.success(req, res, user, 201)
     } catch (error) {
       response.error(req, res, error.message, 400, error)
@@ -67,10 +67,10 @@ router.put('/:id', checkAuth, async (req, res) => {
 //3 ( UPDATE ) USER IMAGE
 //------------------------------------------------------------------------------------------------
 
-router.post('/editimage/:id', checkAuth, async (req, res) =>{
+router.post('/editimage/:id', upload.single('image'),checkAuth, async (req, res) =>{
   const { id } = req.params
   try {
-    const userImage = await controller.editImage(id, req.file)
+    const userImage = await controller.editUserImage(id, req.file)
     response.success(req, res, userImage, 201)
   } catch (error) {
     response.error(req, res, error.message, 400, error)
@@ -98,7 +98,7 @@ router.delete('/:id', checkAuth, async (req, res) => {
 router.post('/login', async (req, res, next) => {
   const { email, password } = req.body
   try {
-    const token = await controller.loginController(email, password)
+    const token = await controller.loginUser(email, password)
     const finalResponse = {
       Message: 'Auth success',
       token
@@ -119,7 +119,7 @@ router.post('/login', async (req, res, next) => {
 
 router.get('/', async (req, res) => {
   try {
-    const data = await controller.getAll()
+    const data = await controller.getAllUsers()
     response.success(req, res, data, 200)
   } catch (error) {
     response.error(req, res, 'Something wrong happend', 500, error)
@@ -134,7 +134,7 @@ router.get('/:id', async (req, res) => {
   const { id } = req.params
 
   try {
-    const data = await controller.getOne(id)
+    const data = await controller.getOneUserById(id)
     response.success(req, res, data, 200)
   } catch (error) {
     response.error(req, res, error.message, 400)

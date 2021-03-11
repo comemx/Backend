@@ -24,7 +24,7 @@ const userModel = require('../../../storage/models/user')
 //1.1.1 ( CREATE ) USER
 //------------------------------------------------------------------------------------------------
 
-const addUser = async (user) => {
+const add = async (user) => {
   const myUser = new userModel(user)
   try {
     return await myUser.save()
@@ -37,7 +37,7 @@ const addUser = async (user) => {
 //2.2.2 ( UPDATE ) USER
 //------------------------------------------------------------------------------------------------
 
-const updateUser = async (filter, update) => {
+const update = async (filter, update) => {
   return await userModel.findOneAndUpdate(filter, update, {
     returnOriginal: false
   })
@@ -47,7 +47,7 @@ const updateUser = async (filter, update) => {
 //3.3.3 ( UPDATE ) USER IMAGE
 //------------------------------------------------------------------------------------------------
 
-const putImage = async (filter, update) => {
+const updateImage = async (filter, update) => {
   console.log("informacion", filter, update)
   return await userModel.findOneAndUpdate(filter, update, {
     returnOriginal: false
@@ -58,7 +58,7 @@ const putImage = async (filter, update) => {
 //4.4.4 ( DELETE ) USER
 //------------------------------------------------------------------------------------------------
 
-const removeUser = async (filter) => {
+const remove = async (filter) => {
   const data = await userModel.findByIdAndRemove(filter)
   if (!data) {
     throw new Error('User not found')
@@ -78,7 +78,7 @@ const getOneByFilter = async (filter) => {
 //6.6.X ( SHOW ) ALL USERS
 //------------------------------------------------------------------------------------------------
 
-const getAllUsers = () => {
+const getAllUsersDb = () => {
   return userModel.find({})
 }
 
@@ -86,7 +86,7 @@ const getAllUsers = () => {
 //7.7.7 ( SHOW ) USER BY ID
 //------------------------------------------------------------------------------------------------
 
-const getOneUser = async (id) => {
+const getOneUserByIdDb = async (id) => {
   const data = await userModel.findById(id).exec()
 
   if (data) {
@@ -101,11 +101,11 @@ const getOneUser = async (id) => {
 //------------------------------------------------------------------------------------------------
 
 module.exports = {
-  add: addUser,
-  updateUser,
-  putImage,
-  removeUser,
+  add,
+  update,
+  updateImage,
+  remove,
   getOneByFilter,
-  getAllUsers,
-  getOneUser,
+  getAllUsersDb,
+  getOneUserByIdDb,
 }

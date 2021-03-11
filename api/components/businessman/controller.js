@@ -21,7 +21,6 @@ in this file is all the logic, everything that is modify, change or check, is do
 
 const storage = require('./store')
 const bcrypt = require('bcrypt')
-const { upload, s3 } = require("../../../libs/multer");
 const auth = require('../../../auth/index')
 
 //------------------------------------------------------------------------------------------------
@@ -30,7 +29,7 @@ const auth = require('../../../auth/index')
 //1.1 ( CREATE ) USER
 //------------------------------------------------------------------------------------------------
 
-const addUser = async (name, email, password, image) => {
+const createUser = async (name, email, password, image) => {
 
   if (!name || !email || !password) {
     throw new Error('Missing data')
@@ -93,7 +92,7 @@ const updateUser = async (userUpdate) => {
     const filter = {
       _id: userUpdate._id
     }
-    const userUpdated = await storage.updateUser(filter, userUpdate)
+    const userUpdated = await storage.update(filter, userUpdate)
     if (userUpdated) {
       return userUpdated
     } else {
@@ -108,7 +107,7 @@ const updateUser = async (userUpdate) => {
 //3.3 ( UPDATE ) USER IMAGE
 //------------------------------------------------------------------------------------------------
 
-const editImage = async (id, image) => {
+const editUserImage = async (id, image) => {
 
   let imageUrl = ''
     if(image) {
@@ -123,7 +122,7 @@ const editImage = async (id, image) => {
       _id: id
     }
 
-    return storage.putImage(filter, imageData)
+    return storage.updateImage(filter, imageData)
 }
 
 //------------------------------------------------------------------------------------------------
@@ -136,7 +135,7 @@ const deleteUser = async(id) => {
     const filter = {
       _id: id
     }
-    return await storage.removeUser(filter)
+    return await storage.remove(filter)
   } else {
     throw new Error('Id needed')
   }
@@ -146,7 +145,7 @@ const deleteUser = async(id) => {
 //5.5 ( LOGIN ) USER
 //------------------------------------------------------------------------------------------------
 
-const loginController = async (email, password) => {
+const loginUser = async (email, password) => {
   const user = await storage.getOneByFilter({ email })
   console.log('informacion', user)
 
@@ -164,19 +163,19 @@ const loginController = async (email, password) => {
 //6.6 ( SHOW ) ALL USERS
 //------------------------------------------------------------------------------------------------
 
-const getAll = () => {
-  return storage.getAllUsers()
+const getAllUsers = () => {
+  return storage.getAllUsersDb()
 }
 
 //------------------------------------------------------------------------------------------------
 //7.7 ( SHOW ) USER BY ID
 //------------------------------------------------------------------------------------------------
 
-const getOne = async (id) => {
+const getOneUserById = async (id) => {
   if (!id) {
     throw new Error('id needed')
   } else {
-    const data = await storage.getOneUser(id)
+    const data = await storage.getOneUserByIdDb(id)
     return data
   }
 }
@@ -186,13 +185,13 @@ const getOne = async (id) => {
 //------------------------------------------------------------------------------------------------
 
 module.exports = {
-  add: addUser,
+  createUser,
   updateUser,
-  editImage,
+  editUserImage,
   deleteUser,
-  loginController,
-  getAll,
-  getOne,
+  loginUser,
+  getAllUsers,
+  getOneUserById,
 }
 
 

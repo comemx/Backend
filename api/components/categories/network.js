@@ -26,6 +26,10 @@ const response = require('../../../network/response');
 const controller = require('./controller');
 const router = express.Router();
 
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
 router.post('/add', async (req, res) => {
   try {
       const data = await controller.createCategories(req.body)
@@ -36,5 +40,20 @@ router.post('/add', async (req, res) => {
     } 
 })
 
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+router.put('/:id', (req, res) => {
+
+  controller.updateCategorie(req.params.id, req.body)
+    .then(data => {
+      console.log("network update categorie",req.body)
+      response.success(req, res, data, 200)
+    })
+    .catch(error => {
+      response.success(req, res, error.message, 400, error)
+    })
+})
 
 module.exports = router;

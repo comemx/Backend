@@ -18,9 +18,11 @@ in this file is all the logic, everything that is modify, change or check, is do
 */
 
 const storage = require('./store')
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
 
 const createCategories = async (body) => {
-
     try{
       const newCategorie = await storage.addCategories(body)
   
@@ -34,9 +36,44 @@ const createCategories = async (body) => {
       throw new Error(error)
     }
   }
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const updateCategorie = (id, body) => {
+  return new Promise((resolve, reject) => {
+    /* if (!id || !localName || !phoneNumber || !address || !days) {
+      reject('Missing data')
+    } */
+    console.log("controller update categorie",id, body)
+
+   /*  let imageUrl = ''
+  if(arrayOfImage) {
+    imageUrl = arrayOfImage.location
+  } */
+
+  /* const image = arrayOfImage.map(function (arrayOfImage) {
+    return arrayOfImage.location
+  }) */
+
+    const categorie = {
+      id,
+      body
+    }
+
+    const result = storage.update(id, body)
+
+    const finalResponse = {
+      categorie,
+      'System Message': 'Local succesfully updated'
+    }
+    resolve(finalResponse)
+  })
+}
 
 module.exports = {
   createCategories,
+  updateCategorie,
 }
 
 

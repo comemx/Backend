@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const filterSchema = new Schema({
+const categorieSchema = new Schema({
   /* image: {
     type: [String],
     default: undefined
@@ -25,11 +25,11 @@ const filterSchema = new Schema({
   /* tacos:{
     choriso: {
       type: [Boolean],
-      default: undefined
+      default: false
     },
     pastor:{
       type: [Boolean],
-      default: undefined
+      default: false
     }
   } */
 
@@ -40,6 +40,6 @@ const filterSchema = new Schema({
     postres:[String],
 })
 
-const filterModel = mongoose.model('filter', filterSchema)
+const categorieModel = mongoose.model('categories', categorieSchema)
 
-module.exports = filterModel
+module.exports = categorieModel

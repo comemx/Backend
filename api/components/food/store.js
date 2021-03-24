@@ -14,51 +14,51 @@ It is in charge of managing the database, here it is specified, where and when t
 
 */
 
-const localModel = require('../../../storage/models/local')
+const foodModel = require('../../../storage/models/food')
 
 //------------------------------------------------------------------------------------------------
 //1.1.1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const add = async (local) => {
-  const newLocal = new localModel(local)
-  return newLocal.save()
+const add = async (food) => {
+  const newFood = new foodModel(food)
+  return newFood.save()
 }
 
 //------------------------------------------------------------------------------------------------
 //2.2.2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const update = async (id, local) => {
-  let retrievedLocal = await localModel.findOne({
+const update = async (id, food) => {
+  let retrievedFood = await foodModel.findOne({
     _id: id
   })
 
-  let entrie = Object.entries(retrievedLocal)
-  entrie = Object.entries(local)
+  let entrie = Object.entries(retrievedFood)
+  entrie = Object.entries(food)
 
-  retrievedLocal = Object.fromEntries(entrie)
+  retrievedFood = Object.fromEntries(entrie)
 
-  console.log(retrievedLocal)
-  const newdLocal = await localModel.findByIdAndUpdate(id, retrievedLocal)
-  return newdLocal
+  console.log(retrievedFood)
+  const newFood = await foodModel.findByIdAndUpdate(id, retrievedFood)
+  return newFood
 }
 
 //------------------------------------------------------------------------------------------------
 //3.3.3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const remove = (id) => {
+/* const remove = (id) => {
   return localModel.deleteOne({
     _id: id
   })
-}
+} */
 
 //------------------------------------------------------------------------------------------------
 //4.4.4 ( SHOW ) ALL LOCALS
 //------------------------------------------------------------------------------------------------
 
-const getAllLocalsDb = async (flocalName, fphoneNumber, faddress, fdays) => {
+/* const getAllLocalsDb = async (flocalName, fphoneNumber, faddress, fdays) => {
 
   filter = {}
 
@@ -83,16 +83,16 @@ const getAllLocalsDb = async (flocalName, fphoneNumber, faddress, fdays) => {
   const locals = await localModel.find(filter)
   return locals
 
-}
+} */
 
 //------------------------------------------------------------------------------------------------
 //5.5.5 ( SHOW ) LOCAL BY ID
 //------------------------------------------------------------------------------------------------
 
-const getOneUserByIdDb = async (id) => {
+/* const getOneUserByIdDb = async (id) => {
   const posts = await localModel.findOne({ _id: id })
   return posts
-}
+} */
 
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
@@ -101,7 +101,8 @@ const getOneUserByIdDb = async (id) => {
 module.exports = {
   add,
   update,
+  /* 
   remove,
   getAllLocalsDb,
-  getOneUserByIdDb,
+  getOneUserByIdDb, */
 }

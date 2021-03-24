@@ -11,12 +11,6 @@ In this file is where we put all the routes, here we put the endpoints and infor
 
   - CODE INDEX
 
-    1 [POST] ( CREATE ) LOCAL
-    2 [PUT] ( UPDATE ) LOCAL
-    3 [DELETE] ( DELETE ) LOCAL
-    4 [GET] ( SHOW ) ALL LOCALS
-    5 [GET] ( SHOW ) LOCAL BY ID
-
   - MODULE EXPORTS
 
 */
@@ -32,12 +26,12 @@ const checkAuth = require('../../../auth/check-auth');
 //1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.post('/addlocal', upload.array('image', 3), async (req, res) => {
+router.post('/addfood', upload.single('image'), async (req, res) => {
   try {
-      const { localName, phoneNumber, address, days } = req.body
-      const local = await controller.createLocal(localName, phoneNumber, address, days, req.files)
-      console.log(req.files)
-      response.success(req, res, local, 201)
+      const { name, price, description } = req.body
+      const food = await controller.createFood(name, price, description, req.file)
+      console.log("network food",food)
+      response.success(req, res, food, 201)
     } catch (error) {
       response.error(req, res, error.message, 400, error)
     }
@@ -47,10 +41,10 @@ router.post('/addlocal', upload.array('image', 3), async (req, res) => {
 //2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', upload.array('image', 3), checkAuth, (req, res) => {
-  const { localName, phoneNumber, address, days } = req.body
+router.put('/:id', upload.single('image'), (req, res) => {
+  const { name, price, description } = req.body
 
-  controller.updateLocal(req.params.id, localName, phoneNumber, address, days, req.files)
+  controller.updateFood(req.params.id, name, price, description, req.file)
     .then(data => {
       response.success(req, res, data, 200)
     })
@@ -63,7 +57,7 @@ router.put('/:id', upload.array('image', 3), checkAuth, (req, res) => {
 //3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.delete('/:id', checkAuth, (req, res) => {
+/* router.delete('/:id', checkAuth, (req, res) => {
   controller.deleteLocal(req.params.id)
     .then(data => {
       response.success(req, res, data, 200)
@@ -71,13 +65,13 @@ router.delete('/:id', checkAuth, (req, res) => {
     .catch(error => {
       response.error(req, res, error.message, 400, error)
     })
-})
+}) */
 
 //------------------------------------------------------------------------------------------------
 //4 ( SHOW ) ALL LOCALS
 //------------------------------------------------------------------------------------------------
 
-router.get('/', async (req, res) => {
+/* router.get('/', async (req, res) => {
   const localName = req.query.localName || null
   const phoneNumber = req.query.phoneNumber || null
   const address = req.query.address || null
@@ -94,13 +88,13 @@ router.get('/', async (req, res) => {
   } catch (error) {
     response.error(req, res, error.message, 400, error)
   }
-})
+}) */
 
 //------------------------------------------------------------------------------------------------
 //5 ( SHOW ) LOCAL BY ID
 //------------------------------------------------------------------------------------------------
 
-router.get('/:id', async (req, res) => {
+/* router.get('/:id', async (req, res) => {
   try {
     const result = await controller.getLocalById(req.params.id)
     if (result === false) {
@@ -112,7 +106,7 @@ router.get('/:id', async (req, res) => {
   } catch (error) {
     response.error(req, res, error.message, 400, error)
   }
-})
+}) */
 
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS

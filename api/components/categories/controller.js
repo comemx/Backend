@@ -7,11 +7,9 @@ in this file is all the logic, everything that is modify, change or check, is do
 
   - CODE INDEX
 
-    1.1 [POST] ( CREATE ) LOCAL
-    2.2 [PUT] ( UPDATE ) LOCAL
-    3.3 [DELETE] ( DELETE ) LOCAL
-    4.4 [GET] ( SHOW ) ALL LOCALS
-    5.5 [GET] ( SHOW ) LOCAL BY ID
+    1.1 [POST] ( CREATE ) CATEGORIE
+    2.2 [PUT] ( UPDATE ) CATEGORIE
+    3.3 [DELETE] ( DELETE ) CATEGORIE
 
   - MODULE EXPORTS
 
@@ -36,6 +34,7 @@ const createCategories = async (body) => {
       throw new Error(error)
     }
   }
+
 //------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------
@@ -71,9 +70,30 @@ const updateCategorie = (id, body) => {
   })
 }
 
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const deleteCategorie = (id) => {
+  return new Promise((resolve, reject) => {
+    if (!id) {
+      reject('Missing data')
+    }
+
+    storage.remove(id)
+      .then(() => {
+        resolve('Local deleted')
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
 module.exports = {
   createCategories,
   updateCategorie,
+  deleteCategorie,
 }
 
 

@@ -13,6 +13,7 @@ const user = require('./api/components/user/network');
 const businessman = require('./api/components/businessman/network');
 const local = require('./api/components/local/network');
 const categories = require('./api/components/categories/network');
+const food = require('./api/components/food/network');
 const cors = require('cors');
 const app = express();
 const db = require('./storage/index');
@@ -91,6 +92,7 @@ app.use('/api/user', user);
 app.use('/api/businessman', businessman);
 app.use('/api/local', local);
 app.use('/api/categories', categories);
+app.use('/api/food', food);
 
 // [static files]
 app.use('/app', express.static('public'))

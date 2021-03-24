@@ -7,20 +7,20 @@ in this file is all the logic, everything that is modify, change or check, is do
 
   - CODE INDEX
 
-    1.1 [POST] ( CREATE ) LOCAL
-    2.2 [PUT] ( UPDATE ) LOCAL
-    3.3 [DELETE] ( DELETE ) LOCAL
-    4.4 [GET] ( SHOW ) ALL LOCALS
-    5.5 [GET] ( SHOW ) LOCAL BY ID
+    1.1 [POST] ( CREATE ) CATEGORIE
+    2.2 [PUT] ( UPDATE ) CATEGORIE
+    3.3 [DELETE] ( DELETE ) CATEGORIE
 
   - MODULE EXPORTS
 
 */
 
 const storage = require('./store')
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
 
 const createCategories = async (body) => {
-
     try{
       const newCategorie = await storage.addCategories(body)
   
@@ -35,8 +35,65 @@ const createCategories = async (body) => {
     }
   }
 
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const updateCategorie = (id, body) => {
+  return new Promise((resolve, reject) => {
+    /* if (!id || !localName || !phoneNumber || !address || !days) {
+      reject('Missing data')
+    } */
+    console.log("controller update categorie",id, body)
+
+   /*  let imageUrl = ''
+  if(arrayOfImage) {
+    imageUrl = arrayOfImage.location
+  } */
+
+  /* const image = arrayOfImage.map(function (arrayOfImage) {
+    return arrayOfImage.location
+  }) */
+
+    const categorie = {
+      id,
+      body
+    }
+
+    const result = storage.update(id, body)
+
+    const finalResponse = {
+      categorie,
+      'System Message': 'Local succesfully updated'
+    }
+    resolve(finalResponse)
+  })
+}
+
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const deleteCategorie = (id) => {
+  return new Promise((resolve, reject) => {
+    if (!id) {
+      reject('Missing data')
+    }
+
+    storage.remove(id)
+      .then(() => {
+        resolve('Local deleted')
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
 module.exports = {
   createCategories,
+  updateCategorie,
+  deleteCategorie,
 }
 
 

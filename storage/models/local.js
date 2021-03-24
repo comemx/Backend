@@ -17,6 +17,6 @@ const localSchema = new Schema({
   days: String,
 })
 
-const localModel = mongoose.model('local', localSchema)
+const localModel = mongoose.model('locals', localSchema)
 
 module.exports = localModel

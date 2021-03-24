@@ -4,11 +4,9 @@ It is in charge of managing the database, here it is specified, where and when t
 
   - CODE INDEX
 
-    1.1.1 [POST] ( CREATE ) LOCAL
-    2.2.2 [PUT] ( UPDATE ) LOCAL
-    3.3.3 [DELETE] ( DELETE ) LOCAL
-    4.4.4 [GET] ( SHOW ) ALL LOCALS
-    5.5.5 [GET] ( SHOW ) LOCAL BY ID
+    1.1.1 [POST] ( CREATE ) CATEGORIE
+    2.2.2 [PUT] ( UPDATE ) CATEGORIE
+    3.3.3 [DELETE] ( DELETE ) CATEGORIE
 
   - MODULE EXPORTS
 
@@ -16,12 +14,50 @@ It is in charge of managing the database, here it is specified, where and when t
 
 const localCategories = require('../../../storage/models/categories')
 
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
 
 const addCategories = async (body) => {
   const newCategorie = new localCategories(body)
   return newCategorie.save()
 }
 
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const update = async (id, body) => {
+  let retrievedCategori = await localCategories.findOne({
+    _id: id
+  })
+
+  let entrie = Object.entries(retrievedCategori)
+  entrie = Object.entries(body)
+
+  retrievedCategori = Object.fromEntries(entrie)
+
+  console.log(retrievedCategori)
+  const newdLocal = await localCategories.findByIdAndUpdate(id, retrievedCategori)
+  return newdLocal
+}
+
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const remove = (id) => {
+  return localModel.deleteOne({
+    _id: id
+  })
+}
+
+//------------------------------------------------------------------------------------------------
+//MODULE EXPORTS
+//------------------------------------------------------------------------------------------------
+
 module.exports = {
   addCategories,
+  update,
+  remove,
 }

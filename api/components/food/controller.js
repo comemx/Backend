@@ -85,7 +85,7 @@ const updateFood = (id, name, price, description, imageFood) => {
 //3.3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-/* const deleteLocal = (id) => {
+const deleteFood = (id) => {
   return new Promise((resolve, reject) => {
     if (!id) {
       reject('Missing data')
@@ -99,25 +99,25 @@ const updateFood = (id, name, price, description, imageFood) => {
         reject(error)
       })
   })
-} */
+}
 
 //------------------------------------------------------------------------------------------------
 //4.4 ( SHOW ) ALL LOCALS
 //------------------------------------------------------------------------------------------------
 
-/* const getAllLocals = async (localName, phoneNumber, address, days) => {
-  const result = await storage.getAllLocalsDb(localName, phoneNumber, address, days)
+const getAllFoods = async (name, price, description) => {
+  const result = await storage.getAllFoodsDb(name, price, description)
   return result
 }
- */
+
 //------------------------------------------------------------------------------------------------
 //5.5 ( SHOW ) LOCAL BY ID
 //------------------------------------------------------------------------------------------------
 
-/* const getLocalById = async (id) => {
-  const result = await storage.getOneUserByIdDb(id)
+const getFoodById = async (id) => {
+  const result = await storage.getOneFoodByIdDb(id)
   return result
-} */
+}
 
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
@@ -126,9 +126,9 @@ const updateFood = (id, name, price, description, imageFood) => {
 module.exports = {
   createFood,
   updateFood,
-  /* deleteLocal,
-  getAllLocals,
-  getLocalById, */
+  deleteFood,
+  getAllFoods,
+  getFoodById,
 }
 
 

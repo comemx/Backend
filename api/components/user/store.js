@@ -87,7 +87,13 @@ const getAllUsersDb = () => {
 //------------------------------------------------------------------------------------------------
 
 const getOneUserByIdDb = async (id) => {
-  const data = await userModel.findById(id).exec()
+  const data = await userModel
+  .findById(id)
+  .populate({
+    path: 'favorite',
+    populate: {path: 'favorite'}
+  })
+  .exec()
 
   if (data) {
     return data

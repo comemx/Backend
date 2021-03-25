@@ -34,8 +34,8 @@ const checkAuth = require('../../../auth/check-auth');
 
 router.post('/addlocal', upload.array('image', 3), async (req, res) => {
   try {
-      const { localName, phoneNumber, address, days } = req.body
-      const local = await controller.createLocal(localName, phoneNumber, address, days, req.files)
+      const { user, localName, phoneNumber, address, days } = req.body
+      const local = await controller.createLocal(user, localName, phoneNumber, address, days, req.files)
       console.log(req.files)
       response.success(req, res, local, 201)
     } catch (error) {
@@ -114,6 +114,31 @@ router.get('/:id', async (req, res) => {
   }
 })
 
+//------------------------------------------------------------------------------------------------
+// 6. [POST] - ADD FAVOTITE POSTS
+//------------------------------------------------------------------------------------------------
+
+router.post('/:id/:idUser', async (req, res) => {
+  try {
+    const data = await controller.favoritePost(req.params.id, req.params.idUser)
+    response.success(req, res, data, 200)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
+})
+
+//------------------------------------------------------------------------------------------------
+// 7. [delete] - DELETE FAVOTITE POSTS
+//------------------------------------------------------------------------------------------------
+
+router.delete('/:id/:idUser', async (req, res) => {
+  try {
+    const data = await controller.deleteFavoritePost(req.params.id, req.params.idUser)
+    response.success(req, res, data, 200)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
+})
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------

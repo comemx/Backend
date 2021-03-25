@@ -24,10 +24,10 @@ const { upload } = require('../../../libs/multer');
 //1.1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const createLocal = async (localName, phoneNumber, address, days, arrayOfImage) => {
+const createLocal = async (user, localName, phoneNumber, address, days, arrayOfImage) => {
 console.log("imagenes",arrayOfImage)
   try{
-  if (!localName || !phoneNumber || !address || !days || !arrayOfImage) {
+  if (!user || !localName || !phoneNumber || !address || !days || !arrayOfImage) {
     throw new Error('Missing data')
   }
 
@@ -41,6 +41,7 @@ console.log("imagenes",arrayOfImage)
   })
 
     const local = {
+      user,
       image,
       localName,
       phoneNumber,
@@ -137,6 +138,32 @@ const getLocalById = async (id) => {
 }
 
 //------------------------------------------------------------------------------------------------
+// 6.6 [favoritePost] - ADD FAVOTITE POSTS
+//------------------------------------------------------------------------------------------------
+
+const favoritePost = async (id, idUser) => {
+  if (!id || !idUser) {
+    throw new Error('falta informacion')
+  } else {
+    const data = await storage.addFavorite(id, idUser)
+    return data
+  }
+}
+
+//------------------------------------------------------------------------------------------------
+// 7.7 [delete] - DELETE FAVOTITE POSTS
+//------------------------------------------------------------------------------------------------
+
+const deleteFavoritePost = async (id, idUser) => {
+  if (!id || !idUser) {
+    throw new Error('falta informacion')
+  } else {
+    const data = await storage.deleteFavorite(id, idUser)
+    return data
+  }
+}
+
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
@@ -146,6 +173,8 @@ module.exports = {
   deleteLocal,
   getAllLocals,
   getLocalById,
+  favoritePost,
+  deleteFavoritePost,
 }
 
 

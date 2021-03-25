@@ -47,9 +47,27 @@ const update = async (id, body) => {
 //------------------------------------------------------------------------------------------------
 
 const remove = (id) => {
-  return localModel.deleteOne({
+  return localCategories.deleteOne({
     _id: id
   })
+}
+
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const allCategories = async () => {
+  const data = await localCategories.find()
+  return data
+}
+
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const getOneCategorieByIdDb = async (id) => {
+  const posts = await localCategories.findOne({ _id: id })
+  return posts
 }
 
 //------------------------------------------------------------------------------------------------
@@ -60,4 +78,6 @@ module.exports = {
   addCategories,
   update,
   remove,
+  allCategories,
+  getOneCategorieByIdDb,
 }

@@ -68,4 +68,35 @@ router.delete('/:id', (req, res) => {
     })
 })
 
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+router.get('/', async (req, res) => {
+  try {
+      const data = await controller.getAllCategories()
+      response.success(req, res, data, 201)
+    } catch (error) {
+      response.error(req, res, error.message, 400, error)
+    } 
+})
+
+
+router.get('/:id', async (req, res) => {
+  try {
+    const result = await controller.getCategorieById(req.params.id)
+    if (result === false) {
+      response.status(400).json({
+        message: 'Post not found'
+      })
+    }
+    response.success(req, res, result, 200)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
+})
+
+
+
+
 module.exports = router;

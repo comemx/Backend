@@ -90,10 +90,33 @@ const deleteCategorie = (id) => {
   })
 }
 
+const getAllCategories = async () => {
+  try{
+    const all = await storage.allCategories()
+
+    finalResponse = {
+      all,
+      'System message': 'All catgories'
+    }
+    
+    return (finalResponse)
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+const getCategorieById = async (id) => {
+  const result = await storage.getOneCategorieByIdDb(id)
+  return result
+}
+
+
 module.exports = {
   createCategories,
   updateCategorie,
   deleteCategorie,
+  getAllCategories,
+  getCategorieById,
 }
 
 

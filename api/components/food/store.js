@@ -48,51 +48,47 @@ const update = async (id, food) => {
 //3.3.3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-/* const remove = (id) => {
-  return localModel.deleteOne({
+const remove = (id) => {
+  return foodModel.deleteOne({
     _id: id
   })
-} */
+}
 
 //------------------------------------------------------------------------------------------------
 //4.4.4 ( SHOW ) ALL LOCALS
 //------------------------------------------------------------------------------------------------
 
-/* const getAllLocalsDb = async (flocalName, fphoneNumber, faddress, fdays) => {
+const getAllFoodsDb = async (fname, fprice, fdescription, fdays) => {
 
   filter = {}
 
-  if (flocalName !== null) {
+  if (fname !== null) {
     filter = {
-      localName: flocalName
+      name: fname
     }
-  } else if (fphoneNumber !== null) {
+  } else if (fprice !== null) {
     filter = {
-      phoneNumber: fphoneNumber
+      price: fprice
     }
-  } else if (faddress !== null) {
+  } else if (fdescription !== null) {
     filter = {
-      address: faddress
-    }
-  } else if (fdays !== null) {
-    filter = {
-      days: fdays
+      description: fdescription
     }
   }
 
-  const locals = await localModel.find(filter)
-  return locals
+  const foods = await foodModel.find(filter)
+  return foods
 
-} */
+}
 
 //------------------------------------------------------------------------------------------------
 //5.5.5 ( SHOW ) LOCAL BY ID
 //------------------------------------------------------------------------------------------------
 
-/* const getOneUserByIdDb = async (id) => {
-  const posts = await localModel.findOne({ _id: id })
+const getOneFoodByIdDb = async (id) => {
+  const posts = await foodModel.findOne({ _id: id })
   return posts
-} */
+}
 
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
@@ -101,8 +97,7 @@ const update = async (id, food) => {
 module.exports = {
   add,
   update,
-  /* 
   remove,
-  getAllLocalsDb,
-  getOneUserByIdDb, */
+  getAllFoodsDb,
+  getOneFoodByIdDb,
 }

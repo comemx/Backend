@@ -15,6 +15,7 @@ It is in charge of managing the database, here it is specified, where and when t
 */
 
 const localModel = require('../../../storage/models/local')
+const userModel = require('../../../storage/models/user')
 
 //------------------------------------------------------------------------------------------------
 //1.1.1 ( CREATE ) LOCAL
@@ -80,6 +81,8 @@ const getAllLocalsDb = async (flocalName, fphoneNumber, faddress, fdays) => {
     }
   }
 
+  console.log("filter",filter)
+
   const locals = await localModel.find(filter)
   return locals
 
@@ -93,7 +96,28 @@ const getOneUserByIdDb = async (id) => {
   const posts = await localModel.findOne({ _id: id })
   return posts
 }
+//------------------------------------------------------------------------------------------------
+// 6.6.x [addFavorite] - ADD FAVOTITE POSTS
+//------------------------------------------------------------------------------------------------
 
+const addFavorite = async (id, idUser) => {
+  const data = await userModel.findById(idUser)
+  data.favorite.push(id)
+  data.save()
+  userModel.update()
+}
+
+//------------------------------------------------------------------------------------------------
+// 7.7.7 [deleteFavorite] - DELETE FAVOTITE POSTS
+//------------------------------------------------------------------------------------------------
+const deleteFavorite = async (id, idUser) => {
+  const data = await userModel.findById(idUser)
+  data.favorite.remove({
+    _id: id
+  })
+  data.save()
+  userModel.update()
+}
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
@@ -104,4 +128,6 @@ module.exports = {
   remove,
   getAllLocalsDb,
   getOneUserByIdDb,
+  addFavorite,
+  deleteFavorite,
 }

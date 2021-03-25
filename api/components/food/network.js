@@ -57,28 +57,27 @@ router.put('/:id', upload.single('image'), (req, res) => {
 //3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-/* router.delete('/:id', checkAuth, (req, res) => {
-  controller.deleteLocal(req.params.id)
+router.delete('/:id', (req, res) => {
+  controller.deleteFood(req.params.id)
     .then(data => {
       response.success(req, res, data, 200)
     })
     .catch(error => {
       response.error(req, res, error.message, 400, error)
     })
-}) */
+})
 
 //------------------------------------------------------------------------------------------------
 //4 ( SHOW ) ALL LOCALS
 //------------------------------------------------------------------------------------------------
 
-/* router.get('/', async (req, res) => {
-  const localName = req.query.localName || null
-  const phoneNumber = req.query.phoneNumber || null
-  const address = req.query.address || null
-  const days = req.query.days || null
+router.get('/', async (req, res) => {
+  const name = req.query.name || null
+  const price = req.query.price || null
+  const description = req.query.description || null
 
   try {
-    const result = await controller.getAllLocals(localName, phoneNumber, address, days)
+    const result = await controller.getAllFoods(name, price, description)
     if (result === false) {
       response.status(400).json({
         message: 'Post not found'
@@ -88,15 +87,15 @@ router.put('/:id', upload.single('image'), (req, res) => {
   } catch (error) {
     response.error(req, res, error.message, 400, error)
   }
-}) */
+})
 
 //------------------------------------------------------------------------------------------------
 //5 ( SHOW ) LOCAL BY ID
 //------------------------------------------------------------------------------------------------
 
-/* router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    const result = await controller.getLocalById(req.params.id)
+    const result = await controller.getFoodById(req.params.id)
     if (result === false) {
       response.status(400).json({
         message: 'Post not found'
@@ -106,7 +105,7 @@ router.put('/:id', upload.single('image'), (req, res) => {
   } catch (error) {
     response.error(req, res, error.message, 400, error)
   }
-}) */
+})
 
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS

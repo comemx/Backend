@@ -18,6 +18,7 @@ const businessmanSchema = new Schema({
     },
     phoneNumber: String,
     password: String,
+    locals: [{ type: Schema.Types.ObjectId, ref: 'locals' }],
 })
 
 const businessmanModel = mongoose.model('businessmen', businessmanSchema)

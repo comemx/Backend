@@ -63,14 +63,15 @@ router.put('/:id', upload.array('image', 3), checkAuth, (req, res) => {
 //3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.delete('/:id', checkAuth, (req, res) => {
-  controller.deleteLocal(req.params.id)
-    .then(data => {
-      response.success(req, res, data, 200)
-    })
-    .catch(error => {
-      response.error(req, res, error.message, 400, error)
-    })
+router.delete('/:id', async (req, res) => {
+  const { idUser } = req.body
+  const { id } = req.params
+  try {
+    const user = await controller.deleteLocal(idUser, id)
+    response.success(res, res, `Local ${id} has been removed`)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
 })
 
 //------------------------------------------------------------------------------------------------

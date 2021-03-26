@@ -103,20 +103,23 @@ const updateLocal = (id, localName, phoneNumber, address, days, arrayOfImage) =>
 //3.3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const deleteLocal = (id) => {
-  return new Promise((resolve, reject) => {
-    if (!id) {
-      reject('Missing data')
+
+const deleteLocal = async(idUser, id) => {
+
+  if (id) {
+    const filterUser = {
+      _id: idUser
+    }
+    const filter = {
+      _id: id
     }
 
-    storage.remove(id)
-      .then(() => {
-        resolve('Local deleted')
-      })
-      .catch(error => {
-        reject(error)
-      })
-  })
+
+    console.log("filter, filterUser NETWORK", idUser, id, filter)
+    return await storage.remove(idUser, id, filter)
+  } else {
+    throw new Error('Id needed')
+  }
 }
 
 //------------------------------------------------------------------------------------------------

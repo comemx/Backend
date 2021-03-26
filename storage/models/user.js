@@ -17,7 +17,7 @@ const userSchema = new Schema({
     match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
   },
   password: String,
-  favorite: [{ type: Schema.Types.ObjectId, ref: 'locals' }]
+  favorite: [{ type: Schema.Types.ObjectId, ref: 'locals' }],
 })
 
 const userModel = mongoose.model('users', userSchema)

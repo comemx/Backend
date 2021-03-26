@@ -36,7 +36,7 @@ const checkAuth = require('../../../auth/check-auth');
 //1 ( CREATE ) USER
 //------------------------------------------------------------------------------------------------
 
-router.post('/registro', async (req, res) => {
+router.post('/registro', checkAuth, async (req, res) => {
   const {fullname, email, password} = req.body
     try {
       const user = await controller.createUser(fullname, email, password)

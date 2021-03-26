@@ -16,6 +16,7 @@ It is in charge of managing the database, here it is specified, where and when t
 
 const localModel = require('../../../storage/models/local')
 const userModel = require('../../../storage/models/user')
+const businessmanModel = require('../../../storage/models/businessman')
 
 //------------------------------------------------------------------------------------------------
 //1.1.1 ( CREATE ) LOCAL
@@ -23,6 +24,10 @@ const userModel = require('../../../storage/models/user')
 
 const add = async (local) => {
   const newLocal = new localModel(local)
+  const userData = await businessmanModel.findById(local.user)
+    userData.locals.push(newLocal)
+    userData.save()
+    businessmanModel.updateOne()
   return newLocal.save()
 }
 
@@ -49,11 +54,29 @@ const update = async (id, local) => {
 //3.3.3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const remove = (id) => {
-  return localModel.deleteOne({
+const remove = async (idUser, id, filter) => {
+  const data = await localModel.findByIdAndRemove(filter)
+  const user = await businessmanModel.findOne({ _id: idUser })
+  user.locals.remove({
     _id: id
   })
+  user.save()
+  businessmanModel.updateOne()
+  if (!data) {
+    throw new Error('User not found')
+  }
 }
+
+
+
+/* const deleteFavorite = async (id, idUser) => {
+  const data = await userModel.findById(idUser)
+  data.favorite.remove({
+    _id: id
+  })
+  data.save()
+  userModel.update()
+} */
 
 //------------------------------------------------------------------------------------------------
 //4.4.4 ( SHOW ) ALL LOCALS
@@ -116,7 +139,7 @@ const deleteFavorite = async (id, idUser) => {
     _id: id
   })
   data.save()
-  userModel.update()
+  userModel.updateOne()
 }
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS

@@ -1,12 +1,10 @@
-require('dotenv').config()
+const { config } = require('../config/index');
 const jwt = require('jsonwebtoken')
 
 const createToken = (id, email, username) => {
-  const token = jwt.sign({
-    id,
-    email,
-    username
-  }, process.env.TOKEN_PHRS_KEY || 'secret')
+  const token = jwt.sign({ id, email, username}, `${config.secret}` || 'gp*)e5?$[sin8~4v]9', {
+    expiresIn: 60
+  })
 
   return token
 }
@@ -14,4 +12,3 @@ const createToken = (id, email, username) => {
 module.exports = {
   createToken
 }
-

@@ -147,6 +147,7 @@ const loginUser = async (email, password) => {
   const isCorrect = bcrypt.compareSync(password, user[0].password)
   if (isCorrect === true) {
     const token = auth.createToken(user[0]._id, user[0].email, user[0].username)
+    console.log("token", token)
     return token
   }
 }

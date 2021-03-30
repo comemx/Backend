@@ -26,7 +26,7 @@ const response = require('../../../network/response');
 const controller = require('./controller');
 const router = express.Router();
 const { upload } = require('../../../libs/multer');
-const checkAuth = require('../../../auth/check-auth');
+const verifyToken = require('../../../auth/verifyToken');
 
 //------------------------------------------------------------------------------------------------
 //1 ( CREATE ) LOCAL
@@ -47,7 +47,7 @@ router.post('/addlocal', upload.array('image', 3), async (req, res) => {
 //2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', upload.array('image', 3), checkAuth, (req, res) => {
+router.put('/:id', upload.array('image', 3), (req, res) => {
   const { localName, phoneNumber, address, days } = req.body
 
   controller.updateLocal(req.params.id, localName, phoneNumber, address, days, req.files)

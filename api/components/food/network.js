@@ -20,7 +20,7 @@ const response = require('../../../network/response');
 const controller = require('./controller');
 const router = express.Router();
 const { upload } = require('../../../libs/multer');
-const checkAuth = require('../../../auth/check-auth');
+const verifyToken = require('../../../auth/verifyToken');
 
 //------------------------------------------------------------------------------------------------
 //1 ( CREATE ) LOCAL

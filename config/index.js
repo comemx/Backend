@@ -16,6 +16,10 @@ const config = { // Definimos un objeto config
 	aws_secret_access_key: process.env.AWS_SECRET_ACCESS_KEY,
 
 	s3_endpoint: process.env.S3_ENDPOINT,
+
+	access_token_secret: process.env.ACCESS_TOKEN_SECRET,
+	
+	refresh_token_secret: process.env.REFRESH_TOKEN_SECRET,
 };
 
 //exportamos el objeto config

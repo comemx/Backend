@@ -28,7 +28,7 @@ const response = require('../../../network/response');
 const controller = require('./controller');
 const router = express.Router();
 const { upload } = require('../../../libs/multer');
-const checkAuth = require('../../../auth/check-auth');
+const verifyToken = require('../../../auth/verifyToken');
 
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
@@ -50,7 +50,7 @@ router.post('/registro', async (req, res) => {
 //2 ( UPDATE ) USER
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', checkAuth, async (req, res) => {
+router.put('/:id', async (req, res) => {
     const { id } = req.params
     const { body: user } = req
     user._id = id
@@ -67,7 +67,7 @@ router.put('/:id', checkAuth, async (req, res) => {
 //3 ( UPDATE ) USER IMAGE
 //------------------------------------------------------------------------------------------------
 
-router.post('/editimage/:id', upload.single('image'),checkAuth, async (req, res) =>{
+router.post('/editimage/:id', upload.single('image'), async (req, res) =>{
   const { id } = req.params
   try {
     const userImage = await controller.editUserImage(id, req.file)
@@ -81,7 +81,7 @@ router.post('/editimage/:id', upload.single('image'),checkAuth, async (req, res)
 //4 ( DELETE ) USER
 //------------------------------------------------------------------------------------------------
 
-router.delete('/:id', checkAuth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.params
   try {
     const user = await controller.deleteUser(id)
@@ -95,7 +95,7 @@ router.delete('/:id', checkAuth, async (req, res) => {
 //5 ( LOGIN ) USER
 //------------------------------------------------------------------------------------------------
 
-router.post('/login', async (req, res, next) => {
+/* router.post('/login', async (req, res, next) => {
   const { email, password } = req.body
   try {
     const token = await controller.loginUser(email, password)
@@ -111,7 +111,7 @@ router.post('/login', async (req, res, next) => {
   } catch (error) {
     response.error(req, res, error.message, 401, error)
   }
-})
+}) */
 
 //------------------------------------------------------------------------------------------------
 //6 ( SHOW ) ALL USERS

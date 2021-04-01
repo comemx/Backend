@@ -1,17 +1,21 @@
-require('dotenv').config()
+const { config } = require('../config/index');
 const jwt = require('jsonwebtoken')
 
-const createToken = (id, email, username) => {
-  const token = jwt.sign({
-    id,
-    email,
-    username
-  }, process.env.TOKEN_PHRS_KEY || 'secret')
+const createAccessToken = (id, email, fullname) => {
+  const accessToken = jwt.sign({ id, email, fullname}, `${config.access_token_secret}` ,{
+    expiresIn: '30m'
+  })
 
-  return token
+  return accessToken
+}
+
+const createRefreshToken = (id, email, fullname) => {
+  const refreshToken = jwt.sign({ id, email, fullname}, `${config.refresh_token_secret}`)
+
+  return refreshToken
 }
 
 module.exports = {
-  createToken
+  createAccessToken,
+  createRefreshToken
 }
-

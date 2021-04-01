@@ -95,7 +95,7 @@ router.delete('/:id', async (req, res) => {
 //5 ( LOGIN ) USER
 //------------------------------------------------------------------------------------------------
 
-router.post('/login', async (req, res, next) => {
+/* router.post('/login', async (req, res, next) => {
   const { email, password } = req.body
   try {
     const token = await controller.loginUser(email, password)
@@ -111,7 +111,7 @@ router.post('/login', async (req, res, next) => {
   } catch (error) {
     response.error(req, res, error.message, 401, error)
   }
-})
+}) */
 
 //------------------------------------------------------------------------------------------------
 //6 ( SHOW ) ALL USERS

@@ -138,7 +138,7 @@ const deleteUser = async(id) => {
 //5.5 ( LOGIN ) USER
 //------------------------------------------------------------------------------------------------
 
-const loginUser = async (email, password) => {
+/* const loginUser = async (email, password) => {
   const user = await storage.getOneByFilter({ email })
   console.log('informacion', user)
 
@@ -150,7 +150,7 @@ const loginUser = async (email, password) => {
     const token = auth.createToken(user[0]._id, user[0].email, user[0].username)
     return token
   }
-}
+} */
 
 //------------------------------------------------------------------------------------------------
 //6.6 ( SHOW ) ALL USERS
@@ -182,7 +182,7 @@ module.exports = {
   updateUser,
   editUserImage,
   deleteUser,
-  loginUser,
+  //loginUser,
   getAllUsers,
   getOneUserById,
 }

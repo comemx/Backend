@@ -17,7 +17,9 @@ const config = { // Definimos un objeto config
 
 	s3_endpoint: process.env.S3_ENDPOINT,
 
-	secret: process.env.SECRET,
+	access_token_secret: process.env.ACCESS_TOKEN_SECRET,
+	
+	refresh_token_secret: process.env.REFRESH_TOKEN_SECRET,
 };
 
 //exportamos el objeto config

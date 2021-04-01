@@ -56,7 +56,7 @@ const createUser = async (fullname, email, password) => {
       email,
       password: hashedPassword
     }
-
+console.log(user)
       return storage.add(user)
     }
 }
@@ -137,7 +137,7 @@ const deleteUser = async(id) => {
 //5.5 ( LOGIN ) USER
 //------------------------------------------------------------------------------------------------
 
-const loginUser = async (email, password) => {
+/* const loginUser = async (email, password) => {
   const user = await storage.getOneByFilter({ email })
   console.log('informacion', user)
 
@@ -146,12 +146,14 @@ const loginUser = async (email, password) => {
   }
   const isCorrect = bcrypt.compareSync(password, user[0].password)
   if (isCorrect === true) {
-    const token = auth.createToken(user[0]._id, user[0].email, user[0].username)
-    console.log("token", token)
-    return token
+    const accessToken = auth.createAccessToken(user[0]._id, user[0].email, user[0].fullname)
+    const refreshToken = auth.createRefreshToken(user[0]._id, user[0].email, user[0].fullname)
+    console.log("accessToken in controller", accessToken)
+    console.log("refreshToken in controller", refreshToken)
+    return {accessToken, refreshToken}
   }
 }
-
+ */
 //------------------------------------------------------------------------------------------------
 //6.6 ( SHOW ) ALL USERS
 //------------------------------------------------------------------------------------------------
@@ -182,10 +184,7 @@ module.exports = {
   updateUser,
   editUserImage,
   deleteUser,
-  loginUser,
+  //loginUser,
   getAllUsers,
   getOneUserById,
 }
-
-
-

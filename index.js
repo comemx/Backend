@@ -9,6 +9,7 @@ sends the information to response.js and route.js
 
 const express = require('express');
 const { config } = require('./config');
+const authenticate = require('./api/components/authenticate/network')
 const user = require('./api/components/user/network');
 const businessman = require('./api/components/businessman/network');
 const local = require('./api/components/local/network');
@@ -93,6 +94,7 @@ app.use('/api/businessman', businessman);
 app.use('/api/local', local);
 app.use('/api/categories', categories);
 app.use('/api/food', food);
+app.use('/api/authenticate', authenticate);
 
 // [static files]
 app.use('/app', express.static('public'))

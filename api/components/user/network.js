@@ -67,7 +67,7 @@ router.put('/:id', verifyToken, async (req, res) => {
 //3 ( UPDATE ) USER IMAGE
 //------------------------------------------------------------------------------------------------
 
-router.post('/editimage/:id', upload.single('image'), async (req, res) =>{
+router.post('/editimage/:id', verifyToken, upload.single('image'), async (req, res) =>{
   const { id } = req.params
   try {
     const userImage = await controller.editUserImage(id, req.file)
@@ -95,13 +95,14 @@ router.delete('/:id', async (req, res) => {
 //5 ( LOGIN ) USER
 //------------------------------------------------------------------------------------------------
 
-router.post('/login', async (req, res, next) => {
+/* router.post('/login', async (req, res, next) => {
   const { email, password } = req.body
   try {
     const token = await controller.loginUser(email, password)
     const finalResponse = {
       Message: 'Auth success',
-      token
+      accessToken: token.accessToken,
+      refreshToken: token.refreshToken
     }
     if (token) {
       response.success(req, res, finalResponse, 200)
@@ -111,7 +112,7 @@ router.post('/login', async (req, res, next) => {
   } catch (error) {
     response.error(req, res, error.message, 401, error)
   }
-})
+}) */
 
 //------------------------------------------------------------------------------------------------
 //6 ( SHOW ) ALL USERS

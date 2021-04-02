@@ -15,6 +15,7 @@ const businessman = require('./api/components/businessman/network');
 const local = require('./api/components/local/network');
 const categories = require('./api/components/categories/network');
 const food = require('./api/components/food/network');
+const forgotPassword = require('./api/components/forgotPassword/network');
 const cors = require('cors');
 const app = express();
 const db = require('./storage/index');
@@ -95,6 +96,7 @@ app.use('/api/local', local);
 app.use('/api/categories', categories);
 app.use('/api/food', food);
 app.use('/api/authenticate', authenticate);
+app.use('/api/forgot-password', forgotPassword);
 
 // [static files]
 app.use('/app', express.static('public'))

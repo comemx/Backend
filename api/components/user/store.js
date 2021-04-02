@@ -70,10 +70,10 @@ const remove = async (filter) => {
 //5.5.5 ( LOGIN ) USER
 //------------------------------------------------------------------------------------------------
 
-/* const getOneByFilter = async (filter) => {
+const getOneByFilter = async (filter) => {
   const data = await userModel.find(filter)
   return data
-} */
+}
 
 //------------------------------------------------------------------------------------------------
 //6.6.X ( SHOW ) ALL USERS
@@ -112,7 +112,7 @@ module.exports = {
   update,
   updateImage,
   remove,
-  //getOneByFilter,
+  getOneByFilter,
   getAllUsersDb,
   getOneUserByIdDb,
 }

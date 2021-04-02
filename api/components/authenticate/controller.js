@@ -7,8 +7,10 @@ in this file is all the logic, everything that is modify, change or check, is do
 
   - CODE INDEX
 
-    1.1 [POST] ( CREATE ) USER
-    2.2 [PUT] ( UPDATE ) USER
+    1.1 [POST] ( VERIFY ) TOKEN
+    2.2 [POST] ( LOGIN ) USER
+    3.3 [POST] ( LOGIN ) BUSINESSMAN
+    4.4 [DELETE] ( LOGOUT ) USER
 
   - MODULE EXPORTS
 
@@ -18,17 +20,18 @@ const storage = require('./store')
 const bcrypt = require('bcrypt')
 const auth = require('../../../auth/index')
 const { config } = require('../../../config/index');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
 //------------------------------------------------------------------------------------------------
-//1.1 ( CREATE ) USER
+//1 ( VERIFY ) TOKEN
 //------------------------------------------------------------------------------------------------
 
 const verifyRefreshToken = async (refreshToken) => {
 console.log("1",refreshToken)
   if (!refreshToken) {
-    throw new Error('something wrong happened 1')
+    throw new Error('something wrong happened')
   }
 
   const filter = {
@@ -38,7 +41,7 @@ console.log("1",refreshToken)
   const verifyInDatabase = await storage.verifyExists(filter)
   
   if(verifyInDatabase === false){
-    throw new Error('something wrong happened 2')
+    throw new Error('something wrong happened')
   } else {
     const tokenData = jwt.verify(refreshToken, `${config.refresh_token_secret}`)
     const user = tokenData
@@ -50,11 +53,44 @@ console.log("1",refreshToken)
 }
 
 //------------------------------------------------------------------------------------------------
-//5.5 ( LOGIN ) USER
+//2 ( LOGIN ) USER
 //------------------------------------------------------------------------------------------------
 
 const loginUser = async (email, password) => {
-  const user = await storage.getOneByFilter({ email })
+  const user = await storage.getOneByFilterUser({email})
+  console.log("user",user)
+
+  if (user.length < 1) {
+    throw new Error('Login failed')
+  }
+
+  const userId = user[0]._id
+  console.log("userId",userId)
+
+  const isCorrect = bcrypt.compareSync(password, user[0].password)
+  if (isCorrect === true) {
+    const accessToken = auth.createAccessToken(user[0]._id, user[0].email, user[0].fullname)
+    const refreshToken = auth.createRefreshToken(user[0]._id, user[0].email, user[0].fullname)
+
+    const refreshTokenForDatabase = {
+      user: userId,
+      authenticate: refreshToken
+
+    }
+    
+    const save = await storage.pushToken(refreshTokenForDatabase)
+
+    return {accessToken, refreshToken, save}
+
+  }
+}
+
+//------------------------------------------------------------------------------------------------
+//3 ( LOGIN ) BUSINESSMAN
+//------------------------------------------------------------------------------------------------
+
+const loginBusinessman = async (email, password) => {
+  const user = await storage.getOneByFilterBusinessman({ email })
 
   if (user.length < 1) {
     throw new Error('Login failed')
@@ -76,10 +112,35 @@ const loginUser = async (email, password) => {
 }
 
 //------------------------------------------------------------------------------------------------
+//4 ( LOGOUT ) USER
+//------------------------------------------------------------------------------------------------
+
+const logoutUser = async (token) => {
+  if(!token) {
+    throw new Error('Missing data')
+  }
+
+  const tokenData = jwt.verify(token, `${config.access_token_secret}`)
+  if(!tokenData.id){
+    throw new Error('something wrong happened')
+  } else {
+    const id = tokenData.id
+    const filter = {
+      user: id
+    }
+    const deleteRefreshToken = await storage.removeRefreshToken(id)
+
+    return deleteRefreshToken
+  }
+}
+
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
 module.exports = {
   verifyRefreshToken,
   loginUser,
+  loginBusinessman,
+  logoutUser,
 }

@@ -56,6 +56,7 @@ const createUser = async (fullname, email, password) => {
       email,
       phoneNumber: '',
       password: hashedPassword,
+      resetToken: ""
     }
 
       return storage.add(user)
@@ -67,7 +68,7 @@ const createUser = async (fullname, email, password) => {
 //------------------------------------------------------------------------------------------------
 
 const updateUser = async (userUpdate) => {
-
+console.log("userUpdate", userUpdate)
   if (userUpdate) {
     if (userUpdate.password) {
       const hashedPassword = await new Promise((resolve, reject) => {
@@ -135,24 +136,6 @@ const deleteUser = async(id) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//5.5 ( LOGIN ) USER
-//------------------------------------------------------------------------------------------------
-
-/* const loginUser = async (email, password) => {
-  const user = await storage.getOneByFilter({ email })
-  console.log('informacion', user)
-
-  if (user.length < 1) {
-    throw new Error('Login failed')
-  }
-  const isCorrect = bcrypt.compareSync(password, user[0].password)
-  if (isCorrect === true) {
-    const token = auth.createToken(user[0]._id, user[0].email, user[0].username)
-    return token
-  }
-} */
-
-//------------------------------------------------------------------------------------------------
 //6.6 ( SHOW ) ALL USERS
 //------------------------------------------------------------------------------------------------
 
@@ -182,7 +165,6 @@ module.exports = {
   updateUser,
   editUserImage,
   deleteUser,
-  //loginUser,
   getAllUsers,
   getOneUserById,
 }

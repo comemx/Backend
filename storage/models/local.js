@@ -12,10 +12,20 @@ const localSchema = new Schema({
     type: [String],
     default: undefined
   },
+  logo: {
+    type: [String],
+    default: undefined
+  },
   localName: String,
-  phoneNumber: String,
-  address: String,
-  days: String,
+  phoneNumber: Number,
+  address: {
+    type: [String],
+    default: undefined,
+  },
+  days: {
+    type: [String],
+    default: undefined,
+  },
 })
 
 const localModel = mongoose.model('locals', localSchema)

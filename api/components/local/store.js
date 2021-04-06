@@ -24,6 +24,7 @@ const businessmanModel = require('../../../storage/models/businessman')
 
 const add = async (local) => {
   const newLocal = new localModel(local)
+  console.log("newLocal.address",newLocal.address.lat)
   const userData = await businessmanModel.findById(local.user)
     userData.locals.push(newLocal)
     userData.save()
@@ -54,7 +55,8 @@ const update = async (id, local) => {
 //3.3.3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const remove = async (idUser, id, filter) => {
+const remove = async (id, idUser, filter) => {
+  //console.log("",)
   const data = await localModel.findByIdAndRemove(filter)
   const user = await businessmanModel.findOne({ _id: idUser })
   user.locals.remove({
@@ -124,10 +126,12 @@ const getOneUserByIdDb = async (id) => {
 //------------------------------------------------------------------------------------------------
 
 const addFavorite = async (id, idUser) => {
+  console.log("id, idUser store", id, idUser)
   const data = await userModel.findById(idUser)
+  console.log("data", data)
   data.favorite.push(id)
-  data.save()
-  userModel.update()
+  userModel.updateOne()
+  return data.save()
 }
 
 //------------------------------------------------------------------------------------------------
@@ -142,6 +146,15 @@ const deleteFavorite = async (id, idUser) => {
   userModel.updateOne()
 }
 //------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
+
+const updateLogoImage = async (filter, update) => {
+  console.log("informacion", filter, update)
+  return await localModel.findOneAndUpdate(filter, update, {
+    returnOriginal: false
+  })
+}
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
@@ -153,4 +166,5 @@ module.exports = {
   getOneUserByIdDb,
   addFavorite,
   deleteFavorite,
+  updateLogoImage
 }

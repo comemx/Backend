@@ -15,6 +15,7 @@ It is in charge of managing the database, here it is specified, where and when t
   */
 
 const userModel = require('../../../storage/models/user')
+const businessmanModel = require('../../../storage/models/businessman')
 const authenticateModel = require('../../../storage/models/authenticate')
 
 //------------------------------------------------------------------------------------------------
@@ -56,7 +57,7 @@ const getOneByFilterUser = async (filter) => {
 //------------------------------------------------------------------------------------------------
 
 const getOneByFilterBusinessman = async (filter) => {
-  const data = await userModel.find(filter)
+  const data = await businessmanModel.find(filter)
   return data
 }
 

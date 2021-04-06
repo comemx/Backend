@@ -7,14 +7,6 @@ in this file is all the logic, everything that is modify, change or check, is do
 
   - CODE INDEX
 
-    1.1 [POST] ( CREATE ) USER
-    2.2 [PUT] ( UPDATE ) USER
-    3.3 [PUT] ( UPDATE ) USER IMAGE
-    4.4 [DELETE] ( DELETE ) USER
-    5.5 [POST] ( LOGIN ) USER
-    6.6 [GET] ( SHOW ) ALL USERS
-    7.7 [GET] ( SHOW ) USER BY ID
-
   - MODULE EXPORTS
 
 */
@@ -23,18 +15,17 @@ const storage = require('./store')
 const bcrypt = require('bcrypt')
 const { config } = require('../../../config/index')
 const jwt = require('jsonwebtoken')
+const { transporter } = require('../../../auth/mailer')
 
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
 //------------------------------------------------------------------------------------------------
-//1.1 ( CREATE ) USER
+//
 //------------------------------------------------------------------------------------------------
-
-
 
 const recoverPassword = async (email) => {
   if (!email) {
-    throw new Error('Missing data')
+    throw new Error('An email is required')
   }
 
   try {
@@ -44,58 +35,80 @@ const recoverPassword = async (email) => {
       expiresIn: '30m'
     })
     const verificationLink = `${config.verification_link}${recoverPasswordToken}`
-    //user.resetToken = token 9:46 
+    
+    const filter = {
+      _id: user[0]._id
+    }
+    
+    const userRefresh = {
+      resetToken: verificationLink
+    }
+
+
+      // send mail with defined transport object
+  await transporter.sendMail({
+    from: '"Forgot password" <zmgcomida@gmail.com>', // sender address
+    to: "orlandos.casta@gmail.com", // list of receivers
+    subject: "Forgot password Subject line", // Subject line
+    //text: "Hello world?", // plain text body
+    html:`
+    <b> Please click on the following link, or paste this into your browser to complete the process:</b>
+    <a href="${verificationLink}"> ${verificationLink}</a>
+    `
+  });
+
+
+
+
+
+    const userUpdate = await storage.update(filter, userRefresh)
+    if (userUpdate) {
+      return userUpdate
+    } else {
+      throw new Error('User not found')
+    }
+  
+
   } catch (error){
     throw new Error('Missing data')
   }
 
 }
 
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
 
-
-
-
-
-
-const createUser = async (fullname, email, password) => {
-
-  if (!fullname || !email || !password) {
+const createNewPassword = async (password, recoverPasswordToken) => {
+  if (!password || !recoverPasswordToken) {
     throw new Error('Missing data')
   }
 
-  const emailExists = await storage.getOneByFilter({ email })
+  const recoverPasswordTokenData = jwt.verify(recoverPasswordToken, `${config.recover_password}`)
+  const userId = recoverPasswordTokenData.user
+  const userlData = await storage.getOneByFilter({ _id: userId })
 
-  if (emailExists.length >= 1) {
-      throw new Error('Email used')
-    } else {
-      const hashedPassword = await new Promise((resolve, reject) => {
-        bcrypt.hash(password, 10, async (err, hashed) => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(hashed)
-          }
-        })
-      })
+  console.log("userlData", userlData[0].password)
+   const newPassword = await bcrypt.hash(password, 10)
 
-    const user = {
-      image: [],
-      fullname,
-      email,
-      password: hashedPassword
-    }
-console.log(user)
-      return storage.add(user)
-    }
-}
 
-//------------------------------------------------------------------------------------------------
-//2.2 ( UPDATE ) USER
-//------------------------------------------------------------------------------------------------
+  const filter = {
+    _id: userlData[0]._id
+  }
 
-const updateUser = async (userUpdate) => {
+  const userRefresh = {
+    password: newPassword,
+    resetToken: ""
+  }
 
+  const userUpdate = await storage.update(filter, userRefresh)
   if (userUpdate) {
+    return userUpdate
+  } else {
+    throw new Error('User not found')
+  }
+
+  /* if (userUpdate) {
     if (userUpdate.password) {
       const hashedPassword = await new Promise((resolve, reject) => {
         bcrypt.hash(userUpdate.password, 10, async (err, hashed) => {
@@ -120,87 +133,7 @@ const updateUser = async (userUpdate) => {
     }
   } else {
     throw new Error('Error updating user')
-  }
-}
-
-//------------------------------------------------------------------------------------------------
-//3.3 ( UPDATE ) USER IMAGE
-//------------------------------------------------------------------------------------------------
-
-const editUserImage = async (id, image) => {
-console.log(image)
-  let imageUrl = ''
-    if(image) {
-      imageUrl = image.location
-    }
-
-    const imageData = {
-      image: imageUrl,
-    }
-
-    const filter = {
-      _id: id
-    }
-
-    return storage.updateImage(filter, imageData)
-}
-
-//------------------------------------------------------------------------------------------------
-//4.4 ( DELETE ) USER
-//------------------------------------------------------------------------------------------------
-
-const deleteUser = async(id) => {
-
-  if (id) {
-    const filter = {
-      _id: id
-    }
-    return await storage.remove(filter)
-  } else {
-    throw new Error('Id needed')
-  }
-}
-
-//------------------------------------------------------------------------------------------------
-//5.5 ( LOGIN ) USER
-//------------------------------------------------------------------------------------------------
-
-/* const loginUser = async (email, password) => {
-  const user = await storage.getOneByFilter({ email })
-  console.log('informacion', user)
-
-  if (user.length < 1) {
-    throw new Error('Login failed')
-  }
-  const isCorrect = bcrypt.compareSync(password, user[0].password)
-  if (isCorrect === true) {
-    const accessToken = auth.createAccessToken(user[0]._id, user[0].email, user[0].fullname)
-    const refreshToken = auth.createRefreshToken(user[0]._id, user[0].email, user[0].fullname)
-    console.log("accessToken in controller", accessToken)
-    console.log("refreshToken in controller", refreshToken)
-    return {accessToken, refreshToken}
-  }
-}
- */
-//------------------------------------------------------------------------------------------------
-//6.6 ( SHOW ) ALL USERS
-//------------------------------------------------------------------------------------------------
-
-const getAllUsers = () => {
-  return storage.getAllUsersDb()
-}
-
-//------------------------------------------------------------------------------------------------
-//7.7 ( SHOW ) USER BY ID
-//------------------------------------------------------------------------------------------------
-
-const getOneUserById = async (id) => {
-  if (!id) {
-    throw new Error('id needed')
-  } else {
-    const data = await storage.getOneUserByIdDb(id)
-    return data
-  }
+  } */
 }
 
 //------------------------------------------------------------------------------------------------
@@ -208,12 +141,6 @@ const getOneUserById = async (id) => {
 //------------------------------------------------------------------------------------------------
 
 module.exports = {
-  createUser,
-  updateUser,
-  editUserImage,
-  deleteUser,
-  //loginUser,
-  getAllUsers,
-  getOneUserById,
   recoverPassword,
+  createNewPassword,
 }

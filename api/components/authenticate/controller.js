@@ -91,6 +91,7 @@ const loginUser = async (email, password) => {
 
 const loginBusinessman = async (email, password) => {
   const user = await storage.getOneByFilterBusinessman({ email })
+  console.log("user", email, password)
 
   if (user.length < 1) {
     throw new Error('Login failed')

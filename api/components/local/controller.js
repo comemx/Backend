@@ -24,10 +24,10 @@ const { upload } = require('../../../libs/multer');
 //1.1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const createLocal = async (user, localName, phoneNumber, address, days, arrayOfImage) => {
-console.log("imagenes",arrayOfImage)
+const createLocal = async ( user, localName, phoneNumber, address, days, arrayOfImage ) => {
+  console.log("user", user)
   try{
-  if (!user || !localName || !phoneNumber || !address || !days || !arrayOfImage) {
+  if (!localName || !phoneNumber || !address || !days || !arrayOfImage) {
     throw new Error('Missing data')
   }
 
@@ -47,6 +47,7 @@ console.log("imagenes",arrayOfImage)
       phoneNumber,
       address,
       days,
+      logo: ""
     }
 
     const newLocal = await storage.add(local)
@@ -104,21 +105,21 @@ const updateLocal = (id, localName, phoneNumber, address, days, arrayOfImage) =>
 //------------------------------------------------------------------------------------------------
 
 
-const deleteLocal = async(idUser, id) => {
-
-  if (id) {
+const deleteLocal = async(id, user) => {
+  console.log("user", user)
+  if (!id || !user) {
+    throw new Error('Missing data')
+  } else {
+    
     const filterUser = {
-      _id: idUser
+      _id: user
     }
+    
     const filter = {
       _id: id
     }
-
-
-    console.log("filter, filterUser NETWORK", idUser, id, filter)
-    return await storage.remove(idUser, id, filter)
-  } else {
-    throw new Error('Id needed')
+    
+    return await storage.remove(id, user, filter)
   }
 }
 
@@ -146,7 +147,7 @@ const getLocalById = async (id) => {
 
 const favoritePost = async (id, idUser) => {
   if (!id || !idUser) {
-    throw new Error('falta informacion')
+    throw new Error('Missing data')
   } else {
     const data = await storage.addFavorite(id, idUser)
     return data
@@ -159,11 +160,32 @@ const favoritePost = async (id, idUser) => {
 
 const deleteFavoritePost = async (id, idUser) => {
   if (!id || !idUser) {
-    throw new Error('falta informacion')
+    throw new Error('Missing data')
   } else {
     const data = await storage.deleteFavorite(id, idUser)
     return data
   }
+}
+
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const editLogoImage = async (id, image) => {
+  let imageUrl = ''
+    if(image) {
+      imageUrl = image.location
+    }
+
+    const imageData = {
+      logo: imageUrl,
+    }
+
+    const filter = {
+      _id: id
+    }
+
+    return storage.updateLogoImage(filter, imageData)
 }
 
 //------------------------------------------------------------------------------------------------
@@ -178,6 +200,7 @@ module.exports = {
   getLocalById,
   favoritePost,
   deleteFavoritePost,
+  editLogoImage
 }
 
 

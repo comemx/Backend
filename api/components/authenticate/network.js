@@ -98,7 +98,7 @@ router.post('/businessmanlogin', async (req, res, next) => {
 //4 ( LOGOUT ) USER
 //------------------------------------------------------------------------------------------------
 
-router.delete('/logout', verifyToken, async (req, res, next) => {
+router.delete('/logout', async (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1]
   try {
     const data = await controller.logoutUser(token)

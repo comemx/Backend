@@ -18,6 +18,7 @@ const userSchema = new Schema({
   },
   password: String,
   favorite: [{ type: Schema.Types.ObjectId, ref: 'locals' }],
+  resetToken: String,
 })
 
 const userModel = mongoose.model('users', userSchema)

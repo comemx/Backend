@@ -20,6 +20,10 @@ const config = { // Definimos un objeto config
 	access_token_secret: process.env.ACCESS_TOKEN_SECRET,
 	
 	refresh_token_secret: process.env.REFRESH_TOKEN_SECRET,
+
+	recover_password: process.env.RECOVER_PASSWORD,
+
+	verification_link: process.env.VERIFICATION_LINK,
 };
 
 //exportamos el objeto config

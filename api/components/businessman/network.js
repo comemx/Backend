@@ -50,7 +50,7 @@ router.post('/registro', async (req, res) => {
 //2 ( UPDATE ) USER
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
     const { id } = req.params
     const { body: user } = req
     user._id = id
@@ -67,7 +67,7 @@ router.put('/:id', async (req, res) => {
 //3 ( UPDATE ) USER IMAGE
 //------------------------------------------------------------------------------------------------
 
-router.post('/editimage/:id', upload.single('image'), async (req, res) =>{
+router.post('/editimage/:id', verifyToken, upload.single('image'), async (req, res) =>{
   const { id } = req.params
   try {
     const userImage = await controller.editUserImage(id, req.file)
@@ -81,7 +81,7 @@ router.post('/editimage/:id', upload.single('image'), async (req, res) =>{
 //4 ( DELETE ) USER
 //------------------------------------------------------------------------------------------------
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
   const { id } = req.params
   try {
     const user = await controller.deleteUser(id)
@@ -90,28 +90,6 @@ router.delete('/:id', async (req, res) => {
     response.error(req, res, error.message, 400, error)
   }
 })
-
-//------------------------------------------------------------------------------------------------
-//5 ( LOGIN ) USER
-//------------------------------------------------------------------------------------------------
-
-/* router.post('/login', async (req, res, next) => {
-  const { email, password } = req.body
-  try {
-    const token = await controller.loginUser(email, password)
-    const finalResponse = {
-      Message: 'Auth success',
-      token
-    }
-    if (token) {
-      response.success(req, res, finalResponse, 200)
-    } else {
-      throw new Error('Login failed')
-    }
-  } catch (error) {
-    response.error(req, res, error.message, 401, error)
-  }
-}) */
 
 //------------------------------------------------------------------------------------------------
 //6 ( SHOW ) ALL USERS

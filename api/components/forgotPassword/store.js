@@ -38,7 +38,6 @@ const add = async (user) => {
 //------------------------------------------------------------------------------------------------
 
 const update = async (filter, update) => {
-  console.log("store file user", filter, update)
   return await userModel.findOneAndUpdate(filter, update, {
     returnOriginal: false
   })

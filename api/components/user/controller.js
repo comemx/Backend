@@ -54,7 +54,8 @@ const createUser = async (fullname, email, password) => {
       image: [],
       fullname,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      resetToken: ""
     }
 console.log(user)
       return storage.add(user)

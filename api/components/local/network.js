@@ -32,10 +32,11 @@ const verifyToken = require('../../../auth/verifyToken');
 //1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.post('/addlocal', upload.array('image', 3), async (req, res) => {
+router.post('/addlocal/:id', verifyToken, upload.array('image', 3), async (req, res) => {
+  const { id } = req.params
+  const { localName, phoneNumber, address, days } = req.body
   try {
-      const { user, localName, phoneNumber, address, days } = req.body
-      const local = await controller.createLocal(user, localName, phoneNumber, address, days, req.files)
+      const local = await controller.createLocal( id, localName, phoneNumber, address, days, req.files )
       console.log(req.files)
       response.success(req, res, local, 201)
     } catch (error) {
@@ -47,10 +48,11 @@ router.post('/addlocal', upload.array('image', 3), async (req, res) => {
 //2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', upload.array('image', 3), (req, res) => {
+router.put('/:id', verifyToken, upload.array('image', 3), (req, res) => {
+  const { id } = req.params
   const { localName, phoneNumber, address, days } = req.body
 
-  controller.updateLocal(req.params.id, localName, phoneNumber, address, days, req.files)
+  controller.updateLocal(id, localName, phoneNumber, address, days, req.files)
     .then(data => {
       response.success(req, res, data, 200)
     })
@@ -60,14 +62,29 @@ router.put('/:id', upload.array('image', 3), (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
+//( UPDATE ) LOGO
+//------------------------------------------------------------------------------------------------
+
+router.post('/logo/:id', verifyToken, upload.single('logo'), async (req, res) =>{
+  const { id } = req.params
+  try {
+    const logoImage = await controller.editLogoImage(id, req.file)
+    response.success(req, res, logoImage, 201)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
+})
+
+
+//------------------------------------------------------------------------------------------------
 //3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.delete('/:id', async (req, res) => {
-  const { idUser } = req.body
+router.delete('/:id',verifyToken, async (req, res) => {
   const { id } = req.params
+
   try {
-    const user = await controller.deleteLocal(idUser, id)
+    const user = await controller.deleteLocal(id, req.userData.user)
     response.success(res, res, `Local ${id} has been removed`)
   } catch (error) {
     response.error(req, res, error.message, 400, error)
@@ -119,9 +136,11 @@ router.get('/:id', async (req, res) => {
 // 6. [POST] - ADD FAVOTITE POSTS
 //------------------------------------------------------------------------------------------------
 
-router.post('/:id/:idUser', async (req, res) => {
+router.post('/add-favorite/:id', verifyToken, async (req, res) => {
+  const { id } = req.params
+
   try {
-    const data = await controller.favoritePost(req.params.id, req.params.idUser)
+    const data = await controller.favoritePost(id, req.userData.id)
     response.success(req, res, data, 200)
   } catch (error) {
     response.error(req, res, error.message, 400, error)
@@ -132,14 +151,17 @@ router.post('/:id/:idUser', async (req, res) => {
 // 7. [delete] - DELETE FAVOTITE POSTS
 //------------------------------------------------------------------------------------------------
 
-router.delete('/:id/:idUser', async (req, res) => {
+router.delete('/delete-favorite/:id', verifyToken, async (req, res) => {
+  const { id } = req.params
+
   try {
-    const data = await controller.deleteFavoritePost(req.params.id, req.params.idUser)
+    const data = await controller.favoritePost(id, req.userData.id)
     response.success(req, res, data, 200)
   } catch (error) {
     response.error(req, res, error.message, 400, error)
   }
 })
+
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------

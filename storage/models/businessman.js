@@ -19,6 +19,7 @@ const businessmanSchema = new Schema({
     phoneNumber: String,
     password: String,
     locals: [{ type: Schema.Types.ObjectId, ref: 'locals' }],
+    resetToken: String,
 })
 
 const businessmanModel = mongoose.model('businessmen', businessmanSchema)

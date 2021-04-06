@@ -24,10 +24,10 @@ const { upload } = require('../../../libs/multer');
 //1.1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const createLocal = async ( user, localName, phoneNumber, address, days, arrayOfImage ) => {
+const createLocal = async ( user, localName, phoneNumber, address, coordinates, days, arrayOfImage ) => {
   console.log("user", user)
   try{
-  if (!localName || !phoneNumber || !address || !days || !arrayOfImage) {
+  if (!localName || !phoneNumber || !address || !coordinates || !days || !arrayOfImage) {
     throw new Error('Missing data')
   }
 
@@ -45,9 +45,12 @@ const createLocal = async ( user, localName, phoneNumber, address, days, arrayOf
       image,
       localName,
       phoneNumber,
+      categories: [],
+      coordinates,
       address,
       days,
-      logo: ""
+      logo: "",
+      foods: ""
     }
 
     const newLocal = await storage.add(local)
@@ -67,9 +70,9 @@ const createLocal = async ( user, localName, phoneNumber, address, days, arrayOf
 //2.2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const updateLocal = (id, localName, phoneNumber, address, days, arrayOfImage) => {
+const updateLocal = (id, localName, phoneNumber, address, coordinates, days, arrayOfImage) => {
   return new Promise((resolve, reject) => {
-    if (!id || !localName || !phoneNumber || !address || !days) {
+    if (!id || !localName || !phoneNumber || !address || !coordinates || !days) {
       reject('Missing data')
     }
 
@@ -86,6 +89,7 @@ const updateLocal = (id, localName, phoneNumber, address, days, arrayOfImage) =>
       localName,
       phoneNumber,
       address,
+      coordinates,
       days,
       image,
     }

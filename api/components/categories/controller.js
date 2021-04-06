@@ -20,9 +20,9 @@ const storage = require('./store')
 //
 //------------------------------------------------------------------------------------------------
 
-const createCategories = async (body) => {
+const createCategories = async (id, body) => {
     try{
-      const newCategorie = await storage.addCategories(body)
+      const newCategorie = await storage.addCategories(id, body)
   
       finalResponse = {
         newCategorie,

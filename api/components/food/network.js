@@ -26,11 +26,12 @@ const verifyToken = require('../../../auth/verifyToken');
 //1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.post('/addfood', upload.single('image'), async (req, res) => {
+router.post('/:id', verifyToken, upload.single('image'), async (req, res) => {
+  const { id } = req.params
+  const { name, price, description } = req.body
+  
   try {
-      const { name, price, description } = req.body
-      const food = await controller.createFood(name, price, description, req.file)
-      console.log("network food",food)
+      const food = await controller.createFood(id, name, price, description, req.file)
       response.success(req, res, food, 201)
     } catch (error) {
       response.error(req, res, error.message, 400, error)

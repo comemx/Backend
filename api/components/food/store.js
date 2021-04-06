@@ -15,13 +15,16 @@ It is in charge of managing the database, here it is specified, where and when t
 */
 
 const foodModel = require('../../../storage/models/food')
+const localModel = require('../../../storage/models/local')
 
 //------------------------------------------------------------------------------------------------
 //1.1.1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const add = async (food) => {
+const add = async (id, food) => {
   const newFood = new foodModel(food)
+  const localData = localModel.findById(id)
+  
   return newFood.save()
 }
 

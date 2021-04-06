@@ -17,10 +17,10 @@ const storage = require('./store')
 //1.1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const createFood = async (name, price, description, image) => {
-console.log("image",image)
+const createFood = async (id, name, price, description, image) => {
+  console.log(image)
   try{
-  if (!name || !price || !description || !image) {
+  if (!id || !name || !price || !description || !image) {
     throw new Error('Missing data')
   }
 
@@ -30,13 +30,14 @@ console.log("image",image)
   }
 
     const food = {
+      local: id,
       name,
       price,
       description,
       image: imageUrl,
     }
 
-    const newFood = await storage.add(food)
+    const newFood = await storage.add(id, food)
 
     finalResponse = {
       newFood,

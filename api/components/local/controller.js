@@ -50,7 +50,7 @@ const createLocal = async ( user, localName, phoneNumber, address, coordinates, 
       address,
       days,
       logo: "",
-      foods: ""
+      foods: []
     }
 
     const newLocal = await storage.add(local)

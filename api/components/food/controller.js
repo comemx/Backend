@@ -30,7 +30,7 @@ const createFood = async (id, name, price, description, image) => {
   }
 
     const food = {
-      local: id,
+      locals: id,
       name,
       price,
       description,
@@ -85,21 +85,17 @@ const updateFood = (id, name, price, description, imageFood) => {
 //------------------------------------------------------------------------------------------------
 //3.3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
+const deleteFood = async(id) => {
+  if (!id) {
+    throw new Error('Missing data')
+  } else {
 
-const deleteFood = (id) => {
-  return new Promise((resolve, reject) => {
-    if (!id) {
-      reject('Missing data')
+    const filter = {
+      _id: id
     }
-
-    storage.remove(id)
-      .then(() => {
-        resolve('Local deleted')
-      })
-      .catch(error => {
-        reject(error)
-      })
-  })
+    
+    return await storage.remove(id, filter)
+  }
 }
 
 //------------------------------------------------------------------------------------------------

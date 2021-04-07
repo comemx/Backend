@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const createAccessToken = (id, email, fullname) => {
   const accessToken = jwt.sign({ id, email, fullname}, `${config.access_token_secret}` ,{
-    expiresIn: '30m'
+    expiresIn: '24h'
   })
 
   return accessToken

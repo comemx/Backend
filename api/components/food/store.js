@@ -104,6 +104,28 @@ const getOneFoodByIdDb = async (id) => {
 }
 
 //------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const getFoodsOfLocalDb = async (id) => {
+  const data = await foodModel.find({foods: id})
+  //const data = await localModel.find({_id: id, foods:[]})
+  //const foods = await data.find({locals: []})
+  /* .populate({
+    path: 'foods',
+    populate: {path: 'foods'}
+  })
+  .exec() */
+
+  //console.log("1111111111111111111111111111111111", data)
+  if (data) {
+    return data
+  } else {
+    throw new Error('User not found')
+  }
+}
+
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
@@ -113,4 +135,5 @@ module.exports = {
   remove,
   getAllFoodsDb,
   getOneFoodByIdDb,
+  getFoodsOfLocalDb
 }

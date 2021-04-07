@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const foodSchema = new Schema({
-    locals: String,
+    locals: [{ type: Schema.Types.ObjectId, ref: 'locals' }],
     name: String,
     price: String,
     description: String,

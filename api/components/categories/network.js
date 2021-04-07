@@ -29,9 +29,10 @@ const verifyToken = require('../../../auth/verifyToken');
 //
 //------------------------------------------------------------------------------------------------
 
-router.post('/add', async (req, res) => {
+router.post('/add-categories/:id', verifyToken, async (req, res) => {
+  const { id } = req.params
   try {
-      const data = await controller.createCategories(req.body)
+      const data = await controller.createCategories(id,req.body)
       console.log(req.body)
       response.success(req, res, data, 201)
     } catch (error) {
@@ -43,9 +44,10 @@ router.post('/add', async (req, res) => {
 //
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', (req, res) => {
+router.put('/:id', verifyToken, (req, res) => {
+  const { id } = req.params
 
-  controller.updateCategorie(req.params.id, req.body)
+  controller.updateCategorie(id, req.body)
     .then(data => {
       console.log("network update categorie",req.body)
       response.success(req, res, data, 200)
@@ -59,7 +61,7 @@ router.put('/:id', (req, res) => {
 //
 //------------------------------------------------------------------------------------------------
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', verifyToken, (req, res) => {
   controller.deleteCategorie(req.params.id)
     .then(data => {
       response.success(req, res, data, 200)

@@ -13,13 +13,18 @@ It is in charge of managing the database, here it is specified, where and when t
 */
 
 const localCategories = require('../../../storage/models/categories')
+const localModel = require('../../../storage/models/local')
 
 //------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------
 
-const addCategories = async (body) => {
+const addCategories = async (id, body) => {
   const newCategorie = new localCategories(body)
+  const localData = await localModel.findById(id)
+  localData.categories.push(newCategorie)
+  localData.save()
+  localModel.updateOne()
   return newCategorie.save()
 }
 

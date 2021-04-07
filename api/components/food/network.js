@@ -26,11 +26,12 @@ const verifyToken = require('../../../auth/verifyToken');
 //1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.post('/addfood', upload.single('image'), async (req, res) => {
+router.post('/:id', verifyToken, upload.single('image'), async (req, res) => {
+  const { id } = req.params
+  const { name, price, description } = req.body
+  
   try {
-      const { name, price, description } = req.body
-      const food = await controller.createFood(name, price, description, req.file)
-      console.log("network food",food)
+      const food = await controller.createFood(id, name, price, description, req.file)
       response.success(req, res, food, 201)
     } catch (error) {
       response.error(req, res, error.message, 400, error)
@@ -41,7 +42,7 @@ router.post('/addfood', upload.single('image'), async (req, res) => {
 //2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', upload.single('image'), (req, res) => {
+router.put('/:id', verifyToken, upload.single('image'), (req, res) => {
   const { name, price, description } = req.body
 
   controller.updateFood(req.params.id, name, price, description, req.file)
@@ -57,14 +58,15 @@ router.put('/:id', upload.single('image'), (req, res) => {
 //3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.delete('/:id', (req, res) => {
-  controller.deleteFood(req.params.id)
-    .then(data => {
-      response.success(req, res, data, 200)
-    })
-    .catch(error => {
-      response.error(req, res, error.message, 400, error)
-    })
+router.delete('/:id',verifyToken, async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const food = await controller.deleteFood(id)
+    response.success(req, res, "Food succesfully remove")
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
 })
 
 //------------------------------------------------------------------------------------------------

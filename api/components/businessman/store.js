@@ -97,6 +97,26 @@ const getOneUserByIdDb = async (id) => {
 }
 
 //------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const getLocalsOfUserDb = async (id) => {
+  const data = await businessmanModel
+  .findById(id)
+  .populate({
+    path: 'locals',
+    populate: {path: 'locals'}
+  })
+  .exec()
+
+  if (data) {
+    return data
+  } else {
+    throw new Error('User not found')
+  }
+}
+
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
@@ -108,4 +128,5 @@ module.exports = {
   getOneByFilter,
   getAllUsersDb,
   getOneUserByIdDb,
+  getLocalsOfUserDb
 }

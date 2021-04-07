@@ -24,7 +24,6 @@ const businessmanModel = require('../../../storage/models/businessman')
 
 const add = async (local) => {
   const newLocal = new localModel(local)
-  console.log("newLocal.address",newLocal.address.lat)
   const userData = await businessmanModel.findById(local.user)
     userData.locals.push(newLocal)
     userData.save()
@@ -108,7 +107,13 @@ const getAllLocalsDb = async (flocalName, fphoneNumber, faddress, fdays) => {
 
   console.log("filter",filter)
 
-  const locals = await localModel.find(filter)
+  const locals = await localModel
+  .find(filter)
+  .populate({
+    path: 'categories',
+    populate: {path: 'categories'}
+  })
+  .exec()
   return locals
 
 }
@@ -118,7 +123,13 @@ const getAllLocalsDb = async (flocalName, fphoneNumber, faddress, fdays) => {
 //------------------------------------------------------------------------------------------------
 
 const getOneUserByIdDb = async (id) => {
-  const posts = await localModel.findOne({ _id: id })
+  const posts = await localModel
+  .findOne({ _id: id })
+  .populate({
+    path: 'categories',
+    populate: {path: 'categories'}
+  })
+  .exec()
   return posts
 }
 //------------------------------------------------------------------------------------------------

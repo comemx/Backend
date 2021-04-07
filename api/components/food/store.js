@@ -15,13 +15,18 @@ It is in charge of managing the database, here it is specified, where and when t
 */
 
 const foodModel = require('../../../storage/models/food')
+const localModel = require('../../../storage/models/local')
 
 //------------------------------------------------------------------------------------------------
 //1.1.1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const add = async (food) => {
+const add = async (id, food) => {
   const newFood = new foodModel(food)
+  const localData = await localModel.findById(id)
+  localData.foods.push(newFood)
+  localData.save()
+  localModel.updateOne()
   return newFood.save()
 }
 
@@ -39,7 +44,7 @@ const update = async (id, food) => {
 
   retrievedFood = Object.fromEntries(entrie)
 
-  console.log(retrievedFood)
+  console.log("retrievedFood", retrievedFood)
   const newFood = await foodModel.findByIdAndUpdate(id, retrievedFood)
   return newFood
 }
@@ -48,10 +53,18 @@ const update = async (id, food) => {
 //3.3.3 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const remove = (id) => {
-  return foodModel.deleteOne({
+const remove = async (id, filter) => {
+  const foodData = await foodModel.find(filter)
+  const local = await foodData[0].locals[0]
+  const localData = await localModel.findOne(local)
+  localData.foods.remove({
     _id: id
   })
+  localData.save()
+  localModel.updateOne()
+  if (!foodData) {
+    throw new Error('Food not found')
+  }
 }
 
 //------------------------------------------------------------------------------------------------

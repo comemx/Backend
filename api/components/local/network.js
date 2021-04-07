@@ -34,9 +34,9 @@ const verifyToken = require('../../../auth/verifyToken');
 
 router.post('/addlocal/:id', verifyToken, upload.array('image', 3), async (req, res) => {
   const { id } = req.params
-  const { localName, phoneNumber, address, days } = req.body
+  const { localName, phoneNumber, address, coordinates, days } = req.body
   try {
-      const local = await controller.createLocal( id, localName, phoneNumber, address, days, req.files )
+      const local = await controller.createLocal( id, localName, phoneNumber, address, coordinates, days, req.files )
       console.log(req.files)
       response.success(req, res, local, 201)
     } catch (error) {
@@ -50,9 +50,9 @@ router.post('/addlocal/:id', verifyToken, upload.array('image', 3), async (req, 
 
 router.put('/:id', verifyToken, upload.array('image', 3), (req, res) => {
   const { id } = req.params
-  const { localName, phoneNumber, address, days } = req.body
+  const { localName, phoneNumber, address, coordinates, days } = req.body
 
-  controller.updateLocal(id, localName, phoneNumber, address, days, req.files)
+  controller.updateLocal(id, localName, phoneNumber, address, coordinates, days, req.files)
     .then(data => {
       response.success(req, res, data, 200)
     })

@@ -157,6 +157,19 @@ const getOneUserById = async (id) => {
 }
 
 //------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const getLocalsOfUser = async (id) => {
+  if (!id) {
+    throw new Error('id needed')
+  } else {
+    const data = await storage.getLocalsOfUserDb(id)
+    return data
+  }
+}
+
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
@@ -167,6 +180,7 @@ module.exports = {
   deleteUser,
   getAllUsers,
   getOneUserById,
+  getLocalsOfUser
 }
 
 

@@ -25,6 +25,7 @@ const localSchema = new Schema({
     type: [String],
     default: undefined
   },
+  promotions: [{ type: Schema.Types.ObjectId, ref: 'promotions' }],
   foods: [{ type: Schema.Types.ObjectId, ref: 'foods' }],
 })
 

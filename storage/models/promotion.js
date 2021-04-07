@@ -6,8 +6,8 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const foodSchema = new Schema({
-    locals: String,
+const promotionSchema = new Schema({
+    locals: [{ type: Schema.Types.ObjectId, ref: 'locals' }],
     name: String,
     price: String,
     description: String,
@@ -17,6 +17,6 @@ const foodSchema = new Schema({
     },
 })
 
-const foodModel = mongoose.model('foods', foodSchema)
+const promotionModel = mongoose.model('promotions', promotionSchema)
 
-module.exports = foodModel
+module.exports = promotionModel

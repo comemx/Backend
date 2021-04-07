@@ -14,39 +14,38 @@ It is in charge of managing the database, here it is specified, where and when t
 
 */
 
-const foodModel = require('../../../storage/models/food')
+const promotionModel = require('../../../storage/models/promotion')
 const localModel = require('../../../storage/models/local')
 
 //------------------------------------------------------------------------------------------------
 //1.1.1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const add = async (id, food) => {
-  const newFood = new foodModel(food)
+const add = async (id, promotion) => {
+  const newPromotion = new promotionModel(promotion)
   const localData = await localModel.findById(id)
-  localData.foods.push(newFood)
+  localData.promotions.push(newPromotion)
   localData.save()
   localModel.updateOne()
-  return newFood.save()
+  return newPromotion.save()
 }
 
 //------------------------------------------------------------------------------------------------
 //2.2.2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const update = async (id, food) => {
-  let retrievedFood = await foodModel.findOne({
+const update = async (id, promotion) => {
+  let retrievedPromotion = await promotionModel.findOne({
     _id: id
   })
 
-  let entrie = Object.entries(retrievedFood)
-  entrie = Object.entries(food)
+  let entrie = Object.entries(retrievedPromotion)
+  entrie = Object.entries(promotion)
 
-  retrievedFood = Object.fromEntries(entrie)
+  retrievedPromotion = Object.fromEntries(entrie)
 
-  console.log("retrievedFood", retrievedFood)
-  const newFood = await foodModel.findByIdAndUpdate(id, retrievedFood)
-  return newFood
+  const newPromotion = await promotionModel.findByIdAndUpdate(id, retrievedPromotion)
+  return newPromotion
 }
 
 //------------------------------------------------------------------------------------------------
@@ -54,15 +53,15 @@ const update = async (id, food) => {
 //------------------------------------------------------------------------------------------------
 
 const remove = async (id, filter) => {
-  const foodData = await foodModel.find(filter)
-  const local = await foodData[0].locals[0]
+  const promotionData = await promotionModel.find(filter)
+  const local = await promotionData[0].locals[0]
   const localData = await localModel.findOne(local)
-  localData.foods.remove({
+  localData.promotions.remove({
     _id: id
   })
   localData.save()
   localModel.updateOne()
-  if (!foodData) {
+  if (!promotionData) {
     throw new Error('Food not found')
   }
 }
@@ -89,7 +88,7 @@ const getAllFoodsDb = async (fname, fprice, fdescription, fdays) => {
     }
   }
 
-  const foods = await foodModel.find(filter)
+  const foods = await promotionModel.find(filter)
   return foods
 
 }
@@ -104,28 +103,6 @@ const getOneFoodByIdDb = async (id) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------
-
-const getFoodsOfLocalDb = async (id) => {
-  const data = await foodModel.find({foods: id})
-  //const data = await localModel.find({_id: id, foods:[]})
-  //const foods = await data.find({locals: []})
-  /* .populate({
-    path: 'foods',
-    populate: {path: 'foods'}
-  })
-  .exec() */
-
-  //console.log("1111111111111111111111111111111111", data)
-  if (data) {
-    return data
-  } else {
-    throw new Error('User not found')
-  }
-}
-
-//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
@@ -135,5 +112,4 @@ module.exports = {
   remove,
   getAllFoodsDb,
   getOneFoodByIdDb,
-  getFoodsOfLocalDb
 }

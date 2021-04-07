@@ -108,7 +108,7 @@ router.get('/', async (req, res) => {
 //7 ( SHOW ) USER BY ID
 //------------------------------------------------------------------------------------------------
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', verifyToken, async (req, res) => {
   const { id } = req.params
 
   try {

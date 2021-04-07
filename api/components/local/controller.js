@@ -50,6 +50,7 @@ const createLocal = async ( user, localName, phoneNumber, address, coordinates, 
       address,
       days,
       logo: "",
+      promotions: [],
       foods: []
     }
 

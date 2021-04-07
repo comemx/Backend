@@ -45,7 +45,7 @@ router.post('/:id', verifyToken, upload.single('image'), async (req, res) => {
 router.put('/:id', verifyToken, upload.single('image'), (req, res) => {
   const { name, price, description } = req.body
 
-  controller.updateFood(req.params.id, name, price, description, req.file)
+  controller.updatePromotion(req.params.id, name, price, description, req.file)
     .then(data => {
       response.success(req, res, data, 200)
     })
@@ -63,7 +63,7 @@ router.delete('/:id',verifyToken, async (req, res) => {
 
   try {
     const food = await controller.deleteFood(id)
-    response.success(req, res, "Food succesfully remove")
+    response.success(req, res, "Promotion succesfully remove")
   } catch (error) {
     response.error(req, res, error.message, 400, error)
   }
@@ -108,22 +108,6 @@ router.get('/:id', async (req, res) => {
     response.error(req, res, error.message, 400, error)
   }
 })
-
-//------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------
-
-router.get('/locals-foods/:id', verifyToken, async (req, res) => {
-  const { id } = req.params
-
-  try {
-    const data = await controller.getFoodsOfLocal(id)
-    response.success(req, res, data, 200)
-  } catch (error) {
-    response.error(req, res, error.message, 400)
-  }
-})
-
 
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS

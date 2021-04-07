@@ -46,7 +46,7 @@ console.log("1",refreshToken)
     const tokenData = jwt.verify(refreshToken, `${config.refresh_token_secret}`)
     const user = tokenData
     const accessToken = jwt.sign({ user: user.id, email: user.email, fullname: user.fullname}, `${config.access_token_secret}` ,{
-      expiresIn: '30m'
+      expiresIn: '24h'
     })
     return accessToken
   }

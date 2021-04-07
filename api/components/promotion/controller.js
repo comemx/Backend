@@ -18,7 +18,6 @@ const storage = require('./store')
 //------------------------------------------------------------------------------------------------
 
 const createFood = async (id, name, price, description, image) => {
-  console.log(image)
   try{
   if (!id || !name || !price || !description || !image) {
     throw new Error('Missing data')
@@ -29,7 +28,7 @@ const createFood = async (id, name, price, description, image) => {
     imageUrl = image.location
   }
 
-    const food = {
+    const promotion = {
       locals: id,
       name,
       price,
@@ -37,11 +36,11 @@ const createFood = async (id, name, price, description, image) => {
       image: imageUrl,
     }
 
-    const newFood = await storage.add(id, food)
+    const newPromotion = await storage.add(id, promotion)
 
     finalResponse = {
-      newFood,
-      'System message': 'Food successfully created'
+      newPromotion,
+      'System message': 'Promotion successfully created'
     }
     
     return (finalResponse)
@@ -54,29 +53,29 @@ const createFood = async (id, name, price, description, image) => {
 //2.2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const updateFood = (id, name, price, description, imageFood) => {
+const updatePromotion = (id, name, price, description, image) => {
   return new Promise((resolve, reject) => {
-    if (!id || !name || !price || !description || !imageFood) {
+    if (!id || !name || !price || !description || !image) {
       reject('Missing data')
     }
 
     let imageUrl = ''
-  if(imageFood) {
-    imageUrl = imageFood.location
+  if(image) {
+    imageUrl = image.location
   }
 
-    const food = {
+    const promotion = {
       name,
       price,
       description,
-      imageFood: imageUrl,
+      image: imageUrl,
     }
 
-    const result = storage.update(id, food)
+    const newPromotion = storage.update(id, promotion)
 
     const finalResponse = {
-      food,
-      'System Message': 'Food succesfully updated'
+      promotion,
+      'System Message': 'Promotion succesfully updated'
     }
     resolve(finalResponse)
   })
@@ -117,30 +116,15 @@ const getFoodById = async (id) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------
-
-const getFoodsOfLocal = async (id) => {
-  if (!id) {
-    throw new Error('id needed')
-  } else {
-    const data = await storage.getFoodsOfLocalDb(id)
-    return data
-  }
-}
-
-
-//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
 module.exports = {
   createFood,
-  updateFood,
+  updatePromotion,
   deleteFood,
   getAllFoods,
   getFoodById,
-  getFoodsOfLocal
 }
 
 

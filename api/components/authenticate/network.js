@@ -58,6 +58,7 @@ router.post('/userlogin', async (req, res, next) => {
     const token = await controller.loginUser(email, password)
     const finalResponse = {
       Message: 'Auth success',
+      locatario: false,
       accessToken: token.accessToken,
       refreshToken: token.refreshToken
     }
@@ -81,6 +82,7 @@ router.post('/businessmanlogin', async (req, res, next) => {
     const token = await controller.loginBusinessman(email, password)
     const finalResponse = {
       Message: 'Auth success',
+      locatario: true,
       accessToken: token.accessToken,
       refreshToken: token.refreshToken
     }

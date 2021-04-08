@@ -16,7 +16,6 @@ const local = require('./api/components/local/network');
 const categories = require('./api/components/categories/network');
 const food = require('./api/components/food/network');
 const promotion = require('./api/components/promotion/network');
-const photo_menu = require('./api/components/photo_menu/network');
 const forgotPassword = require('./api/components/forgotPassword/network');
 const cors = require('cors');
 const app = express();
@@ -98,7 +97,6 @@ app.use('/api/local', local);
 app.use('/api/categories', categories);
 app.use('/api/food', food);
 app.use('/api/promotion', promotion);
-app.use('/api/photo_menu', photo_menu);
 app.use('/api/authenticate', authenticate);
 app.use('/api/forgot-password', forgotPassword);
 

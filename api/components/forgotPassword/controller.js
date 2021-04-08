@@ -15,6 +15,7 @@ const storage = require('./store')
 const bcrypt = require('bcrypt')
 const { config } = require('../../../config/index')
 const jwt = require('jsonwebtoken')
+const nodemailer = require('nodemailer');
 const { transporter } = require('../../../auth/mailer')
 
 //------------------------------------------------------------------------------------------------
@@ -45,14 +46,28 @@ const recoverPassword = async (email) => {
     }
 
 
-      // send mail with defined transport object
-  await transporter.sendMail({
+    
+
+// create reusable transporter object using the default SMTP transport
+
+  const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth: {
+          user: 'zmgcomida@gmail.com', // generated ethereal user
+          pass: 'kgfpybjmeuldhqhr', // generated ethereal password
+      },
+  });
+
+   // send mail with defined transport object
+   await transporter.sendMail({
     from: '"Forgot password" <zmgcomida@gmail.com>', // sender address
-    to: "orlandos.casta@gmail.com", // list of receivers
+    to: email, // list of receivers
     subject: "Forgot password Subject line", // Subject line
     //text: "Hello world?", // plain text body
     html:`
-    <b> Please click on the following link, or paste this into your browser to complete the process:</b>
+    <b> ffffffffffffffffffffffffffffffffffffffffffffff:</b>
     <a href="${verificationLink}"> ${verificationLink}</a>
     `
   });

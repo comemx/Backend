@@ -123,12 +123,13 @@ const getAllLocalsDb = async (flocalName, fphoneNumber, faddress, fdays) => {
 //------------------------------------------------------------------------------------------------
 
 const getOneUserByIdDb = async (id) => {
+  //.populate('tags')
   const posts = await localModel
   .findOne({ _id: id })
-  .populate({
-    path: 'categories',
-    populate: {path: 'categories'}
-  })
+  .populate('foods')
+  .populate('promotions')
+  .populate('categories')
+  .populate('user')
   .exec()
   return posts
 }
@@ -165,6 +166,16 @@ const updateLogoImage = async (filter, update) => {
     returnOriginal: false
   })
 }
+
+//------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
+
+const updateMenuImage = async (filter, update) => {
+  console.log("informacion", filter, update)
+  return await localModel.findOneAndUpdate(filter, update, {
+    returnOriginal: false
+  })
+}
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
@@ -177,5 +188,6 @@ module.exports = {
   getOneUserByIdDb,
   addFavorite,
   deleteFavorite,
-  updateLogoImage
+  updateLogoImage,
+  updateMenuImage
 }

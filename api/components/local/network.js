@@ -163,6 +163,20 @@ router.delete('/delete-favorite/:id', verifyToken, async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+router.post('/photo_menu/:id', verifyToken, upload.array('photoMenu', 2), async (req, res) =>{
+  const { id } = req.params
+  try {
+    const logoImage = await controller.editMenuImage(id, req.files)
+    response.success(req, res, logoImage, 201)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
+})
+
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 

@@ -12,6 +12,10 @@ const localSchema = new Schema({
     type: [String],
     default: undefined
   },
+  photoMenu: {
+    type: [String],
+    default: undefined
+  },
   coordinates: String,
   localName: String,
   phoneNumber: Number,

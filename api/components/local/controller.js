@@ -43,13 +43,14 @@ const createLocal = async ( user, localName, phoneNumber, address, coordinates, 
     const local = {
       user,
       image,
+      photoMenu: [],
       localName,
       phoneNumber,
       categories: [],
       coordinates,
       address,
       days,
-      logo: "",
+      logo: [],
       promotions: [],
       foods: []
     }
@@ -177,6 +178,7 @@ const deleteFavoritePost = async (id, idUser) => {
 //------------------------------------------------------------------------------------------------
 
 const editLogoImage = async (id, image) => {
+  console.log("assssssssssssssssssssssssssssss", image)
   let imageUrl = ''
     if(image) {
       imageUrl = image.location
@@ -194,6 +196,33 @@ const editLogoImage = async (id, image) => {
 }
 
 //------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const editMenuImage = async (id, imageMenu) => {
+  console.log("assssssssssssssssssssssssssssss", imageMenu)
+  
+  let imageUrl = ''
+  if(imageMenu) {
+    imageUrl = imageMenu.location
+  }
+
+  const photoMenu = imageMenu.map(function (imageMenu) {
+    return imageMenu.location
+  })
+
+    const imageData = {
+      photoMenu
+    }
+    
+    const filter = {
+      _id: id
+    }
+
+    return storage.updateMenuImage(filter, imageData)
+}
+
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
@@ -205,7 +234,8 @@ module.exports = {
   getLocalById,
   favoritePost,
   deleteFavoritePost,
-  editLogoImage
+  editLogoImage,
+  editMenuImage
 }
 
 

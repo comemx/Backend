@@ -1,22 +1,22 @@
 //------------------------------------------------------------------------------------------------
 // [Database configuration]
 //------------------------------------------------------------------------------------------------
+
 const { config } = require('../config/index');
-const db = require('mongoose')
+const mongoose = require('mongoose');
 
-db.Promise = global.Promise
+const connect = async() => {
+  mongoose.connect(`${config.mongo}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
 
-const connect = async () => {
-  try {
-    await db.connect(`${config.mongo}`, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false
-    })
-    console.log('[ Database conecction success ]')
-  } catch (error) {
-    console.log(error)
-  }
-}
+  const db = mongoose.connection;
+  db.on('error', console.error.bind(console, 'connection error:'));
+  db.once('open', () => {
+    console.log('[ Database conecction success ]');
+  });
+} 
+
 
 module.exports = connect

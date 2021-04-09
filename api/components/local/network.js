@@ -84,7 +84,7 @@ router.delete('/:id',verifyToken, async (req, res) => {
   const { id } = req.params
 
   try {
-    const user = await controller.deleteLocal(id, req.userData.user)
+    const user = await controller.deleteLocal(id, req.userData.id)
     response.success(res, res, `Local ${id} has been removed`)
   } catch (error) {
     response.error(req, res, error.message, 400, error)

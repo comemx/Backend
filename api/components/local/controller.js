@@ -112,7 +112,7 @@ const updateLocal = (id, localName, phoneNumber, address, coordinates, days, arr
 
 
 const deleteLocal = async(id, user) => {
-  console.log("user", user)
+  console.log("user", id, user)
   if (!id || !user) {
     throw new Error('Missing data')
   } else {

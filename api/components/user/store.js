@@ -49,7 +49,7 @@ const update = async (filter, update) => {
 //------------------------------------------------------------------------------------------------
 
 const updateImage = async (filter, update) => {
-  console.log("informacion", filter, update)
+  console.log("store image", update)
   return await userModel.findOneAndUpdate(filter, update, {
     returnOriginal: false
   })

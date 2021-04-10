@@ -101,7 +101,7 @@ const updateUser = async (userUpdate) => {
 //------------------------------------------------------------------------------------------------
 
 const editUserImage = async (id, image) => {
-console.log(image)
+  console.log("controller image", image)
   let imageUrl = ''
     if(image) {
       imageUrl = image.location

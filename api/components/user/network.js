@@ -71,6 +71,7 @@ router.post('/editimage/:id', verifyToken, upload.single('image'), async (req, r
   const { id } = req.params
   try {
     const userImage = await controller.editUserImage(id, req.file)
+    console.log("network image", req.file)
     response.success(req, res, userImage, 201)
   } catch (error) {
     response.error(req, res, error.message, 400, error)

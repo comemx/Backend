@@ -6,6 +6,7 @@ const { config } = require('../config/index');
 const mongoose = require('mongoose');
 
 const connect = async() => {
+  mongoose.set('useFindAndModify', false);
   mongoose.connect(`${config.mongo}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true

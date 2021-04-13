@@ -109,10 +109,6 @@ const getAllLocalsDb = async (flocalName, fphoneNumber, faddress, fdays) => {
 
   const locals = await localModel
   .find(filter)
-  .populate({
-    path: 'categories',
-    populate: {path: 'categories'}
-  })
   .exec()
   return locals
 
@@ -176,6 +172,17 @@ const updateMenuImage = async (filter, update) => {
     returnOriginal: false
   })
 }
+
+//------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
+
+const updateLocalImage = async (filter, update) => {
+  console.log("informacion", filter, update)
+  return await localModel.findOneAndUpdate(filter, update, {
+    returnOriginal: false
+  })
+}
+
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
@@ -189,5 +196,6 @@ module.exports = {
   addFavorite,
   deleteFavorite,
   updateLogoImage,
-  updateMenuImage
+  updateMenuImage,
+  updateLocalImage
 }

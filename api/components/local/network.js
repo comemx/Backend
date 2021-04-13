@@ -32,12 +32,11 @@ const verifyToken = require('../../../auth/verifyToken');
 //1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.post('/addlocal/:id', verifyToken, upload.array('image', 3), async (req, res) => {
+router.post('/addlocal/:id', verifyToken, async (req, res) => {
   const { id } = req.params
-  const { localName, phoneNumber, address, coordinates, days } = req.body
+  const { localName, phoneNumber, address, coordinates, days, categories } = req.body
   try {
-      const local = await controller.createLocal( id, localName, phoneNumber, address, coordinates, days, req.files )
-      console.log(req.files)
+      const local = await controller.createLocal( id, localName, phoneNumber, address, coordinates, days, categories )
       response.success(req, res, local, 201)
     } catch (error) {
       response.error(req, res, error.message, 400, error)
@@ -170,6 +169,21 @@ router.post('/photo_menu/:id', verifyToken, upload.array('photoMenu', 2), async 
   const { id } = req.params
   try {
     const logoImage = await controller.editMenuImage(id, req.files)
+    response.success(req, res, logoImage, 201)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
+})
+
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+
+router.post('/local-images/:id', verifyToken, upload.array('image', 3), async (req, res) =>{
+  const { id } = req.params
+  try {
+    const logoImage = await controller.editLocalImages(id, req.files)
     response.success(req, res, logoImage, 201)
   } catch (error) {
     response.error(req, res, error.message, 400, error)

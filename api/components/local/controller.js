@@ -24,29 +24,19 @@ const { upload } = require('../../../libs/multer');
 //1.1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const createLocal = async ( user, localName, phoneNumber, address, coordinates, days, arrayOfImage ) => {
-  console.log("user", user)
+const createLocal = async ( user, localName, phoneNumber, address, coordinates, days, categories ) => {
   try{
-  if (!localName || !phoneNumber || !address || !coordinates || !days || !arrayOfImage) {
+  if (!localName || !phoneNumber || !address || !coordinates || !days || !categories) {
     throw new Error('Missing data')
   }
 
-  let imageUrl = ''
-  if(arrayOfImage) {
-    imageUrl = arrayOfImage.location
-  }
-
-  const image = arrayOfImage.map(function (arrayOfImage) {
-    return arrayOfImage.location
-  })
-
     const local = {
       user,
-      image,
+      image: [],
       photoMenu: [],
       localName,
       phoneNumber,
-      categories: [],
+      categories,
       coordinates,
       address,
       days,
@@ -200,7 +190,6 @@ const editLogoImage = async (id, image) => {
 //------------------------------------------------------------------------------------------------
 
 const editMenuImage = async (id, imageMenu) => {
-  console.log("assssssssssssssssssssssssssssss", imageMenu)
   
   let imageUrl = ''
   if(imageMenu) {
@@ -223,6 +212,32 @@ const editMenuImage = async (id, imageMenu) => {
 }
 
 //------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const editLocalImages = async (id, arrayOfImage) => {
+  
+  let imageUrl = ''
+  if(arrayOfImage) {
+    imageUrl = arrayOfImage.location
+  }
+
+  const image = arrayOfImage.map(function (arrayOfImage) {
+    return arrayOfImage.location
+  })
+
+    const imageData = {
+      image
+    }
+    
+    const filter = {
+      _id: id
+    }
+
+    return storage.updateLocalImage(filter, imageData)
+}
+
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
@@ -235,7 +250,8 @@ module.exports = {
   favoritePost,
   deleteFavoritePost,
   editLogoImage,
-  editMenuImage
+  editMenuImage,
+  editLocalImages
 }
 
 

@@ -16,15 +16,12 @@ const localSchema = new Schema({
     type: [String],
     default: undefined
   },
-  coordinates: String,
+  coordinates: [{ type: Object}],
   localName: String,
   phoneNumber: Number,
-  categories: [{ type: Schema.Types.ObjectId, ref: 'categories' }],
+  categories: [{ type: Object}],
   address: String,
-  days: {
-    type: [String],
-    default: undefined,
-  },
+  days: [{ type: Object}],
   logo: {
     type: [String],
     default: undefined

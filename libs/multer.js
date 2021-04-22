@@ -27,3 +27,37 @@ const upload = multer({
 });//nombre del input o campo por el cual se va a subir / single es para un archivo y array para muchos
 
 module.exports = { upload, s3, };
+
+
+/* const deleteFileFromS3 = () => {
+  const params = {
+    Bucket: 'codeztech', // pass your bucket name
+    Key: fileName, // file will be saved as testBucket/contacts.csv
+  };
+  s3.deleteObject(params, function(err, data) {
+    if (err) 
+      console.log(err, err.stack);  // error
+    else    
+     console.log(chalk.green("File Successfully Deleted!"));
+  });
+};  */
+
+
+
+/* 
+const deleteFileFromDOPromise = (fileUrl) => {
+  const params = {
+    Bucket: config.bucket_name,
+    Key: fileUrl,
+  }
+
+  return new Promise((resolve, reject) => {
+    s3.deleteObject(params, (err, data) => {
+      if(err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    })
+  })
+} */

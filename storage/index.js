@@ -9,7 +9,7 @@ const connect = async() => {
   mongoose.set('useFindAndModify', false);
   mongoose.connect(`${config.mongo}`, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   });
 
   const db = mongoose.connection;

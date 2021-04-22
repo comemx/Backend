@@ -26,5 +26,4 @@ const config = { // Definimos un objeto config
 	verification_link: process.env.VERIFICATION_LINK,
 };
 
-//exportamos el objeto config
 module.exports = { config };

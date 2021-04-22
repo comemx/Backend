@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const localSchema = new Schema({
+  published: Boolean,
   user: [{ type: Schema.Types.ObjectId, ref: 'businessmen' }],
   image: {
     type: [String],

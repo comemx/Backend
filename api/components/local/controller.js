@@ -18,6 +18,10 @@ in this file is all the logic, everything that is modify, change or check, is do
 */
 
 const storage = require('./store')
+const config = require('../../../config/index')
+const aws = require("aws-sdk");// llamando al modulo
+const multer = require("multer");//requerimos multer, el modulo de multer
+const multerS3 = require("multer-s3");//llamando al modulo de s3
 const { upload } = require('../../../libs/multer');
 
 //------------------------------------------------------------------------------------------------
@@ -31,6 +35,7 @@ const createLocal = async ( user, localName, phoneNumber, address, coordinates, 
   }
 
     const local = {
+      published: false,
       user,
       image: [],
       photoMenu: [],
@@ -238,6 +243,39 @@ const editLocalImages = async (id, arrayOfImage) => {
 }
 
 //------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
+
+const deleteImagesForGod = async () => {
+
+  const spacesEndpoint = new aws.Endpoint(`${config.s3_endpoint}`);//devuelve una instancia del s3 endpoint y lo guardamos en una variable
+
+  const s3 = new aws.S3({
+    endpoint: spacesEndpoint,
+  });
+
+
+  console.log("aaaaaaaaaaaa")
+  //const fileUrl = "https://comemxfiles.nyc3.digitaloceanspaces.com/descarga%20%281%29.jpg"
+
+  const params = {
+    Bucket: 'comemxfiles',
+    Key: "https://comemxfiles.nyc3.digitaloceanspaces.com/descarga%20%281%29.jpg",
+  }
+
+  return new Promise((resolve, reject) => {
+    s3.deleteObject(params, (err, data) => {
+      if(err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    })
+  })
+
+}
+
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
@@ -251,7 +289,8 @@ module.exports = {
   deleteFavoritePost,
   editLogoImage,
   editMenuImage,
-  editLocalImages
+  editLocalImages,
+  deleteImagesForGod
 }
 
 

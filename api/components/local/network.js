@@ -189,7 +189,20 @@ router.post('/local-images/:id', verifyToken, upload.array('image', 3), async (r
     response.error(req, res, error.message, 400, error)
   }
 })
+//------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------
 
+
+router.post('/please', async (req, res) =>{
+  try {
+    console.log("aaaaaaaaaaaaaaaa")
+    const data = await controller.deleteImagesForGod()
+    response.success(req, res, data, 201)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
+})
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------

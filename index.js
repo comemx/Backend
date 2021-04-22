@@ -17,6 +17,7 @@ const categories = require('./api/components/categories/network');
 const food = require('./api/components/food/network');
 const promotion = require('./api/components/promotion/network');
 const forgotPassword = require('./api/components/forgotPassword/network');
+const map = require('./api/components/map/network');
 const cors = require('cors');
 const app = express();
 const db = require('./storage/index');
@@ -99,6 +100,7 @@ app.use('/api/food', food);
 app.use('/api/promotion', promotion);
 app.use('/api/authenticate', authenticate);
 app.use('/api/forgot-password', forgotPassword);
+app.use('/api/map', map);
 
 // [static files]
 app.use('/app', express.static('public'))

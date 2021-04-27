@@ -124,7 +124,7 @@ router.post('/editimage/:id', verifyToken, upload.single('image'), async (req, r
 })
 
 //------------------------------------------------------------------------------------------------
-//MODULE EXPORTS
+//MODULE EXPORTS prueba
 //------------------------------------------------------------------------------------------------
 
 module.exports = router;

@@ -124,7 +124,6 @@ const getOneUserByIdDb = async (id) => {
   .findOne({ _id: id })
   .populate('foods')
   .populate('promotions')
-  .populate('categories')
   .populate('user')
   .exec()
   return posts

@@ -17,16 +17,10 @@ const storage = require('./store')
 //1.1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const createFood = async (id, name, price, description, image) => {
-  console.log(image)
+const createFood = async (id, name, price, description) => {
   try{
-  if (!id || !name || !price || !description || !image) {
+  if (!id || !name || !price || !description) {
     throw new Error('Missing data')
-  }
-
-  let imageUrl = ''
-  if(image) {
-    imageUrl = image.location
   }
 
     const food = {
@@ -34,7 +28,7 @@ const createFood = async (id, name, price, description, image) => {
       name,
       price,
       description,
-      image: imageUrl,
+      image: []
     }
 
     const newFood = await storage.add(id, food)
@@ -115,6 +109,25 @@ const getFoodById = async (id) => {
   const result = await storage.getOneFoodByIdDb(id)
   return result
 }
+//------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
+
+const editFoodImage = async (id, image) => {
+  let imageUrl = ''
+    if(image) {
+      imageUrl = image.location
+    }
+
+    const imageData = {
+      image: imageUrl,
+    }
+
+    const filter = {
+      _id: id
+    }
+
+    return storage.updateImage(filter, imageData)
+}
 
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
@@ -126,6 +139,7 @@ module.exports = {
   deleteFood,
   getAllFoods,
   getFoodById,
+  editFoodImage,
 }
 
 

@@ -110,6 +110,20 @@ router.get('/:id', async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
+
+
+router.post('/editimage/:id', verifyToken, upload.single('image'), async (req, res) =>{
+  const { id } = req.params
+  try {
+    const foodImage = await controller.editPromotionImage(id, req.file)
+    response.success(req, res, foodImage, 201)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
+})
+
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 

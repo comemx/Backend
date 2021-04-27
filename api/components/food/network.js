@@ -23,15 +23,15 @@ const { upload } = require('../../../libs/multer');
 const verifyToken = require('../../../auth/verifyToken');
 
 //------------------------------------------------------------------------------------------------
-//1 ( CREATE ) LOCAL
+//1 ( CREATE ) FOOD
 //------------------------------------------------------------------------------------------------
 
-router.post('/:id', verifyToken, upload.single('image'), async (req, res) => {
+router.post('/:id', verifyToken, async (req, res) => {
   const { id } = req.params
   const { name, price, description } = req.body
   
   try {
-      const food = await controller.createFood(id, name, price, description, req.file)
+      const food = await controller.createFood(id, name, price, description)
       response.success(req, res, food, 201)
     } catch (error) {
       response.error(req, res, error.message, 400, error)
@@ -104,6 +104,19 @@ router.get('/:id', async (req, res) => {
       })
     }
     response.success(req, res, result, 200)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
+})
+//------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
+
+
+router.post('/editimage/:id', verifyToken, upload.single('image'), async (req, res) =>{
+  const { id } = req.params
+  try {
+    const foodImage = await controller.editFoodImage(id, req.file)
+    response.success(req, res, foodImage, 201)
   } catch (error) {
     response.error(req, res, error.message, 400, error)
   }

@@ -102,6 +102,7 @@ console.log("userUpdate", userUpdate)
 //------------------------------------------------------------------------------------------------
 
 const editUserImage = async (id, image) => {
+  console.log("imagen en controlador", image)
 
   let imageUrl = ''
     if(image) {

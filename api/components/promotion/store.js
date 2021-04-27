@@ -101,7 +101,14 @@ const getOneFoodByIdDb = async (id) => {
   const posts = await foodModel.findOne({ _id: id })
   return posts
 }
+//------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
 
+const updateImage = async (filter, update) => {
+  return await promotionModel.findOneAndUpdate(filter, update, {
+    returnOriginal: false
+  })
+}
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
@@ -112,4 +119,5 @@ module.exports = {
   remove,
   getAllFoodsDb,
   getOneFoodByIdDb,
+  updateImage
 }

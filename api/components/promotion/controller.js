@@ -114,7 +114,25 @@ const getFoodById = async (id) => {
   const result = await storage.getOneFoodByIdDb(id)
   return result
 }
+//------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
 
+const editPromotionImage = async (id, image) => {
+  let imageUrl = ''
+    if(image) {
+      imageUrl = image.location
+    }
+
+    const imageData = {
+      image: imageUrl,
+    }
+
+    const filter = {
+      _id: id
+    }
+
+    return storage.updateImage(filter, imageData)
+}
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
@@ -125,6 +143,7 @@ module.exports = {
   deleteFood,
   getAllFoods,
   getFoodById,
+  editPromotionImage
 }
 
 

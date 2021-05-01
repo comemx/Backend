@@ -13,7 +13,6 @@ const authenticate = require('./api/components/authenticate/network')
 const user = require('./api/components/user/network');
 const businessman = require('./api/components/businessman/network');
 const local = require('./api/components/local/network');
-const categories = require('./api/components/categories/network');
 const food = require('./api/components/food/network');
 const promotion = require('./api/components/promotion/network');
 const forgotPassword = require('./api/components/forgotPassword/network');
@@ -66,7 +65,6 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 })
 
-
 //-------------------------------------------------------------------
 
 //middlewares
@@ -95,7 +93,6 @@ if(config.env === 'development'){
 app.use('/api/user', user);
 app.use('/api/businessman', businessman);
 app.use('/api/local', local);
-app.use('/api/categories', categories);
 app.use('/api/food', food);
 app.use('/api/promotion', promotion);
 app.use('/api/authenticate', authenticate);
@@ -106,7 +103,6 @@ app.use('/api/map', map);
 app.use('/app', express.static('public'))
 
 // [starting server]
-
 
 app.listen(config.port, (err) => {
     if (err) console.error();

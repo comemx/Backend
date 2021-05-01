@@ -11,6 +11,13 @@ In this file is where we put all the routes, here we put the endpoints and infor
 
   - CODE INDEX
 
+    1 [POST] ( CREATE ) FOOD
+    2 [PUT] ( UPDATE ) FOOD
+    3 [PUT] ( UPDATE ) FOOD IMAGE
+    4 [DELETE] ( DELETE ) FOOD
+    5 [GET] ( SHOW ) ALL FOODS
+    6 [GET] ( SHOW ) FOOD BY ID
+
   - MODULE EXPORTS
 
 */
@@ -39,13 +46,13 @@ router.post('/:id', verifyToken, async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//2 ( UPDATE ) LOCAL
+//2 ( UPDATE ) FOOD
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', verifyToken, upload.single('image'), (req, res) => {
+router.put('/:id', verifyToken, (req, res) => {
   const { name, price, description } = req.body
 
-  controller.updateFood(req.params.id, name, price, description, req.file)
+  controller.updateFood(req.params.id, name, price, description)
     .then(data => {
       response.success(req, res, data, 200)
     })
@@ -55,7 +62,21 @@ router.put('/:id', verifyToken, upload.single('image'), (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//3 ( DELETE ) LOCAL
+//3 ( UPDATE ) FOOD IMAGE
+//------------------------------------------------------------------------------------------------
+
+router.post('/editimage/:id', verifyToken, upload.single('image'), async (req, res) =>{
+  const { id } = req.params
+  try {
+    const foodImage = await controller.editFoodImage(id, req.file)
+    response.success(req, res, foodImage, 201)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
+})
+
+//------------------------------------------------------------------------------------------------
+//4 ( DELETE ) FOOD
 //------------------------------------------------------------------------------------------------
 
 router.delete('/:id',verifyToken, async (req, res) => {
@@ -70,7 +91,7 @@ router.delete('/:id',verifyToken, async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//4 ( SHOW ) ALL LOCALS
+//5 ( SHOW ) ALL FOODS
 //------------------------------------------------------------------------------------------------
 
 router.get('/', async (req, res) => {
@@ -92,10 +113,10 @@ router.get('/', async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//5 ( SHOW ) LOCAL BY ID
+//6 ( SHOW ) FOOD BY ID
 //------------------------------------------------------------------------------------------------
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', verifyToken, async (req, res) => {
   try {
     const result = await controller.getFoodById(req.params.id)
     if (result === false) {
@@ -104,19 +125,6 @@ router.get('/:id', async (req, res) => {
       })
     }
     response.success(req, res, result, 200)
-  } catch (error) {
-    response.error(req, res, error.message, 400, error)
-  }
-})
-//------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------
-
-
-router.post('/editimage/:id', verifyToken, upload.single('image'), async (req, res) =>{
-  const { id } = req.params
-  try {
-    const foodImage = await controller.editFoodImage(id, req.file)
-    response.success(req, res, foodImage, 201)
   } catch (error) {
     response.error(req, res, error.message, 400, error)
   }

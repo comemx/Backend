@@ -9,20 +9,20 @@ in this file is all the logic, everything that is modify, change or check, is do
 
     1.1 [POST] ( CREATE ) LOCAL
     2.2 [PUT] ( UPDATE ) LOCAL
-    3.3 [DELETE] ( DELETE ) LOCAL
-    4.4 [GET] ( SHOW ) ALL LOCALS
-    5.5 [GET] ( SHOW ) LOCAL BY ID
+    3.3 [POST] ( UPDATE ) LOCAL IMAGES
+    4.4 [POST] ( UPDATE ) LOCAL LOGO
+    5.5 [DELETE] ( DELETE ) LOCAL
+    6.6 [GET] ( SHOW ) ALL LOCALS
+    7.7 [GET] ( SHOW ) LOCAL BY ID
+    8.8 [POST] (ADD) FAVOTITE POSTS
+    9.9 [DELETE] (DELETE) FAVOTITE POSTS
+    10.10 [POST] (CREATE) PHOTO MENU
 
   - MODULE EXPORTS
 
 */
 
 const storage = require('./store')
-const config = require('../../../config/index')
-const aws = require("aws-sdk");// llamando al modulo
-const multer = require("multer");//requerimos multer, el modulo de multer
-const multerS3 = require("multer-s3");//llamando al modulo de s3
-const { upload } = require('../../../libs/multer');
 
 //------------------------------------------------------------------------------------------------
 //1.1 ( CREATE ) LOCAL
@@ -102,78 +102,36 @@ const updateLocal = (id, localName, phoneNumber, address, coordinates, days, arr
 }
 
 //------------------------------------------------------------------------------------------------
-//3.3 ( DELETE ) LOCAL
+//3.3 ( UPDATE ) LOCAL IMAGES
 //------------------------------------------------------------------------------------------------
 
+const editLocalImages = async (id, arrayOfImage) => {
 
-const deleteLocal = async(id, user) => {
-  console.log("user", id, user)
-  if (!id || !user) {
-    throw new Error('Missing data')
-  } else {
-    
-    const filterUser = {
-      _id: user
+  let imageUrl = ''
+  if(arrayOfImage) {
+    imageUrl = arrayOfImage.location
+  }
+
+  const image = arrayOfImage.map(function (arrayOfImage) {
+    return arrayOfImage.location
+  })
+
+    const imageData = {
+      image
     }
     
     const filter = {
       _id: id
     }
-    
-    return await storage.remove(id, user, filter)
-  }
+
+    return storage.updateLocalImage(filter, imageData)
 }
 
 //------------------------------------------------------------------------------------------------
-//4.4 ( SHOW ) ALL LOCALS
-//------------------------------------------------------------------------------------------------
-
-const getAllLocals = async (localName, phoneNumber, address, days) => {
-  const result = await storage.getAllLocalsDb(localName, phoneNumber, address, days)
-  return result
-}
-
-//------------------------------------------------------------------------------------------------
-//5.5 ( SHOW ) LOCAL BY ID
-//------------------------------------------------------------------------------------------------
-
-const getLocalById = async (id) => {
-  const result = await storage.getOneUserByIdDb(id)
-  return result
-}
-
-//------------------------------------------------------------------------------------------------
-// 6.6 [favoritePost] - ADD FAVOTITE POSTS
-//------------------------------------------------------------------------------------------------
-
-const favoritePost = async (id, idUser) => {
-  if (!id || !idUser) {
-    throw new Error('Missing data')
-  } else {
-    const data = await storage.addFavorite(id, idUser)
-    return data
-  }
-}
-
-//------------------------------------------------------------------------------------------------
-// 7.7 [delete] - DELETE FAVOTITE POSTS
-//------------------------------------------------------------------------------------------------
-
-const deleteFavoritePost = async (id, idUser) => {
-  if (!id || !idUser) {
-    throw new Error('Missing data')
-  } else {
-    const data = await storage.deleteFavorite(id, idUser)
-    return data
-  }
-}
-
-//------------------------------------------------------------------------------------------------
-//
+//4.4 ( UPDATE ) LOCAL LOGO
 //------------------------------------------------------------------------------------------------
 
 const editLogoImage = async (id, image) => {
-  console.log("assssssssssssssssssssssssssssss", image)
   let imageUrl = ''
     if(image) {
       imageUrl = image.location
@@ -191,7 +149,68 @@ const editLogoImage = async (id, image) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//
+//5.5 ( DELETE ) LOCAL
+//------------------------------------------------------------------------------------------------
+
+const deleteLocal = async(id, user) => {
+  if (!id || !user) {
+    throw new Error('Missing data')
+  } else {
+
+    const filter = {
+      _id: id
+    }
+    
+    return await storage.remove(id, user, filter)
+  }
+}
+
+//------------------------------------------------------------------------------------------------
+//6.6 ( SHOW ) ALL LOCALS
+//------------------------------------------------------------------------------------------------
+
+const getAllLocals = async (localName, phoneNumber, address, days) => {
+  const result = await storage.getAllLocalsDb(localName, phoneNumber, address, days)
+  return result
+}
+
+//------------------------------------------------------------------------------------------------
+//7.7 ( SHOW ) LOCAL BY ID
+//------------------------------------------------------------------------------------------------
+
+const getLocalById = async (id) => {
+  const result = await storage.getOneUserByIdDb(id)
+  return result
+}
+
+//------------------------------------------------------------------------------------------------
+// 8.8 ( ADD ) FAVOTITE POSTS
+//------------------------------------------------------------------------------------------------
+
+const favoritePost = async (id, idUser) => {
+  if (!id || !idUser) {
+    throw new Error('Missing data')
+  } else {
+    const data = await storage.addFavorite(id, idUser)
+    return data
+  }
+}
+
+//------------------------------------------------------------------------------------------------
+// 9.9 ( DELETE ) FAVOTITE POSTS
+//------------------------------------------------------------------------------------------------
+
+const deleteFavoritePost = async (id, idUser) => {
+  if (!id || !idUser) {
+    throw new Error('Missing data')
+  } else {
+    const data = await storage.deleteFavorite(id, idUser)
+    return data
+  }
+}
+
+//------------------------------------------------------------------------------------------------
+//10.10 (CREATE) PHOTO MENU
 //------------------------------------------------------------------------------------------------
 
 const editMenuImage = async (id, imageMenu) => {
@@ -217,65 +236,6 @@ const editMenuImage = async (id, imageMenu) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------
-
-const editLocalImages = async (id, arrayOfImage) => {
-  
-  let imageUrl = ''
-  if(arrayOfImage) {
-    imageUrl = arrayOfImage.location
-  }
-
-  const image = arrayOfImage.map(function (arrayOfImage) {
-    return arrayOfImage.location
-  })
-
-    const imageData = {
-      image
-    }
-    
-    const filter = {
-      _id: id
-    }
-
-    return storage.updateLocalImage(filter, imageData)
-}
-
-//------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------
-
-const deleteImagesForGod = async () => {
-
-  const spacesEndpoint = new aws.Endpoint(`${config.s3_endpoint}`);//devuelve una instancia del s3 endpoint y lo guardamos en una variable
-
-  const s3 = new aws.S3({
-    endpoint: spacesEndpoint,
-  });
-
-
-  console.log("aaaaaaaaaaaa")
-  //const fileUrl = "https://comemxfiles.nyc3.digitaloceanspaces.com/descarga%20%281%29.jpg"
-
-  const params = {
-    Bucket: 'comemxfiles',
-    Key: "https://comemxfiles.nyc3.digitaloceanspaces.com/descarga%20%281%29.jpg",
-  }
-
-  return new Promise((resolve, reject) => {
-    s3.deleteObject(params, (err, data) => {
-      if(err) {
-        reject(err);
-      } else {
-        resolve(data);
-      }
-    })
-  })
-
-}
-
-//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
@@ -290,7 +250,6 @@ module.exports = {
   editLogoImage,
   editMenuImage,
   editLocalImages,
-  deleteImagesForGod
 }
 
 

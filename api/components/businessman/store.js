@@ -4,13 +4,13 @@ It is in charge of managing the database, here it is specified, where and when t
 
   - CODE INDEX
 
-    1.1.1 [POST] ( CREATE ) USER
-    2.2.2 [PUT] ( UPDATE ) USER
-    3.3.3 [PUT] ( UPDATE ) USER IMAGE
-    4.4.4 [DELETE] ( DELETE ) USER
-    5.5.5 [POST] ( LOGIN ) USER
-    6.6.X [GET] ( SHOW ) ALL USERS
-    7.7.7 [GET] ( SHOW ) USER BY ID
+    1.1.1 [POST] ( CREATE ) BUSINESSMAN
+    2.2.2 [PUT] ( UPDATE ) BUSINESSMAN
+    3.3.3 [PUT] ( UPDATE ) BUSINESSMAN IMAGE
+    4.4.4 [DELETE] ( DELETE ) BUSINESSMAN
+    5.5.5 [GET] ( SHOW ) ALL BUSINESSMEN
+    6.6.X [GET] ( SHOW ) BUSINESSMAN BY ID
+    7.7.7 [GET] ( SHOW ) BUSINESSMAN lOCALS
 
   - MODULE EXPORTS
 
@@ -21,7 +21,7 @@ const businessmanModel = require('../../../storage/models/businessman')
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
 //------------------------------------------------------------------------------------------------
-//1.1.1 ( CREATE ) USER
+//1.1.1 ( CREATE ) BUSINESSMAN
 //------------------------------------------------------------------------------------------------
 
 const add = async (user) => {
@@ -34,7 +34,7 @@ const add = async (user) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//2.2.2 ( UPDATE ) USER
+//2.2.2 ( UPDATE ) BUSINESSMAN
 //------------------------------------------------------------------------------------------------
 
 const update = async (filter, update) => {
@@ -44,7 +44,7 @@ const update = async (filter, update) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//3.3.3 ( UPDATE ) USER IMAGE
+//3.3.3 ( UPDATE ) BUSINESSMAN IMAGE
 //------------------------------------------------------------------------------------------------
 
 const updateImage = async (filter, update) => {
@@ -55,7 +55,7 @@ const updateImage = async (filter, update) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//4.4.4 ( DELETE ) USER
+//4.4.4 ( DELETE ) BUSINESSMAN
 //------------------------------------------------------------------------------------------------
 
 const remove = async (filter) => {
@@ -66,16 +66,7 @@ const remove = async (filter) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//5.5.5 ( LOGIN ) USER
-//------------------------------------------------------------------------------------------------
-
-const getOneByFilter = async (filter) => {
-  const data = await businessmanModel.find(filter)
-  return data
-}
-
-//------------------------------------------------------------------------------------------------
-//6.6.X ( SHOW ) ALL USERS
+//5.5.5 ( SHOW ) ALL BUSINESSMEN
 //------------------------------------------------------------------------------------------------
 
 const getAllUsersDb = () => {
@@ -83,7 +74,7 @@ const getAllUsersDb = () => {
 }
 
 //------------------------------------------------------------------------------------------------
-//7.7.7 ( SHOW ) USER BY ID
+//6.6.X ( SHOW ) BUSINESSMAN BY ID
 //------------------------------------------------------------------------------------------------
 
 const getOneUserByIdDb = async (id) => {
@@ -97,7 +88,7 @@ const getOneUserByIdDb = async (id) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//
+//7.7.7 ( SHOW ) BUSINESSMAN lOCALS
 //------------------------------------------------------------------------------------------------
 
 const getLocalsOfUserDb = async (id) => {
@@ -125,7 +116,6 @@ module.exports = {
   update,
   updateImage,
   remove,
-  getOneByFilter,
   getAllUsersDb,
   getOneUserByIdDb,
   getLocalsOfUserDb

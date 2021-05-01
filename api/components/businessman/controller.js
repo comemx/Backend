@@ -7,13 +7,13 @@ in this file is all the logic, everything that is modify, change or check, is do
 
   - CODE INDEX
 
-    1.1 [POST] ( CREATE ) USER
-    2.2 [PUT] ( UPDATE ) USER
-    3.3 [PUT] ( UPDATE ) USER IMAGE
-    4.4 [DELETE] ( DELETE ) USER
-    5.5 [POST] ( LOGIN ) USER
-    6.6 [GET] ( SHOW ) ALL USERS
-    7.7 [GET] ( SHOW ) USER BY ID
+    1.1 [POST] ( CREATE ) BUSINESSMAN
+    2.2 [PUT] ( UPDATE ) BUSINESSMAN
+    3.3 [PUT] ( UPDATE ) BUSINESSMAN IMAGE
+    4.4 [DELETE] ( DELETE ) BUSINESSMAN
+    5.5 [GET] ( SHOW ) ALL BUSINESSMEN
+    6.6 [GET] ( SHOW ) BUSINESSMAN BY ID
+    7.7 [GET] ( SHOW ) BUSINESSMAN lOCALS
 
   - MODULE EXPORTS
 
@@ -26,7 +26,7 @@ const auth = require('../../../auth/index')
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
 //------------------------------------------------------------------------------------------------
-//1.1 ( CREATE ) USER
+//1.1 ( CREATE ) BUSINESSMAN
 //------------------------------------------------------------------------------------------------
 
 const createUser = async (fullname, email, password) => {
@@ -64,7 +64,7 @@ const createUser = async (fullname, email, password) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//2.2 ( UPDATE ) USER
+//2.2 ( UPDATE ) BUSINESSMAN
 //------------------------------------------------------------------------------------------------
 
 const updateUser = async (userUpdate) => {
@@ -98,7 +98,7 @@ console.log("userUpdate", userUpdate)
 }
 
 //------------------------------------------------------------------------------------------------
-//3.3 ( UPDATE ) USER IMAGE
+//3.3 ( UPDATE ) BUSINESSMAN IMAGE
 //------------------------------------------------------------------------------------------------
 
 const editUserImage = async (id, image) => {
@@ -121,7 +121,7 @@ const editUserImage = async (id, image) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//4.4 ( DELETE ) USER
+//4.4 ( DELETE ) BUSINESSMAN
 //------------------------------------------------------------------------------------------------
 
 const deleteUser = async(id) => {
@@ -137,7 +137,7 @@ const deleteUser = async(id) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//6.6 ( SHOW ) ALL USERS
+//5.5 ( SHOW ) ALL BUSINESSMEN
 //------------------------------------------------------------------------------------------------
 
 const getAllUsers = () => {
@@ -145,7 +145,7 @@ const getAllUsers = () => {
 }
 
 //------------------------------------------------------------------------------------------------
-//7.7 ( SHOW ) USER BY ID
+//6.6 ( SHOW ) BUSINESSMAN BY ID
 //------------------------------------------------------------------------------------------------
 
 const getOneUserById = async (id) => {
@@ -158,7 +158,7 @@ const getOneUserById = async (id) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//
+//7.7 ( SHOW ) BUSINESSMAN lOCALS
 //------------------------------------------------------------------------------------------------
 
 const getLocalsOfUser = async (id) => {

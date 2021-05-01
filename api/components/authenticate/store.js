@@ -26,7 +26,6 @@ const authenticateModel = require('../../../storage/models/authenticate')
 
 const verifyExists = async (filter) => {
   const result = await authenticateModel.exists(filter)
-  console.log("2", result)
   return result
 }
 
@@ -70,14 +69,6 @@ const removeRefreshToken = async (id) => {
     user: id
   })
 }
-
-/* 
-const removeRefreshToken = async (id) => {
-  return authenticateModel.remove({
-   user: id
-   })
- } */
-
 
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS

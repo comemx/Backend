@@ -4,11 +4,12 @@ It is in charge of managing the database, here it is specified, where and when t
 
   - CODE INDEX
 
-    1.1.1 [POST] ( CREATE ) LOCAL
-    2.2.2 [PUT] ( UPDATE ) LOCAL
-    3.3.3 [DELETE] ( DELETE ) LOCAL
-    4.4.4 [GET] ( SHOW ) ALL LOCALS
-    5.5.5 [GET] ( SHOW ) LOCAL BY ID
+    1.1.1 [POST] ( CREATE ) PROMOTION
+    2.2.2 [PUT] ( UPDATE ) PROMOTION
+    3.3.3 [PUT] ( UPDATE ) PROMOTION IMAGE
+    4.4.4 [DELETE] ( DELETE ) PROMOTION
+    5.5.5 [GET] ( SHOW ) ALL PROMOTIONS
+    6.6.X [GET] ( SHOW ) PROMOTION BY ID
 
   - MODULE EXPORTS
 
@@ -18,7 +19,7 @@ const promotionModel = require('../../../storage/models/promotion')
 const localModel = require('../../../storage/models/local')
 
 //------------------------------------------------------------------------------------------------
-//1.1.1 ( CREATE ) LOCAL
+//1.1.1 ( CREATE ) PROMOTION
 //------------------------------------------------------------------------------------------------
 
 const add = async (id, promotion) => {
@@ -31,7 +32,7 @@ const add = async (id, promotion) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//2.2.2 ( UPDATE ) LOCAL
+//2.2.2 ( UPDATE ) PROMOTION
 //------------------------------------------------------------------------------------------------
 
 const update = async (id, promotion) => {
@@ -49,7 +50,17 @@ const update = async (id, promotion) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//3.3.3 ( DELETE ) LOCAL
+//3.3.3 ( UPDATE ) PROMOTION IMAGE
+//------------------------------------------------------------------------------------------------
+
+const updateImage = async (filter, update) => {
+  return await promotionModel.findOneAndUpdate(filter, update, {
+    returnOriginal: false
+  })
+}
+
+//------------------------------------------------------------------------------------------------
+//4.4.4 ( DELETE ) PROMOTION
 //------------------------------------------------------------------------------------------------
 
 const remove = async (id, filter) => {
@@ -67,7 +78,7 @@ const remove = async (id, filter) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//4.4.4 ( SHOW ) ALL LOCALS
+//5.5.5 ( SHOW ) ALL PROMOTIONS
 //------------------------------------------------------------------------------------------------
 
 const getAllFoodsDb = async (fname, fprice, fdescription, fdays) => {
@@ -94,21 +105,14 @@ const getAllFoodsDb = async (fname, fprice, fdescription, fdays) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//5.5.5 ( SHOW ) LOCAL BY ID
+//6.6.X ( SHOW ) PROMOTION BY ID
 //------------------------------------------------------------------------------------------------
 
 const getOneFoodByIdDb = async (id) => {
   const posts = await foodModel.findOne({ _id: id })
   return posts
 }
-//------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------
 
-const updateImage = async (filter, update) => {
-  return await promotionModel.findOneAndUpdate(filter, update, {
-    returnOriginal: false
-  })
-}
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------

@@ -35,7 +35,7 @@ const createLocal = async ( user, localName, phoneNumber, address, coordinates, 
   }
 
     const local = {
-      published: false,
+      published: true,
       user,
       image: [],
       photoMenu: [],
@@ -67,20 +67,11 @@ const createLocal = async ( user, localName, phoneNumber, address, coordinates, 
 //2.2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const updateLocal = (id, localName, phoneNumber, address, coordinates, days, arrayOfImage) => {
+const updateLocal = (id, localName, phoneNumber, address, coordinates, days) => {
   return new Promise((resolve, reject) => {
     if (!id || !localName || !phoneNumber || !address || !coordinates || !days) {
       reject('Missing data')
     }
-
-    let imageUrl = ''
-  if(arrayOfImage) {
-    imageUrl = arrayOfImage.location
-  }
-
-  const image = arrayOfImage.map(function (arrayOfImage) {
-    return arrayOfImage.location
-  })
 
     const local = {
       localName,
@@ -88,7 +79,6 @@ const updateLocal = (id, localName, phoneNumber, address, coordinates, days, arr
       address,
       coordinates,
       days,
-      image,
     }
 
     const result = storage.update(id, local)

@@ -15,9 +15,8 @@ In this file is where we put all the routes, here we put the endpoints and infor
     2 [PUT] ( UPDATE ) USER
     3 [PUT] ( UPDATE ) USER IMAGE
     4 [DELETE] ( DELETE ) USER
-    5 [POST] ( LOGIN ) USER
-    6 [GET] ( SHOW ) ALL USERS
-    7 [GET] ( SHOW ) USER BY ID
+    5 [GET] ( SHOW ) ALL USERS
+    6 [GET] ( SHOW ) USER BY ID
 
   - MODULE EXPORTS
 
@@ -93,30 +92,7 @@ router.delete('/:id', async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//5 ( LOGIN ) USER
-//------------------------------------------------------------------------------------------------
-
-/* router.post('/login', async (req, res, next) => {
-  const { email, password } = req.body
-  try {
-    const token = await controller.loginUser(email, password)
-    const finalResponse = {
-      Message: 'Auth success',
-      accessToken: token.accessToken,
-      refreshToken: token.refreshToken
-    }
-    if (token) {
-      response.success(req, res, finalResponse, 200)
-    } else {
-      throw new Error('Login failed')
-    }
-  } catch (error) {
-    response.error(req, res, error.message, 401, error)
-  }
-}) */
-
-//------------------------------------------------------------------------------------------------
-//6 ( SHOW ) ALL USERS
+//5 ( SHOW ) ALL USERS
 //------------------------------------------------------------------------------------------------
 
 router.get('/', async (req, res) => {
@@ -129,7 +105,7 @@ router.get('/', async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//7 ( SHOW ) USER BY ID
+//6 ( SHOW ) USER BY ID
 //------------------------------------------------------------------------------------------------
 
 router.get('/:id', verifyToken, async (req, res) => {
@@ -142,10 +118,6 @@ router.get('/:id', verifyToken, async (req, res) => {
     response.error(req, res, error.message, 400)
   }
 })
-
-//------------------------------------------------------------------------------------------------
-//8 GOOGLE
-//------------------------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS

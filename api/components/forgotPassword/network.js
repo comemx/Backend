@@ -11,6 +11,9 @@ In this file is where we put all the routes, here we put the endpoints and infor
 
   - CODE INDEX
 
+    1 [PUT] ( SEND ) RECOVER PASSWORD LINK
+    2 [PUT] ( CREATE ) NEW PASSWORD
+
   - MODULE EXPORTS
 
 */
@@ -19,13 +22,11 @@ const express = require('express');
 const response = require('../../../network/response');
 const controller = require('./controller');
 const router = express.Router();
-const { upload } = require('../../../libs/multer');
-const verifyToken = require('../../../auth/verifyToken');
 
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
 //------------------------------------------------------------------------------------------------
-//
+//1 ( SEND ) RECOVER PASSWORD LINK
 //------------------------------------------------------------------------------------------------
 
 router.put('/forgot-password', async (req, res) => {
@@ -39,7 +40,7 @@ router.put('/forgot-password', async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//
+//2 ( CREATE ) NEW PASSWORD
 //------------------------------------------------------------------------------------------------
 
 router.put('/new-password', async (req, res) => {

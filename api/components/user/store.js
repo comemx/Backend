@@ -8,9 +8,8 @@ It is in charge of managing the database, here it is specified, where and when t
     2.2.2 [PUT] ( UPDATE ) USER
     3.3.3 [PUT] ( UPDATE ) USER IMAGE
     4.4.4 [DELETE] ( DELETE ) USER
-    5.5.5 [POST] ( LOGIN ) USER
-    6.6.X [GET] ( SHOW ) ALL USERS
-    7.7.7 [GET] ( SHOW ) USER BY ID
+    5.5.5 [GET] ( SHOW ) ALL USERS
+    6.6.X [GET] ( SHOW ) USER BY ID
 
   - MODULE EXPORTS
 
@@ -68,16 +67,7 @@ const remove = async (filter) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//5.5.5 ( LOGIN ) USER
-//------------------------------------------------------------------------------------------------
-
-const getOneByFilter = async (filter) => {
-  const data = await userModel.find(filter)
-  return data
-}
-
-//------------------------------------------------------------------------------------------------
-//6.6.X ( SHOW ) ALL USERS
+//5.5.5 ( SHOW ) ALL USERS
 //------------------------------------------------------------------------------------------------
 
 const getAllUsersDb = () => {
@@ -85,7 +75,7 @@ const getAllUsersDb = () => {
 }
 
 //------------------------------------------------------------------------------------------------
-//7.7.7 ( SHOW ) USER BY ID
+//6.6.X ( SHOW ) USER BY ID
 //------------------------------------------------------------------------------------------------
 
 const getOneUserByIdDb = async (id) => {
@@ -113,7 +103,6 @@ module.exports = {
   update,
   updateImage,
   remove,
-  getOneByFilter,
   getAllUsersDb,
   getOneUserByIdDb,
 }

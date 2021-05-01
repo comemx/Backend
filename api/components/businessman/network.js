@@ -11,13 +11,13 @@ In this file is where we put all the routes, here we put the endpoints and infor
 
   - CODE INDEX
 
-    1 [POST] ( CREATE ) USER
-    2 [PUT] ( UPDATE ) USER
-    3 [PUT] ( UPDATE ) USER IMAGE
-    4 [DELETE] ( DELETE ) USER
-    5 [POST] ( LOGIN ) USER
-    6 [GET] ( SHOW ) ALL USERS
-    7 [GET] ( SHOW ) USER BY ID
+    1 [POST] ( CREATE ) BUSINESSMAN
+    2 [PUT] ( UPDATE ) BUSINESSMAN
+    3 [PUT] ( UPDATE ) BUSINESSMAN IMAGE
+    4 [DELETE] ( DELETE ) BUSINESSMAN
+    5 [GET] ( SHOW ) ALL BUSINESSMEN
+    6 [GET] ( SHOW ) BUSINESSMAN BY ID
+    7 [GET] ( SHOW ) BUSINESSMAN lOCALS
 
   - MODULE EXPORTS
 
@@ -33,7 +33,7 @@ const verifyToken = require('../../../auth/verifyToken');
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
 //------------------------------------------------------------------------------------------------
-//1 ( CREATE ) USER
+//1 ( CREATE ) BUSINESSMAN
 //------------------------------------------------------------------------------------------------
 
 router.post('/registro', async (req, res) => {
@@ -47,7 +47,7 @@ router.post('/registro', async (req, res) => {
   })
 
 //------------------------------------------------------------------------------------------------
-//2 ( UPDATE ) USER
+//2 ( UPDATE ) BUSINESSMAN
 //------------------------------------------------------------------------------------------------
 
 router.put('/:id', verifyToken, async (req, res) => {
@@ -64,7 +64,7 @@ router.put('/:id', verifyToken, async (req, res) => {
   })
 
 //------------------------------------------------------------------------------------------------
-//3 ( UPDATE ) USER IMAGE
+//3 ( UPDATE ) BUSINESSMAN IMAGE
 //------------------------------------------------------------------------------------------------
 
 router.post('/editimage/:id', verifyToken, upload.single('image'), async (req, res) =>{
@@ -78,7 +78,7 @@ router.post('/editimage/:id', verifyToken, upload.single('image'), async (req, r
 })
 
 //------------------------------------------------------------------------------------------------
-//4 ( DELETE ) USER
+//4 ( DELETE ) BUSINESSMAN
 //------------------------------------------------------------------------------------------------
 
 router.delete('/:id', verifyToken, async (req, res) => {
@@ -92,7 +92,7 @@ router.delete('/:id', verifyToken, async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//6 ( SHOW ) ALL USERS
+//6 ( SHOW ) ALL BUSINESSMEN
 //------------------------------------------------------------------------------------------------
 
 router.get('/', async (req, res) => {
@@ -105,7 +105,7 @@ router.get('/', async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//7 ( SHOW ) USER BY ID
+//7 ( SHOW ) BUSINESSMAN BY ID
 //------------------------------------------------------------------------------------------------
 
 router.get('/:id', verifyToken, async (req, res) => {
@@ -120,7 +120,7 @@ router.get('/:id', verifyToken, async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//
+//8 ( SHOW ) BUSINESSMAN lOCALS
 //------------------------------------------------------------------------------------------------
 
 router.get('/locals/:id', verifyToken, async (req, res) => {
@@ -133,7 +133,6 @@ router.get('/locals/:id', verifyToken, async (req, res) => {
     response.error(req, res, error.message, 400)
   }
 })
-
 
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS

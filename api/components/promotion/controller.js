@@ -7,6 +7,13 @@ in this file is all the logic, everything that is modify, change or check, is do
 
   - CODE INDEX
 
+    1.1 [POST] ( CREATE ) PROMOTION
+    2.2 [PUT] ( UPDATE ) PROMOTION
+    3.3 [PUT] ( UPDATE ) PROMOTION IMAGE
+    4.4 [DELETE] ( DELETE ) PROMOTION
+    5.5 [GET] ( SHOW ) ALL PROMOTIONS
+    6.6 [GET] ( SHOW ) PROMOTION BY ID
+
   - MODULE EXPORTS
 
 */
@@ -14,7 +21,7 @@ in this file is all the logic, everything that is modify, change or check, is do
 const storage = require('./store')
 
 //------------------------------------------------------------------------------------------------
-//1.1 ( CREATE ) LOCAL
+//1.1 ( CREATE ) PROMOTION
 //------------------------------------------------------------------------------------------------
 
 const createFood = async (id, name, price, description, image) => {
@@ -50,25 +57,19 @@ const createFood = async (id, name, price, description, image) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//2.2 ( UPDATE ) LOCAL
+//2.2 ( UPDATE ) PROMOTION
 //------------------------------------------------------------------------------------------------
 
-const updatePromotion = (id, name, price, description, image) => {
+const updatePromotion = (id, name, price, description) => {
   return new Promise((resolve, reject) => {
-    if (!id || !name || !price || !description || !image) {
+    if (!id || !name || !price || !description) {
       reject('Missing data')
     }
-
-    let imageUrl = ''
-  if(image) {
-    imageUrl = image.location
-  }
 
     const promotion = {
       name,
       price,
       description,
-      image: imageUrl,
     }
 
     const newPromotion = storage.update(id, promotion)
@@ -82,39 +83,7 @@ const updatePromotion = (id, name, price, description, image) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//3.3 ( DELETE ) LOCAL
-//------------------------------------------------------------------------------------------------
-const deleteFood = async(id) => {
-  if (!id) {
-    throw new Error('Missing data')
-  } else {
-
-    const filter = {
-      _id: id
-    }
-    
-    return await storage.remove(id, filter)
-  }
-}
-
-//------------------------------------------------------------------------------------------------
-//4.4 ( SHOW ) ALL LOCALS
-//------------------------------------------------------------------------------------------------
-
-const getAllFoods = async (name, price, description) => {
-  const result = await storage.getAllFoodsDb(name, price, description)
-  return result
-}
-
-//------------------------------------------------------------------------------------------------
-//5.5 ( SHOW ) LOCAL BY ID
-//------------------------------------------------------------------------------------------------
-
-const getFoodById = async (id) => {
-  const result = await storage.getOneFoodByIdDb(id)
-  return result
-}
-//------------------------------------------------------------------------------------------------
+//3.3 ( UPDATE ) PROMOTION IMAGE
 //------------------------------------------------------------------------------------------------
 
 const editPromotionImage = async (id, image) => {
@@ -133,6 +102,42 @@ const editPromotionImage = async (id, image) => {
 
     return storage.updateImage(filter, imageData)
 }
+
+//------------------------------------------------------------------------------------------------
+//4.4 ( DELETE ) PROMOTION
+//------------------------------------------------------------------------------------------------
+
+const deleteFood = async(id) => {
+  if (!id) {
+    throw new Error('Missing data')
+  } else {
+
+    const filter = {
+      _id: id
+    }
+    
+    return await storage.remove(id, filter)
+  }
+}
+
+//------------------------------------------------------------------------------------------------
+//5.5 ( SHOW ) ALL PROMOTIONS
+//------------------------------------------------------------------------------------------------
+
+const getAllFoods = async (name, price, description) => {
+  const result = await storage.getAllFoodsDb(name, price, description)
+  return result
+}
+
+//------------------------------------------------------------------------------------------------
+//6.6 ( SHOW ) PROMOTION BY ID
+//------------------------------------------------------------------------------------------------
+
+const getFoodById = async (id) => {
+  const result = await storage.getOneFoodByIdDb(id)
+  return result
+}
+
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------

@@ -25,11 +25,10 @@ const jwt = require('jsonwebtoken');
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
 //------------------------------------------------------------------------------------------------
-//1 ( VERIFY ) TOKEN
+//1.1 ( VERIFY ) TOKEN
 //------------------------------------------------------------------------------------------------
 
 const verifyRefreshToken = async (refreshToken) => {
-console.log("1",refreshToken)
   if (!refreshToken) {
     throw new Error('something wrong happened')
   }
@@ -53,19 +52,17 @@ console.log("1",refreshToken)
 }
 
 //------------------------------------------------------------------------------------------------
-//2 ( LOGIN ) USER
+//2.2 ( LOGIN ) USER
 //------------------------------------------------------------------------------------------------
 
 const loginUser = async (email, password) => {
   const user = await storage.getOneByFilterUser({email})
-  console.log("user",user)
 
   if (user.length < 1) {
     throw new Error('Login failed')
   }
 
   const userId = user[0]._id
-  console.log("userId",userId)
 
   const isCorrect = bcrypt.compareSync(password, user[0].password)
   if (isCorrect === true) {
@@ -86,12 +83,11 @@ const loginUser = async (email, password) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//3 ( LOGIN ) BUSINESSMAN
+//3.3 ( LOGIN ) BUSINESSMAN
 //------------------------------------------------------------------------------------------------
 
 const loginBusinessman = async (email, password) => {
   const user = await storage.getOneByFilterBusinessman({ email })
-  console.log("user", email, password)
 
   if (user.length < 1) {
     throw new Error('Login failed')
@@ -113,7 +109,7 @@ const loginBusinessman = async (email, password) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//4 ( LOGOUT ) USER
+//4.4 ( LOGOUT ) USER
 //------------------------------------------------------------------------------------------------
 
 const logoutUser = async (token) => {

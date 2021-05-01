@@ -13,9 +13,14 @@ In this file is where we put all the routes, here we put the endpoints and infor
 
     1 [POST] ( CREATE ) LOCAL
     2 [PUT] ( UPDATE ) LOCAL
-    3 [DELETE] ( DELETE ) LOCAL
-    4 [GET] ( SHOW ) ALL LOCALS
-    5 [GET] ( SHOW ) LOCAL BY ID
+    3 [POST] ( UPDATE ) LOCAL IMAGES
+    4 [POST] ( UPDATE ) LOCAL LOGO
+    5 [DELETE] ( DELETE ) LOCAL
+    6 [GET] ( SHOW ) ALL LOCALS
+    7 [GET] ( SHOW ) LOCAL BY ID
+    8 [POST] (ADD) FAVOTITE POSTS
+    9 [DELETE] (DELETE) FAVOTITE POSTS
+    10 [POST] (CREATE) PHOTO MENU
 
   - MODULE EXPORTS
 
@@ -47,11 +52,11 @@ router.post('/addlocal/:id', verifyToken, async (req, res) => {
 //2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', verifyToken, upload.array('image', 3), (req, res) => {
+router.put('/:id', verifyToken, (req, res) => {
   const { id } = req.params
   const { localName, phoneNumber, address, coordinates, days } = req.body
 
-  controller.updateLocal(id, localName, phoneNumber, address, coordinates, days, req.files)
+  controller.updateLocal(id, localName, phoneNumber, address, coordinates, days)
     .then(data => {
       response.success(req, res, data, 200)
     })
@@ -61,7 +66,21 @@ router.put('/:id', verifyToken, upload.array('image', 3), (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//( UPDATE ) LOGO
+//3 ( UPDATE ) LOCAL IMAGES
+//------------------------------------------------------------------------------------------------
+
+router.post('/local-images/:id', verifyToken, upload.array('image', 3), async (req, res) =>{
+  const { id } = req.params
+  try {
+    const logoImage = await controller.editLocalImages(id, req.files)
+    response.success(req, res, logoImage, 201)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
+})
+
+//------------------------------------------------------------------------------------------------
+//4 ( UPDATE ) LOGO
 //------------------------------------------------------------------------------------------------
 
 router.post('/logo/:id', verifyToken, upload.single('logo'), async (req, res) =>{
@@ -74,9 +93,8 @@ router.post('/logo/:id', verifyToken, upload.single('logo'), async (req, res) =>
   }
 })
 
-
 //------------------------------------------------------------------------------------------------
-//3 ( DELETE ) LOCAL
+//5 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
 router.delete('/:id',verifyToken, async (req, res) => {
@@ -91,7 +109,7 @@ router.delete('/:id',verifyToken, async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//4 ( SHOW ) ALL LOCALS
+//6 ( SHOW ) ALL LOCALS
 //------------------------------------------------------------------------------------------------
 
 router.get('/', async (req, res) => {
@@ -114,7 +132,7 @@ router.get('/', async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//5 ( SHOW ) LOCAL BY ID
+//7 ( SHOW ) LOCAL BY ID
 //------------------------------------------------------------------------------------------------
 
 router.get('/:id', async (req, res) => {
@@ -132,7 +150,7 @@ router.get('/:id', async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-// 6. [POST] - ADD FAVOTITE POSTS
+//8 ( ADD ) FAVOTITE POSTS
 //------------------------------------------------------------------------------------------------
 
 router.post('/add-favorite/:id', verifyToken, async (req, res) => {
@@ -147,7 +165,7 @@ router.post('/add-favorite/:id', verifyToken, async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-// 7. [delete] - DELETE FAVOTITE POSTS
+//9 ( DELETE ) FAVOTITE POSTS
 //------------------------------------------------------------------------------------------------
 
 router.delete('/delete-favorite/:id', verifyToken, async (req, res) => {
@@ -162,7 +180,7 @@ router.delete('/delete-favorite/:id', verifyToken, async (req, res) => {
 })
 
 //------------------------------------------------------------------------------------------------
-//
+//10 (CREATE) PHOTO MENU
 //------------------------------------------------------------------------------------------------
 
 router.post('/photo_menu/:id', verifyToken, upload.array('photoMenu', 2), async (req, res) =>{
@@ -175,34 +193,6 @@ router.post('/photo_menu/:id', verifyToken, upload.array('photoMenu', 2), async 
   }
 })
 
-//------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------
-
-
-router.post('/local-images/:id', verifyToken, upload.array('image', 3), async (req, res) =>{
-  const { id } = req.params
-  try {
-    const logoImage = await controller.editLocalImages(id, req.files)
-    response.success(req, res, logoImage, 201)
-  } catch (error) {
-    response.error(req, res, error.message, 400, error)
-  }
-})
-//------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------
-
-
-router.post('/please', async (req, res) =>{
-  try {
-    console.log("aaaaaaaaaaaaaaaa")
-    const data = await controller.deleteImagesForGod()
-    response.success(req, res, data, 201)
-  } catch (error) {
-    response.error(req, res, error.message, 400, error)
-  }
-})
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------

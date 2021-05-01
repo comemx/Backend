@@ -6,9 +6,14 @@ It is in charge of managing the database, here it is specified, where and when t
 
     1.1.1 [POST] ( CREATE ) LOCAL
     2.2.2 [PUT] ( UPDATE ) LOCAL
-    3.3.3 [DELETE] ( DELETE ) LOCAL
-    4.4.4 [GET] ( SHOW ) ALL LOCALS
-    5.5.5 [GET] ( SHOW ) LOCAL BY ID
+    3.3.3 [POST] ( UPDATE ) LOCAL IMAGES
+    4.4.4 [POST] ( UPDATE ) LOCAL LOGO
+    5.5.5 [DELETE] ( DELETE ) LOCAL
+    6.6.X [GET] ( SHOW ) ALL LOCALS
+    7.7.7 [GET] ( SHOW ) LOCAL BY ID
+    8.8.8 [POST] (ADD) FAVOTITE POSTS
+    9.9.9 [DELETE] (DELETE) FAVOTITE POSTS
+    10.10.10 [POST] (CREATE) PHOTO MENU
 
   - MODULE EXPORTS
 
@@ -45,17 +50,35 @@ const update = async (id, local) => {
 
   retrievedLocal = Object.fromEntries(entrie)
 
-  console.log(retrievedLocal)
   const newdLocal = await localModel.findByIdAndUpdate(id, retrievedLocal)
   return newdLocal
 }
 
 //------------------------------------------------------------------------------------------------
-//3.3.3 ( DELETE ) LOCAL
+//3.3.3 ( UPDATE ) LOCAL IMAGES
+//------------------------------------------------------------------------------------------------
+
+const updateLocalImage = async (filter, update) => {
+  return await localModel.findOneAndUpdate(filter, update, {
+    returnOriginal: false
+  })
+}
+
+//------------------------------------------------------------------------------------------------
+//4.4.4 ( UPDATE ) LOCAL LOGO
+//------------------------------------------------------------------------------------------------
+
+const updateLogoImage = async (filter, update) => {
+  return await localModel.findOneAndUpdate(filter, update, {
+    returnOriginal: false
+  })
+}
+
+//------------------------------------------------------------------------------------------------
+//5.5.5 ( DELETE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
 const remove = async (id, idUser, filter) => {
-  //console.log("",)
   const data = await localModel.findByIdAndRemove(filter)
   const user = await businessmanModel.findOne({ _id: idUser })
   user.locals.remove({
@@ -68,19 +91,8 @@ const remove = async (id, idUser, filter) => {
   }
 }
 
-
-
-/* const deleteFavorite = async (id, idUser) => {
-  const data = await userModel.findById(idUser)
-  data.favorite.remove({
-    _id: id
-  })
-  data.save()
-  userModel.update()
-} */
-
 //------------------------------------------------------------------------------------------------
-//4.4.4 ( SHOW ) ALL LOCALS
+//6.6.X ( SHOW ) ALL LOCALS
 //------------------------------------------------------------------------------------------------
 
 const getAllLocalsDb = async (flocalName, fphoneNumber, faddress, fdays) => {
@@ -105,8 +117,6 @@ const getAllLocalsDb = async (flocalName, fphoneNumber, faddress, fdays) => {
     }
   }
 
-  console.log("filter",filter)
-
   const locals = await localModel
   .find(filter)
   .exec()
@@ -115,7 +125,7 @@ const getAllLocalsDb = async (flocalName, fphoneNumber, faddress, fdays) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//5.5.5 ( SHOW ) LOCAL BY ID
+//7.7.7 ( SHOW ) LOCAL BY ID
 //------------------------------------------------------------------------------------------------
 
 const getOneUserByIdDb = async (id) => {
@@ -128,21 +138,20 @@ const getOneUserByIdDb = async (id) => {
   .exec()
   return posts
 }
+
 //------------------------------------------------------------------------------------------------
-// 6.6.x [addFavorite] - ADD FAVOTITE POSTS
+// 8.8.8 ( ADD ) FAVOTITE POSTS
 //------------------------------------------------------------------------------------------------
 
 const addFavorite = async (id, idUser) => {
-  console.log("id, idUser store", id, idUser)
   const data = await userModel.findById(idUser)
-  console.log("data", data)
   data.favorite.push(id)
   userModel.updateOne()
   return data.save()
 }
 
 //------------------------------------------------------------------------------------------------
-// 7.7.7 [deleteFavorite] - DELETE FAVOTITE POSTS
+//9.9.9 ( DELETE ) FAVOTITE POSTS
 //------------------------------------------------------------------------------------------------
 const deleteFavorite = async (id, idUser) => {
   const data = await userModel.findById(idUser)
@@ -152,31 +161,12 @@ const deleteFavorite = async (id, idUser) => {
   data.save()
   userModel.updateOne()
 }
-//------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------
-
-const updateLogoImage = async (filter, update) => {
-  console.log("informacion", filter, update)
-  return await localModel.findOneAndUpdate(filter, update, {
-    returnOriginal: false
-  })
-}
 
 //------------------------------------------------------------------------------------------------
+//10.10.10 (CREATE) PHOTO MENU
 //------------------------------------------------------------------------------------------------
 
 const updateMenuImage = async (filter, update) => {
-  console.log("informacion", filter, update)
-  return await localModel.findOneAndUpdate(filter, update, {
-    returnOriginal: false
-  })
-}
-
-//------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------
-
-const updateLocalImage = async (filter, update) => {
-  console.log("informacion", filter, update)
   return await localModel.findOneAndUpdate(filter, update, {
     returnOriginal: false
   })

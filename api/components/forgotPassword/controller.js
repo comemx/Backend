@@ -7,6 +7,9 @@ in this file is all the logic, everything that is modify, change or check, is do
 
   - CODE INDEX
 
+    1.1 [PUT] ( SEND ) RECOVER PASSWORD LINK
+    2.2 [PUT] ( CREATE ) NEW PASSWORD
+
   - MODULE EXPORTS
 
 */
@@ -21,7 +24,7 @@ const { transporter } = require('../../../auth/mailer')
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
 //------------------------------------------------------------------------------------------------
-//
+//1.1 ( SEND ) RECOVER PASSWORD LINK
 //------------------------------------------------------------------------------------------------
 
 const recoverPassword = async (email) => {
@@ -45,9 +48,6 @@ const recoverPassword = async (email) => {
       resetToken: verificationLink
     }
 
-
-    
-
 // create reusable transporter object using the default SMTP transport
 
   const transporter = nodemailer.createTransport({
@@ -67,14 +67,10 @@ const recoverPassword = async (email) => {
     subject: "Forgot password Subject line", // Subject line
     //text: "Hello world?", // plain text body
     html:`
-    <b> ffffffffffffffffffffffffffffffffffffffffffffff:</b>
+    <b> -------------------------------------------- :</b>
     <a href="${verificationLink}"> ${verificationLink}</a>
     `
   });
-
-
-
-
 
     const userUpdate = await storage.update(filter, userRefresh)
     if (userUpdate) {
@@ -87,11 +83,10 @@ const recoverPassword = async (email) => {
   } catch (error){
     throw new Error('Missing data')
   }
-
 }
 
 //------------------------------------------------------------------------------------------------
-//
+//2.2 ( CREATE ) NEW PASSWORD
 //------------------------------------------------------------------------------------------------
 
 const createNewPassword = async (password, recoverPasswordToken) => {
@@ -103,7 +98,6 @@ const createNewPassword = async (password, recoverPasswordToken) => {
   const userId = recoverPasswordTokenData.user
   const userlData = await storage.getOneByFilter({ _id: userId })
 
-  console.log("userlData", userlData[0].password)
    const newPassword = await bcrypt.hash(password, 10)
 
 
@@ -122,33 +116,6 @@ const createNewPassword = async (password, recoverPasswordToken) => {
   } else {
     throw new Error('User not found')
   }
-
-  /* if (userUpdate) {
-    if (userUpdate.password) {
-      const hashedPassword = await new Promise((resolve, reject) => {
-        bcrypt.hash(userUpdate.password, 10, async (err, hashed) => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(hashed)
-          }
-        })
-      })
-      
-      userUpdate.password = hashedPassword
-    }
-    const filter = {
-      _id: userUpdate._id
-    }
-    const userUpdated = await storage.update(filter, userUpdate)
-    if (userUpdated) {
-      return userUpdated
-    } else {
-      throw new Error('User not found')
-    }
-  } else {
-    throw new Error('Error updating user')
-  } */
 }
 
 //------------------------------------------------------------------------------------------------

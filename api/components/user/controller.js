@@ -11,9 +11,8 @@ in this file is all the logic, everything that is modify, change or check, is do
     2.2 [PUT] ( UPDATE ) USER
     3.3 [PUT] ( UPDATE ) USER IMAGE
     4.4 [DELETE] ( DELETE ) USER
-    5.5 [POST] ( LOGIN ) USER
-    6.6 [GET] ( SHOW ) ALL USERS
-    7.7 [GET] ( SHOW ) USER BY ID
+    5.5 [GET] ( SHOW ) ALL USERS
+    6.6 [GET] ( SHOW ) USER BY ID
 
   - MODULE EXPORTS
 
@@ -21,7 +20,6 @@ in this file is all the logic, everything that is modify, change or check, is do
 
 const storage = require('./store')
 const bcrypt = require('bcrypt')
-const auth = require('../../../auth/index')
 
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
@@ -135,28 +133,7 @@ const deleteUser = async(id) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//5.5 ( LOGIN ) USER
-//------------------------------------------------------------------------------------------------
-
-/* const loginUser = async (email, password) => {
-  const user = await storage.getOneByFilter({ email })
-  console.log('informacion', user)
-
-  if (user.length < 1) {
-    throw new Error('Login failed')
-  }
-  const isCorrect = bcrypt.compareSync(password, user[0].password)
-  if (isCorrect === true) {
-    const accessToken = auth.createAccessToken(user[0]._id, user[0].email, user[0].fullname)
-    const refreshToken = auth.createRefreshToken(user[0]._id, user[0].email, user[0].fullname)
-    console.log("accessToken in controller", accessToken)
-    console.log("refreshToken in controller", refreshToken)
-    return {accessToken, refreshToken}
-  }
-}
- */
-//------------------------------------------------------------------------------------------------
-//6.6 ( SHOW ) ALL USERS
+//5.5 ( SHOW ) ALL USERS
 //------------------------------------------------------------------------------------------------
 
 const getAllUsers = () => {
@@ -164,7 +141,7 @@ const getAllUsers = () => {
 }
 
 //------------------------------------------------------------------------------------------------
-//7.7 ( SHOW ) USER BY ID
+//6.6 ( SHOW ) USER BY ID
 //------------------------------------------------------------------------------------------------
 
 const getOneUserById = async (id) => {
@@ -185,7 +162,6 @@ module.exports = {
   updateUser,
   editUserImage,
   deleteUser,
-  //loginUser,
   getAllUsers,
   getOneUserById,
 }

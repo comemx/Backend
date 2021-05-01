@@ -24,7 +24,6 @@ const express = require('express');
 const response = require('../../../network/response');
 const controller = require('./controller');
 const router = express.Router();
-const verifyToken = require('../../../auth/verifyToken');
 
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
@@ -34,7 +33,6 @@ const verifyToken = require('../../../auth/verifyToken');
 
 router.post('/verify', async (req, res) => {
   const refreshToken = req.headers["verifyauthorization"];
-  console.log(refreshToken)
     try {
       const token = await controller.verifyRefreshToken(refreshToken)
       const finalResponse = {
@@ -46,7 +44,6 @@ router.post('/verify', async (req, res) => {
       response.error(req, res, error.message, 400, error)
     }
 })
-
 
 //------------------------------------------------------------------------------------------------
 //2 ( LOGIN ) USER

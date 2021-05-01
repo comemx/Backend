@@ -4,11 +4,12 @@ It is in charge of managing the database, here it is specified, where and when t
 
   - CODE INDEX
 
-    1.1.1 [POST] ( CREATE ) LOCAL
-    2.2.2 [PUT] ( UPDATE ) LOCAL
-    3.3.3 [DELETE] ( DELETE ) LOCAL
-    4.4.4 [GET] ( SHOW ) ALL LOCALS
-    5.5.5 [GET] ( SHOW ) LOCAL BY ID
+    1.1.1 [POST] ( CREATE ) FOOD
+    2.2.2 [PUT] ( UPDATE ) FOOD
+    3.3.3 [PUT] ( UPDATE ) FOOD IMAGE
+    4.4.4 [DELETE] ( DELETE ) FOOD
+    5.5.5 [GET] ( SHOW ) ALL FOODS
+    6.6.X [GET] ( SHOW ) FOOD BY ID
 
   - MODULE EXPORTS
 
@@ -18,7 +19,7 @@ const foodModel = require('../../../storage/models/food')
 const localModel = require('../../../storage/models/local')
 
 //------------------------------------------------------------------------------------------------
-//1.1.1 ( CREATE ) LOCAL
+//1.1.1 ( CREATE ) FOOD
 //------------------------------------------------------------------------------------------------
 
 const add = async (id, food) => {
@@ -31,7 +32,7 @@ const add = async (id, food) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//2.2.2 ( UPDATE ) LOCAL
+//2.2.2 ( UPDATE ) FOOD
 //------------------------------------------------------------------------------------------------
 
 const update = async (id, food) => {
@@ -50,7 +51,17 @@ const update = async (id, food) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//3.3.3 ( DELETE ) LOCAL
+//3.3.3 ( UPDATE ) FOOD IMAGE
+//------------------------------------------------------------------------------------------------
+
+const updateImage = async (filter, update) => {
+  return await foodModel.findOneAndUpdate(filter, update, {
+    returnOriginal: false
+  })
+}
+
+//------------------------------------------------------------------------------------------------
+//4.4.4 ( DELETE ) FOOD
 //------------------------------------------------------------------------------------------------
 
 const remove = async (id, filter) => {
@@ -68,7 +79,7 @@ const remove = async (id, filter) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//4.4.4 ( SHOW ) ALL LOCALS
+//5.5.5 ( SHOW ) ALL FOODS
 //------------------------------------------------------------------------------------------------
 
 const getAllFoodsDb = async (fname, fprice, fdescription, fdays) => {
@@ -95,7 +106,7 @@ const getAllFoodsDb = async (fname, fprice, fdescription, fdays) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//5.5.5 ( SHOW ) LOCAL BY ID
+//6.6.X ( SHOW ) FOOD BY ID
 //------------------------------------------------------------------------------------------------
 
 const getOneFoodByIdDb = async (id) => {
@@ -103,14 +114,7 @@ const getOneFoodByIdDb = async (id) => {
   return posts
 }
 
-//------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------
 
-const updateImage = async (filter, update) => {
-  return await foodModel.findOneAndUpdate(filter, update, {
-    returnOriginal: false
-  })
-}
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------

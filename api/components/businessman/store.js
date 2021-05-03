@@ -11,6 +11,7 @@ It is in charge of managing the database, here it is specified, where and when t
     5.5.5 [GET] ( SHOW ) ALL BUSINESSMEN
     6.6.X [GET] ( SHOW ) BUSINESSMAN BY ID
     7.7.7 [GET] ( SHOW ) BUSINESSMAN lOCALS
+    8.8.8 ( FILTER ) USER MODEL
 
   - MODULE EXPORTS
 
@@ -108,6 +109,15 @@ const getLocalsOfUserDb = async (id) => {
 }
 
 //------------------------------------------------------------------------------------------------
+//8.8.8 ( FILTER ) USER MODEL
+//------------------------------------------------------------------------------------------------
+
+const getOneByFilter = async (filter) => {
+  const data = await businessmanModel.find(filter)
+  return data
+}
+
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
@@ -118,5 +128,6 @@ module.exports = {
   remove,
   getAllUsersDb,
   getOneUserByIdDb,
-  getLocalsOfUserDb
+  getLocalsOfUserDb,
+  getOneByFilter
 }

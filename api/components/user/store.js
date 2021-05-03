@@ -10,6 +10,7 @@ It is in charge of managing the database, here it is specified, where and when t
     4.4.4 [DELETE] ( DELETE ) USER
     5.5.5 [GET] ( SHOW ) ALL USERS
     6.6.X [GET] ( SHOW ) USER BY ID
+    7.7.7 ( FILTER ) USER MODEL
 
   - MODULE EXPORTS
 
@@ -95,6 +96,15 @@ const getOneUserByIdDb = async (id) => {
 }
 
 //------------------------------------------------------------------------------------------------
+//7.7.7 ( FILTER ) USER MODEL
+//------------------------------------------------------------------------------------------------
+
+const getOneByFilter = async (filter) => {
+  const data = await userModel.find(filter)
+  return data
+}
+
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
@@ -105,4 +115,5 @@ module.exports = {
   remove,
   getAllUsersDb,
   getOneUserByIdDb,
+  getOneByFilter
 }

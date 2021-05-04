@@ -11,7 +11,10 @@ const userSchema = new Schema({
     type: [String],
     default: undefined
   },
-  fullname: String,
+  fullname: {
+    type: String,
+    maxlength: [10,"Nombre muy largo, máximo 20 caracteres"]
+  },
   email: {
     type: String,
     match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/

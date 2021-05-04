@@ -29,7 +29,7 @@ const add = async (user) => {
   try {
     return await myUser.save()
   } catch (error) {
-    throw new User(error)
+    throw new Error (error)
   }
 }
 

@@ -28,6 +28,7 @@ const controller = require('./controller');
 const router = express.Router();
 const { upload } = require('../../../libs/multer');
 const verifyToken = require('../../../auth/verifyToken');
+const VerifySchema = require('../../../middleware/VerifySchema');
 
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
@@ -35,7 +36,7 @@ const verifyToken = require('../../../auth/verifyToken');
 //1 ( CREATE ) USER
 //------------------------------------------------------------------------------------------------
 
-router.post('/registro', async (req, res) => {
+router.post('/registro',VerifySchema, async (req, res) => {
   const {fullname, email, password} = req.body
     try {
       const user = await controller.createUser(fullname, email, password)

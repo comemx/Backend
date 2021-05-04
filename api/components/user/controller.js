@@ -55,7 +55,6 @@ const createUser = async (fullname, email, password) => {
       password: hashedPassword,
       resetToken: ""
     }
-console.log(user)
       return storage.add(user)
     }
 }

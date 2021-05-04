@@ -24,15 +24,10 @@ const storage = require('./store')
 //1.1 ( CREATE ) PROMOTION
 //------------------------------------------------------------------------------------------------
 
-const createFood = async (id, name, price, description, image) => {
+const createFood = async (id, name, price, description) => {
   try{
-  if (!id || !name || !price || !description || !image) {
+  if (!id || !name || !price || !description) {
     throw new Error('Missing data')
-  }
-
-  let imageUrl = ''
-  if(image) {
-    imageUrl = image.location
   }
 
     const promotion = {
@@ -40,7 +35,7 @@ const createFood = async (id, name, price, description, image) => {
       name,
       price,
       description,
-      image: imageUrl,
+      image: []
     }
 
     const newPromotion = await storage.add(id, promotion)

@@ -8,9 +8,24 @@ const Schema = mongoose.Schema
 
 const promotionSchema = new Schema({
     locals: [{ type: Schema.Types.ObjectId, ref: 'locals' }],
-    name: String,
-    price: String,
-    description: String,
+    name: {
+      type: String,
+      minLength: 2,
+      maxlength: 35,
+      require: true
+    },
+    price: {
+      type: Number,
+      min: 1,
+      max: 999999,
+      require: true
+    },
+    description: {
+      type: String,
+      minLength: 3,
+      maxlength: 45,
+      require: true
+    },
     image: {
       type: [String],
       default: undefined

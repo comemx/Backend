@@ -28,17 +28,18 @@ const controller = require('./controller');
 const router = express.Router();
 const { upload } = require('../../../libs/multer');
 const verifyToken = require('../../../auth/verifyToken');
+const validations = require('../../../middleware/validations');
 
 //------------------------------------------------------------------------------------------------
 //1 ( CREATE ) PROMOTION
 //------------------------------------------------------------------------------------------------
 
-router.post('/:id', verifyToken, upload.single('image'), async (req, res) => {
+router.post('/:id', validations.validate(validations.createAndUpdateFoodPromotionsValidation), verifyToken, async (req, res) => {
   const { id } = req.params
   const { name, price, description } = req.body
   
   try {
-      const food = await controller.createFood(id, name, price, description, req.file)
+      const food = await controller.createFood(id, name, price, description)
       response.success(req, res, food, 201)
     } catch (error) {
       response.error(req, res, error.message, 400, error)
@@ -49,10 +50,11 @@ router.post('/:id', verifyToken, upload.single('image'), async (req, res) => {
 //2 ( UPDATE ) PROMOTION
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', verifyToken, (req, res) => {
+router.put('/:id', validations.validate(validations.createAndUpdateFoodPromotionsValidation), verifyToken, (req, res) => {
+  const { id } = req.params
   const { name, price, description } = req.body
 
-  controller.updatePromotion(req.params.id, name, price, description)
+  controller.updatePromotion(id, name, price, description)
     .then(data => {
       response.success(req, res, data, 200)
     })

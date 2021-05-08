@@ -28,7 +28,7 @@ const controller = require('./controller');
 const router = express.Router();
 const { upload } = require('../../../libs/multer');
 const verifyToken = require('../../../auth/verifyToken');
-const VerifySchema = require('../../../middleware/VerifySchema');
+const validations = require('../../../middleware/validations');
 
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
@@ -36,9 +36,10 @@ const VerifySchema = require('../../../middleware/VerifySchema');
 //1 ( CREATE ) USER
 //------------------------------------------------------------------------------------------------
 
-router.post('/registro',VerifySchema, async (req, res) => {
+router.post('/registro', validations.validate(validations.createUsersValidation), async (req, res) => {
   const {fullname, email, password} = req.body
-    try {
+
+  try {
       const user = await controller.createUser(fullname, email, password)
       response.success(req, res, user, 201)
     } catch (error) {
@@ -50,12 +51,11 @@ router.post('/registro',VerifySchema, async (req, res) => {
 //2 ( UPDATE ) USER
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', verifyToken, async (req, res) => {
+router.put('/:id', validations.validate(validations.updateUsersValidation), verifyToken, async (req, res) => {
   const { id } = req.params
   const { body: user } = req
   user._id = id
   try {
-    console.log("network update user")
     const data = await controller.updateUser(user)
     response.success(req, res, data, 200)
   } catch (error) {
@@ -71,7 +71,6 @@ router.post('/editimage/:id', verifyToken, upload.single('image'), async (req, r
   const { id } = req.params
   try {
     const userImage = await controller.editUserImage(id, req.file)
-    console.log("network image", req.file)
     response.success(req, res, userImage, 201)
   } catch (error) {
     response.error(req, res, error.message, 400, error)

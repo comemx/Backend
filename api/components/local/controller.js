@@ -37,6 +37,8 @@ const createLocal = async ( user, localName, phoneNumber, address, coordinates, 
     const local = {
       published: true,
       user,
+      image: [],
+      photoMenu: [],
       localName,
       phoneNumber,
       categories,

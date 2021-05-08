@@ -32,12 +32,14 @@ const controller = require('./controller');
 const router = express.Router();
 const { upload } = require('../../../libs/multer');
 const verifyToken = require('../../../auth/verifyToken');
+const validations = require('../../../middleware/validations');
+
 
 //------------------------------------------------------------------------------------------------
 //1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.post('/addlocal/:id', verifyToken, async (req, res) => {
+router.post('/addlocal/:id', validations.validate(validations.createLocalValidation), verifyToken, async (req, res) => {
   const { id } = req.params
   const { localName, phoneNumber, address, coordinates, days, categories } = req.body
   try {
@@ -52,7 +54,7 @@ router.post('/addlocal/:id', verifyToken, async (req, res) => {
 //2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', verifyToken, (req, res) => {
+router.put('/:id', validations.validate(validations.createLocalValidation), verifyToken, (req, res) => {
   const { id } = req.params
   const { localName, phoneNumber, address, coordinates, days } = req.body
 

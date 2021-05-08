@@ -68,7 +68,7 @@ const createUser = async (fullname, email, password) => {
 //------------------------------------------------------------------------------------------------
 
 const updateUser = async (userUpdate) => {
-console.log("userUpdate", userUpdate)
+
   if (userUpdate) {
     if (userUpdate.password) {
       const hashedPassword = await new Promise((resolve, reject) => {

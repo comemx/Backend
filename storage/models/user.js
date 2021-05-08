@@ -13,13 +13,23 @@ const userSchema = new Schema({
   },
   fullname: {
     type: String,
-    maxlength: [10,"Nombre muy largo, máximo 20 caracteres"]
+    minLength: 3,
+    maxlength: 35,
+    require: true
   },
   email: {
     type: String,
+    minLength: 5,
+    maxlength: 35,
+    require: true,
     match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
   },
-  password: String,
+  password: {
+    type: String,
+    minLength: 5,
+    maxlength: 100,
+    require: true
+  },
   favorite: [{ type: Schema.Types.ObjectId, ref: 'locals' }],
   resetToken: String,
 })

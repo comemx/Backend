@@ -28,12 +28,13 @@ const controller = require('./controller');
 const router = express.Router();
 const { upload } = require('../../../libs/multer');
 const verifyToken = require('../../../auth/verifyToken');
+const validations = require('../../../middleware/validations');
 
 //------------------------------------------------------------------------------------------------
 //1 ( CREATE ) FOOD
 //------------------------------------------------------------------------------------------------
 
-router.post('/:id', verifyToken, async (req, res) => {
+router.post('/:id', validations.validate(validations.createAndUpdateFoodPromotionsValidation), verifyToken, async (req, res) => {
   const { id } = req.params
   const { name, price, description } = req.body
   
@@ -49,10 +50,11 @@ router.post('/:id', verifyToken, async (req, res) => {
 //2 ( UPDATE ) FOOD
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', verifyToken, (req, res) => {
+router.put('/:id', validations.validate(validations.createAndUpdateFoodPromotionsValidation), verifyToken, (req, res) => {
+  const { id } = req.params
   const { name, price, description } = req.body
 
-  controller.updateFood(req.params.id, name, price, description)
+  controller.updateFood(id, name, price, description)
     .then(data => {
       response.success(req, res, data, 200)
     })

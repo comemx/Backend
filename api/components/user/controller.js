@@ -48,6 +48,7 @@ const createUser = async (fullname, email, password) => {
         })
       })
 
+
     const user = {
       image: [],
       fullname,
@@ -55,6 +56,7 @@ const createUser = async (fullname, email, password) => {
       password: hashedPassword,
       resetToken: ""
     }
+    
       return storage.add(user)
     }
 }
@@ -76,7 +78,7 @@ const updateUser = async (userUpdate) => {
           }
         })
       })
-      
+
       userUpdate.password = hashedPassword
     }
     const filter = {
@@ -98,7 +100,6 @@ const updateUser = async (userUpdate) => {
 //------------------------------------------------------------------------------------------------
 
 const editUserImage = async (id, image) => {
-  console.log("controller image", image)
   let imageUrl = ''
     if(image) {
       imageUrl = image.location

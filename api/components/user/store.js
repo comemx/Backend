@@ -38,7 +38,6 @@ const add = async (user) => {
 //------------------------------------------------------------------------------------------------
 
 const update = async (filter, update) => {
-  console.log("store file user", filter, update)
   return await userModel.findOneAndUpdate(filter, update, {
     returnOriginal: false
   })
@@ -49,7 +48,6 @@ const update = async (filter, update) => {
 //------------------------------------------------------------------------------------------------
 
 const updateImage = async (filter, update) => {
-  console.log("store image", update)
   return await userModel.findOneAndUpdate(filter, update, {
     returnOriginal: false
   })
@@ -61,7 +59,6 @@ const updateImage = async (filter, update) => {
 
 const remove = async (filter) => {
   const data = await userModel.findByIdAndRemove(filter)
-  console.log("store data",data)
   if (!data) {
     throw new Error('User not found')
   }

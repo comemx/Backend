@@ -29,6 +29,7 @@ const controller = require('./controller');
 const router = express.Router();
 const { upload } = require('../../../libs/multer');
 const verifyToken = require('../../../auth/verifyToken');
+const validations = require('../../../middleware/validations');
 
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
@@ -36,7 +37,7 @@ const verifyToken = require('../../../auth/verifyToken');
 //1 ( CREATE ) BUSINESSMAN
 //------------------------------------------------------------------------------------------------
 
-router.post('/registro', async (req, res) => {
+router.post('/registro', validations.validate(validations.createUsersValidation), async (req, res) => {
   const {fullname, email, password} = req.body
     try {
       const user = await controller.createUser(fullname, email, password)
@@ -50,12 +51,11 @@ router.post('/registro', async (req, res) => {
 //2 ( UPDATE ) BUSINESSMAN
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', verifyToken, async (req, res) => {
+router.put('/:id', validations.validate(validations.updateBusinessmanValidation), verifyToken, async (req, res) => {
     const { id } = req.params
     const { body: user } = req
     user._id = id
     try {
-      console.log("network update user")
       const data = await controller.updateUser(user)
       response.success(req, res, data, 200)
     } catch (error) {

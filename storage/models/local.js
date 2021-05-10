@@ -9,14 +9,14 @@ const Schema = mongoose.Schema
 const localSchema = new Schema({
   published: Boolean,
   user: [{ type: Schema.Types.ObjectId, ref: 'businessmen' }],
-  image: {
+  image: [{
     type: String,
     default: undefined,
-  },
-  photoMenu: {
+  }],
+  photoMenu: [{
     type: String,
     default: undefined,
-  },
+  }],
   coordinates: [{ 
     type: Object,
     minLength: 10,
@@ -43,10 +43,10 @@ const localSchema = new Schema({
     require: true
   },
   days: [{ type: Object}],
-  logo: {
-    type: [String],
+  logo: [{
+    type: String,
     default: undefined
-  },
+  }],
   promotions: [{ type: Schema.Types.ObjectId, ref: 'promotions' }],
   foods: [{ type: Schema.Types.ObjectId, ref: 'foods' }],
 })

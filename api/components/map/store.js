@@ -4,11 +4,9 @@ It is in charge of managing the database, here it is specified, where and when t
 
   - CODE INDEX
 
-    1.1.1 [POST] ( CREATE ) LOCAL
-    2.2.2 [PUT] ( UPDATE ) LOCAL
-    3.3.3 [DELETE] ( DELETE ) LOCAL
-    4.4.4 [GET] ( SHOW ) ALL LOCALS
-    5.5.5 [GET] ( SHOW ) LOCAL BY ID
+    1.1.1 [GET] ( SEARCH ) ON INPUT
+    2.2.2 [GET] ( SEARCH ) ON CATEGORIES
+    3.3.3 [GET] ( GET ) THE FIRST 10 LOCALS NEAR MY POSITION
 
   - MODULE EXPORTS
 
@@ -19,8 +17,23 @@ const userModel = require('../../../storage/models/user')
 const businessmanModel = require('../../../storage/models/businessman')
 
 //------------------------------------------------------------------------------------------------
-//1.1.1 ( CREATE ) LOCAL
+//1.1.1 ( SEARCH ) ON INPUT
 //------------------------------------------------------------------------------------------------
+
+const search = (categories, long, lat) => {
+  return localModel.find({ categories: {$regex: `.*${categories}`, $options:"i"}, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}})
+}
+
+//------------------------------------------------------------------------------------------------
+//2.2.2 ( SEARCH ) ON CATEGORIES
+//------------------------------------------------------------------------------------------------
+
+
+
+//------------------------------------------------------------------------------------------------
+//3.3.3 ( GET ) THE FIRST 10 LOCALS NEAR MY POSITION
+//------------------------------------------------------------------------------------------------
+
 const getAllPublishedPremises = () => {
   return localModel.find({ published: true})
 }
@@ -30,5 +43,6 @@ const getAllPublishedPremises = () => {
 //------------------------------------------------------------------------------------------------
 
 module.exports = {
+  search,
   getAllPublishedPremises
 }

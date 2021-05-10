@@ -7,34 +7,61 @@ in this file is all the logic, everything that is modify, change or check, is do
 
   - CODE INDEX
 
-    1.1 [POST] ( CREATE ) LOCAL
-    2.2 [PUT] ( UPDATE ) LOCAL
-    3.3 [DELETE] ( DELETE ) LOCAL
-    4.4 [GET] ( SHOW ) ALL LOCALS
-    5.5 [GET] ( SHOW ) LOCAL BY ID
+    1.1 [GET] ( SEARCH ) ON INPUT
+    2.2 [GET] ( SEARCH ) ON CATEGORIES
+    3.3 [GET] ( GET ) THE FIRST 10 LOCALS NEAR MY POSITION
 
   - MODULE EXPORTS
 
 */
 
 const storage = require('./store')
-const { upload } = require('../../../libs/multer');
 
 //------------------------------------------------------------------------------------------------
-//1.1 ( CREATE ) LOCAL
+//1.1 ( SEARCH ) ON INPUT
 //------------------------------------------------------------------------------------------------
+
+const searchLocals = async (categories, long, lat) => {
+  try {
+    
+    if(!categories) {
+      throw new Error('Missing data')
+    }
+
+    const newSearch = await storage.search(categories, long, lat)
+
+    finalResponse = {
+      newSearch,
+      'System message': 'Search successful'
+    }
+    
+    return (finalResponse)
+
+  } catch (error) {
+    throw new Error(error)
+  }
+
+}
+
+//------------------------------------------------------------------------------------------------
+//2.2 ( SEARCH ) ON CATEGORIES
+//------------------------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------------------------
+//3.3 ( GET ) THE FIRST 10 LOCALS NEAR MY POSITION
+//------------------------------------------------------------------------------------------------
+
 const publishedPremises = () => {
   return storage.getAllPublishedPremises()
 }
-
-
-
 
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
 module.exports = {
+  searchLocals,
   publishedPremises
 }
 

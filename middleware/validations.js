@@ -83,7 +83,7 @@ function createAndUpdateFoodPromotionsValidation(data) {
 }
 
 //------------------------------------------------------------------------------------------------
-//validation for { food, promotions } creation and update
+//validation for { local } creation and update
 //------------------------------------------------------------------------------------------------
 
 function createLocalValidation(data) {
@@ -91,7 +91,7 @@ function createLocalValidation(data) {
         localName: yup.string().min(2, "[ Nombre del local ] acepta como minimo 2 caracteres").max(35, "[ Nombre del local ] acepta como maximo 35 caracteres").required("[ Nombre del local ] es requerido"),
         phoneNumber: yup.number().min(1000000000, "[ Telefono ] acepta como minimo 10 numeros").max(9999999999, "[ Telefono ] acepta como maximo 10 numeros").integer().required("[ Telefono ] es requerido"),
         address: yup.string().min(10, "[ Direccion ] acepta como minimo 10 caracteres").max(100, "[ Direccion ] acepta como maximo 100 caracteres").required("[ Direccion ] es requerida"),
-        coordinates: yup.array().required("[ Coordenadas ] son requeridas"),
+        location: yup.object().required("[ Coordenadas ] son requeridas"),
         days: yup.array().required("[ Horarios ] son requeridos"),
         categories: yup.array().required("[ Categorias ] son requeridas"),
     })

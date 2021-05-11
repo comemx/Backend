@@ -18,24 +18,51 @@ const localModel = require('../../../storage/models/local')
 //1.1.1 ( SEARCH ) ON INPUT
 //------------------------------------------------------------------------------------------------
 
-const search = (categories, long, lat) => {
-  return localModel.find({published: true, categories: {$regex: `.*${categories}`, $options:"i"}, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}})
+const search = async (categories, long, lat) => {
+  try {
+    const data = await localModel.find({published: true, categories: {$regex: `.*${categories}`, $options:"i"}, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}})
+    if (data.length === 0) {
+      return 'No se encontraron resultados'
+    } else {
+      return data
+    }
+  } catch (error) {
+    throw new Error (error)
+  }
 }
 
 //------------------------------------------------------------------------------------------------
 //2.2.2 ( SEARCH ) ON CATEGORIES
 //------------------------------------------------------------------------------------------------
 
-const nearbyCategories = (categories, long, lat) => {
-  return localModel.find({published: true, categories: categories, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}})
+const nearbyCategories = async (categories, long, lat) => {
+  try {
+    const data = await localModel.find({published: true, categories: categories, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}})
+    if (data.length === 0) {
+      return 'No se encontraron resultados'
+    } else {
+      return data
+    }
+  } catch (error) {
+    throw new Error (error)
+  }
 }
 
 //------------------------------------------------------------------------------------------------
 //3.3.3 ( GET ) THE FIRST 10 LOCALS NEAR MY POSITION
 //------------------------------------------------------------------------------------------------
 
-const nearbyTen = (long, lat) => {
-  return localModel.find({published: true, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}}).limit(10)
+const nearbyTen = async (long, lat) => {
+  try {
+    const data = await localModel.find({published: true, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}}).limit(10)
+    if (data.length === 0) {
+      return 'No se encontraron resultados'
+    } else {
+      return data
+    }
+  } catch (error) {
+    throw new Error (error)
+  }
 }
 
 //------------------------------------------------------------------------------------------------

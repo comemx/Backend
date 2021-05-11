@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const connect = async() => {
   mongoose.set('useFindAndModify', false);
   mongoose.connect(`${config.mongo}`, {
+    useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });

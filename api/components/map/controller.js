@@ -29,12 +29,7 @@ const searchLocals = async (categories, long, lat) => {
 
     const newSearch = await storage.search(categories, long, lat)
 
-    finalResponse = {
-      newSearch,
-      'System message': 'Search successful'
-    }
-    
-    return (finalResponse)
+    return (newSearch)
 
   } catch (error) {
     throw new Error(error)
@@ -54,12 +49,7 @@ const searchCategories = async (categories, long, lat) => {
 
     const newNerbyCategories = await storage.nearbyCategories(categories, long, lat)
 
-    finalResponse = {
-      newNerbyCategories,
-      'System message': 'Category search performed successfully'
-    }
-    
-    return (finalResponse)
+    return (newNerbyCategories)
 
   } catch (error) {
     throw new Error(error)
@@ -78,12 +68,7 @@ const nearbyPremises = async (long, lat) => {
 
     const newNerby = await storage.nearbyTen(long, lat)
 
-    finalResponse = {
-      newNerby,
-      'System message': 'Search for nearby premises successful'
-    }
-    
-    return (finalResponse)
+    return (newNerby)
 
   } catch (error) {
     throw new Error(error)

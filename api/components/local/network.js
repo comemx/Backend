@@ -39,7 +39,7 @@ const validations = require('../../../middleware/validations');
 //1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.post('/addlocal/:id', verifyToken, async (req, res) => {
+router.post('/addlocal/:id', validations.validate(validations.createLocalValidation), verifyToken, async (req, res) => {
   const { id } = req.params
   const { localName, phoneNumber, address, location, days, categories } = req.body
   try {

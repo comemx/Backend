@@ -44,15 +44,27 @@ router.get('/search', async (req, res) => {
 //2 ( SEARCH ) ON CATEGORIES
 //------------------------------------------------------------------------------------------------
 
+router.get('/search-categories', async (req, res) => {
+  const { categories } = req.body
+  const {long, lat} = req.query
 
+  try {
+    const data = await controller.searchCategories(categories,long, lat)
+    response.success(req, res, data, 200)
+  } catch (error) {
+    response.error(req, res, 'Something wrong happend', 500, error)
+  }
+})
 
 //------------------------------------------------------------------------------------------------
 //3 ( GET ) THE FIRST 10 LOCALS NEAR MY POSITION
 //------------------------------------------------------------------------------------------------
 
-router.get('/published-premises', async (req, res) => {
+router.get('/nearby-premises', async (req, res) => {
+  const {long, lat} = req.query
+
   try {
-    const data = await controller.publishedPremises()
+    const data = await controller.nearbyPremises(long, lat)
     response.success(req, res, data, 200)
   } catch (error) {
     response.error(req, res, 'Something wrong happend', 500, error)

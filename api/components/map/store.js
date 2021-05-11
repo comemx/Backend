@@ -13,29 +13,29 @@ It is in charge of managing the database, here it is specified, where and when t
 */
 
 const localModel = require('../../../storage/models/local')
-const userModel = require('../../../storage/models/user')
-const businessmanModel = require('../../../storage/models/businessman')
 
 //------------------------------------------------------------------------------------------------
 //1.1.1 ( SEARCH ) ON INPUT
 //------------------------------------------------------------------------------------------------
 
 const search = (categories, long, lat) => {
-  return localModel.find({ categories: {$regex: `.*${categories}`, $options:"i"}, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}})
+  return localModel.find({published: true, categories: {$regex: `.*${categories}`, $options:"i"}, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}})
 }
 
 //------------------------------------------------------------------------------------------------
 //2.2.2 ( SEARCH ) ON CATEGORIES
 //------------------------------------------------------------------------------------------------
 
-
+const nearbyCategories = (categories, long, lat) => {
+  return localModel.find({published: true, categories: categories, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}})
+}
 
 //------------------------------------------------------------------------------------------------
 //3.3.3 ( GET ) THE FIRST 10 LOCALS NEAR MY POSITION
 //------------------------------------------------------------------------------------------------
 
-const getAllPublishedPremises = () => {
-  return localModel.find({ published: true})
+const nearbyTen = (long, lat) => {
+  return localModel.find({published: true, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}}).limit(10)
 }
 
 //------------------------------------------------------------------------------------------------
@@ -44,5 +44,6 @@ const getAllPublishedPremises = () => {
 
 module.exports = {
   search,
-  getAllPublishedPremises
+  nearbyCategories,
+  nearbyTen
 }

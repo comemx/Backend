@@ -23,8 +23,7 @@ const storage = require('./store')
 
 const searchLocals = async (categories, long, lat) => {
   try {
-    
-    if(!categories) {
+    if(!categories || !long || !lat) {
       throw new Error('Missing data')
     }
 
@@ -47,13 +46,48 @@ const searchLocals = async (categories, long, lat) => {
 //2.2 ( SEARCH ) ON CATEGORIES
 //------------------------------------------------------------------------------------------------
 
+const searchCategories = async (categories, long, lat) => {
+  try {
+    if(!long || !lat) {
+      throw new Error('Missing data')
+    }
+
+    const newNerbyCategories = await storage.nearbyCategories(categories, long, lat)
+
+    finalResponse = {
+      newNerbyCategories,
+      'System message': 'Category search performed successfully'
+    }
+    
+    return (finalResponse)
+
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 
 //------------------------------------------------------------------------------------------------
 //3.3 ( GET ) THE FIRST 10 LOCALS NEAR MY POSITION
 //------------------------------------------------------------------------------------------------
 
-const publishedPremises = () => {
-  return storage.getAllPublishedPremises()
+const nearbyPremises = async (long, lat) => {
+  try {
+    if(!long || !lat) {
+      throw new Error('Missing data')
+    }
+
+    const newNerby = await storage.nearbyTen(long, lat)
+
+    finalResponse = {
+      newNerby,
+      'System message': 'Search for nearby premises successful'
+    }
+    
+    return (finalResponse)
+
+  } catch (error) {
+    throw new Error(error)
+  }
 }
 
 //------------------------------------------------------------------------------------------------
@@ -62,7 +96,8 @@ const publishedPremises = () => {
 
 module.exports = {
   searchLocals,
-  publishedPremises
+  searchCategories,
+  nearbyPremises
 }
 
 

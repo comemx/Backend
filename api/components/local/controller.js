@@ -28,9 +28,9 @@ const storage = require('./store')
 //1.1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const createLocal = async ( user, localName, phoneNumber, address, coordinates, days, categories ) => {
+const createLocal = async ( user, localName, phoneNumber, address, location, days, categories ) => {
   try{
-  if (!localName || !phoneNumber || !address || !coordinates || !days || !categories) {
+  if (!localName || !phoneNumber || !address || !location || !days || !categories) {
     throw new Error('Missing data')
   }
 
@@ -42,7 +42,7 @@ const createLocal = async ( user, localName, phoneNumber, address, coordinates, 
       localName,
       phoneNumber,
       categories,
-      coordinates,
+      location,
       address,
       days,
       logo: [],

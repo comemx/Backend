@@ -11,11 +11,9 @@ In this file is where we put all the routes, here we put the endpoints and infor
 
   - CODE INDEX
 
-    1 [POST] ( CREATE ) LOCAL
-    2 [PUT] ( UPDATE ) LOCAL
-    3 [DELETE] ( DELETE ) LOCAL
-    4 [GET] ( SHOW ) ALL LOCALS
-    5 [GET] ( SHOW ) LOCAL BY ID
+    1 [GET] ( SEARCH ) ON INPUT
+    2 [GET] ( SEARCH ) ON CATEGORIES
+    3 [GET] ( GET ) THE FIRST 10 LOCALS NEAR MY POSITION
 
   - MODULE EXPORTS
 
@@ -25,22 +23,54 @@ const express = require('express');
 const response = require('../../../network/response');
 const controller = require('./controller');
 const router = express.Router();
-const { upload } = require('../../../libs/multer');
-const verifyToken = require('../../../auth/verifyToken');
-
 
 //------------------------------------------------------------------------------------------------
-//
+//1 ( SEARCH ) ON INPUT
 //------------------------------------------------------------------------------------------------
 
-router.get('/published-premises', async (req, res) => {
+router.get('/search', async (req, res) => {
+  const { categories } = req.body
+  const {long, lat} = req.query
+
   try {
-    const data = await controller.publishedPremises()
+    const data = await controller.searchLocals(categories, long, lat)
     response.success(req, res, data, 200)
   } catch (error) {
     response.error(req, res, 'Something wrong happend', 500, error)
   }
 })
+
+//------------------------------------------------------------------------------------------------
+//2 ( SEARCH ) ON CATEGORIES
+//------------------------------------------------------------------------------------------------
+
+router.get('/search-categories', async (req, res) => {
+  const { categories } = req.body
+  const {long, lat} = req.query
+
+  try {
+    const data = await controller.searchCategories(categories,long, lat)
+    response.success(req, res, data, 200)
+  } catch (error) {
+    response.error(req, res, 'Something wrong happend', 500, error)
+  }
+})
+
+//------------------------------------------------------------------------------------------------
+//3 ( GET ) THE FIRST 10 LOCALS NEAR MY POSITION
+//------------------------------------------------------------------------------------------------
+
+router.get('/nearby-premises', async (req, res) => {
+  const {long, lat} = req.query
+
+  try {
+    const data = await controller.nearbyPremises(long, lat)
+    response.success(req, res, data, 200)
+  } catch (error) {
+    response.error(req, res, 'Something wrong happend', 500, error)
+  }
+})
+
 
 //------------------------------------------------------------------------------------------------
 //MODULE EXPORTS

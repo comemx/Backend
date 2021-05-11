@@ -17,12 +17,16 @@ const localSchema = new Schema({
     type: String,
     default: undefined,
   }],
-  coordinates: [{ 
-    type: Object,
-    minLength: 10,
-    maxlength: 100,
-    require: true
-  }],
+  location: {
+    type: {
+      type: String,
+      default: "Point"
+    },
+    coordinates: {
+      type: [Number],
+      index: "2dsphere"
+    }
+  },
   localName: {
     type: String,
     minLength: 2,
@@ -35,7 +39,7 @@ const localSchema = new Schema({
     max: 9999999999,
     require: true
   },
-  categories: [{ type: Object, require: true}],
+  categories: [{type: Object, require: true}],
   address: {
     type: String,
     minLength: 5,

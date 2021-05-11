@@ -39,11 +39,11 @@ const validations = require('../../../middleware/validations');
 //1 ( CREATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.post('/addlocal/:id', validations.validate(validations.createLocalValidation), verifyToken, async (req, res) => {
+router.post('/addlocal/:id', verifyToken, async (req, res) => {
   const { id } = req.params
-  const { localName, phoneNumber, address, coordinates, days, categories } = req.body
+  const { localName, phoneNumber, address, location, days, categories } = req.body
   try {
-      const local = await controller.createLocal( id, localName, phoneNumber, address, coordinates, days, categories )
+      const local = await controller.createLocal( id, localName, phoneNumber, address, location, days, categories )
       response.success(req, res, local, 201)
     } catch (error) {
       response.error(req, res, error.message, 400, error)

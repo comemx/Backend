@@ -54,17 +54,16 @@ router.post('/addlocal/:id', validations.validate(validations.createLocalValidat
 //2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-router.put('/:id', validations.validate(validations.createLocalValidation), verifyToken, (req, res) => {
+router.put('/:id', validations.validate(validations.createLocalValidation), verifyToken, async (req, res) => {
   const { id } = req.params
   const { localName, phoneNumber, address, location, days, categories } = req.body
 
-  controller.updateLocal(id, localName, phoneNumber, address, location, days, categories)
-    .then(data => {
-      response.success(req, res, data, 200)
-    })
-    .catch(error => {
-      response.success(req, res, error.message, 400, error)
-    })
+  try {
+    const local = await controller.updateLocal(id, localName, phoneNumber, address, location, days, categories)
+    response.success(req, res, local, 201)
+  } catch (error) {
+    response.error(req, res, error.message, 400, error)
+  }
 })
 
 //------------------------------------------------------------------------------------------------

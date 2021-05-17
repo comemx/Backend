@@ -67,11 +67,14 @@ const createLocal = async ( user, localName, phoneNumber, address, location, day
 //2.2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const updateLocal = (id, localName, phoneNumber, address, location, days, categories) => {
-  return new Promise((resolve, reject) => {
-    if (!id || !localName || !phoneNumber || !address || !location || !days || !categories) {
-      reject('Missing data')
+const updateLocal = async (id, localName, phoneNumber, address, locationCoordinates, days, categories) => {
+  try {
+    if (!id || !localName || !phoneNumber || !address || !locationCoordinates || !days || !categories) {
+      throw new Error('Missing data')
     }
+
+    const coordinates = locationCoordinates.coordinates
+    const location = {"type": "Point", coordinates}
 
     const local = {
       localName,
@@ -82,14 +85,21 @@ const updateLocal = (id, localName, phoneNumber, address, location, days, catego
       categories
     }
 
-    const result = storage.update(id, local)
+    const filter = {
+      _id: id
+    }
+
+    const result = await storage.update(filter, local)
 
     const finalResponse = {
-      local,
+      result,
       'System Message': 'Local succesfully updated'
     }
-    resolve(finalResponse)
-  })
+    return(finalResponse)
+  } catch (error) {
+    throw new Error(error)
+  }
+
 }
 
 //------------------------------------------------------------------------------------------------

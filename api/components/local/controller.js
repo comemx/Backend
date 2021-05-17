@@ -67,9 +67,9 @@ const createLocal = async ( user, localName, phoneNumber, address, location, day
 //2.2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const updateLocal = (id, localName, phoneNumber, address, coordinates, days) => {
+const updateLocal = (id, localName, phoneNumber, address, location, days, categories) => {
   return new Promise((resolve, reject) => {
-    if (!id || !localName || !phoneNumber || !address || !coordinates || !days) {
+    if (!id || !localName || !phoneNumber || !address || !location || !days || !categories) {
       reject('Missing data')
     }
 
@@ -77,8 +77,9 @@ const updateLocal = (id, localName, phoneNumber, address, coordinates, days) => 
       localName,
       phoneNumber,
       address,
-      coordinates,
+      location,
       days,
+      categories
     }
 
     const result = storage.update(id, local)

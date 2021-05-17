@@ -40,18 +40,10 @@ const add = async (local) => {
 //2.2.2 ( UPDATE ) LOCAL
 //------------------------------------------------------------------------------------------------
 
-const update = async (id, local) => {
-  let retrievedLocal = await localModel.findOne({
-    _id: id
+const update = async (filter, local) => {
+  return await localModel.findOneAndUpdate(filter, local, {
+    returnOriginal: false
   })
-
-  let entrie = Object.entries(retrievedLocal)
-  entrie = Object.entries(local)
-
-  retrievedLocal = Object.fromEntries(entrie)
-
-  const newdLocal = await localModel.findByIdAndUpdate(id, retrievedLocal)
-  return newdLocal
 }
 
 //------------------------------------------------------------------------------------------------

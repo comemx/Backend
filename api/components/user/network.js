@@ -81,7 +81,7 @@ router.post('/editimage/:id', verifyToken, upload.single('image'), async (req, r
 //4 ( DELETE ) USER
 //------------------------------------------------------------------------------------------------
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
   const { id } = req.params
   try {
     const user = await controller.deleteUser(id)

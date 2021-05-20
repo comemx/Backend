@@ -130,7 +130,11 @@ const deleteUser = async(id) => {
     const filter = {
       _id: id
     }
-    return await storage.remove(filter)
+
+    const data = await storage.getOneUserByIdDb(id)
+    const locals = data.locals
+
+    return await storage.remove(filter, locals)
   } else {
     throw new Error('Id needed')
   }

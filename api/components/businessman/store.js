@@ -18,6 +18,7 @@ It is in charge of managing the database, here it is specified, where and when t
 */
 
 const businessmanModel = require('../../../storage/models/businessman')
+const localModel = require('../../../storage/models/local')
 
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
@@ -59,11 +60,15 @@ const updateImage = async (filter, update) => {
 //4.4.4 ( DELETE ) BUSINESSMAN
 //------------------------------------------------------------------------------------------------
 
-const remove = async (filter) => {
+const remove = async (filter, locals) => {
+  const query = { _id: { $in: locals} };
+
+  const rem = await localModel.deleteMany(query)
   const data = await businessmanModel.findByIdAndRemove(filter)
+
   if (!data) {
     throw new Error('User not found')
-  }
+  } 
 }
 
 //------------------------------------------------------------------------------------------------

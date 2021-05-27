@@ -49,6 +49,14 @@ const createUser = async (fullname, email, password) => {
           }
         })
       })
+    
+    const now = new Date()
+
+    day = now.getDate() 
+    month = now.getMonth() + 1
+    year = now.getFullYear()
+
+    const date = year + "/" + month + "/" + day
 
     const user = {
       image: [],
@@ -56,6 +64,7 @@ const createUser = async (fullname, email, password) => {
       email,
       phoneNumber: '',
       password: hashedPassword,
+      date,
       resetToken: ""
     }
 

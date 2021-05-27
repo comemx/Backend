@@ -34,21 +34,30 @@ const createLocal = async ( user, localName, phoneNumber, address, location, day
     throw new Error('Missing data')
   }
 
-    const local = {
-      published: true,
-      user,
-      image: [],
-      photoMenu: [],
-      localName,
-      phoneNumber,
-      categories,
-      location,
-      address,
-      days,
-      logo: [],
-      promotions: [],
-      foods: []
-    }
+  const now = new Date()
+
+  day = now.getDate() 
+  month = now.getMonth() + 1
+  year = now.getFullYear()
+
+  const date = year + "/" + month + "/" + day
+
+  const local = {
+    published: true,
+    user,
+    image: [],
+    photoMenu: [],
+    localName,
+    phoneNumber,
+    categories,
+    location,
+    address,
+    days,
+    logo: [],
+    promotions: [],
+    foods: [],
+    date
+  }
 
     const newLocal = await storage.add(local)
 

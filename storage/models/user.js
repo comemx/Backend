@@ -31,6 +31,7 @@ const userSchema = new Schema({
     require: true
   },
   favorite: [{ type: Schema.Types.ObjectId, ref: 'locals' }],
+  date: String,
   resetToken: String,
 })
 

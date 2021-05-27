@@ -34,6 +34,7 @@ const businessmanSchema = new Schema({
       require: true
     },
     locals: [{ type: Schema.Types.ObjectId, ref: 'locals' }],
+    date: String,
     resetToken: String,
 })
 

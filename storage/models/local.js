@@ -53,6 +53,7 @@ const localSchema = new Schema({
   }],
   promotions: [{ type: Schema.Types.ObjectId, ref: 'promotions' }],
   foods: [{ type: Schema.Types.ObjectId, ref: 'foods' }],
+  date: String,
 })
 
 const localModel = mongoose.model('locals', localSchema)

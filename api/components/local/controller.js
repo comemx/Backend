@@ -43,7 +43,7 @@ const createLocal = async ( user, localName, phoneNumber, address, location, day
   const date = year + "/" + month + "/" + day
 
   const local = {
-    published: true,
+    published: false,
     user,
     image: [],
     photoMenu: [],

@@ -21,13 +21,13 @@ const storage = require('./store')
 //1.1 ( SEARCH ) ON INPUT
 //------------------------------------------------------------------------------------------------
 
-const searchLocals = async (categories, long, lat) => {
+const searchLocals = async (long, lat, categories) => {
   try {
-    if(!categories || !long || !lat) {
+    if(!long || !lat || !categories) {
       throw new Error('Missing data')
     }
 
-    const newSearch = await storage.search(categories, long, lat)
+    const newSearch = await storage.search(long, lat, categories)
 
     return (newSearch)
 
@@ -41,13 +41,13 @@ const searchLocals = async (categories, long, lat) => {
 //2.2 ( SEARCH ) ON CATEGORIES
 //------------------------------------------------------------------------------------------------
 
-const searchCategories = async (categories, long, lat) => {
+const searchCategories = async (long, lat, categories) => {
   try {
-    if(!long || !lat) {
+    if(!long || !lat || !categories) {
       throw new Error('Missing data')
     }
 
-    const newNerbyCategories = await storage.nearbyCategories(categories, long, lat)
+    const newNerbyCategories = await storage.nearbyCategories(long, lat, categories)
 
     return (newNerbyCategories)
 

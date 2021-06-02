@@ -18,7 +18,7 @@ const localModel = require('../../../storage/models/local')
 //1.1.1 ( SEARCH ) ON INPUT
 //------------------------------------------------------------------------------------------------
 
-const search = async (categories, long, lat) => {
+const search = async (long, lat, categories) => {
   try {
     const data = await localModel.find({published: true, categories: {$regex: `.*${categories}`, $options:"i"}, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}})
     if (data.length === 0) {
@@ -35,7 +35,7 @@ const search = async (categories, long, lat) => {
 //2.2.2 ( SEARCH ) ON CATEGORIES
 //------------------------------------------------------------------------------------------------
 
-const nearbyCategories = async (categories, long, lat) => {
+const nearbyCategories = async (long, lat, categories) => {
   try {
     const data = await localModel.find({published: true, categories: categories, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}})
     if (data.length === 0) {

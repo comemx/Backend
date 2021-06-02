@@ -29,11 +29,10 @@ const router = express.Router();
 //------------------------------------------------------------------------------------------------
 
 router.get('/search', async (req, res) => {
-  const { categories } = req.body
-  const {long, lat} = req.query
+  const {long, lat, categories} = req.query
 
   try {
-    const data = await controller.searchLocals(categories, long, lat)
+    const data = await controller.searchLocals(long, lat, categories)
     response.success(req, res, data, 200)
   } catch (error) {
     response.error(req, res, 'Something wrong happend', 500, error)
@@ -45,11 +44,10 @@ router.get('/search', async (req, res) => {
 //------------------------------------------------------------------------------------------------
 
 router.get('/search-categories', async (req, res) => {
-  const { categories } = req.body
-  const {long, lat} = req.query
+  const {long, lat, categories} = req.query
 
   try {
-    const data = await controller.searchCategories(categories,long, lat)
+    const data = await controller.searchCategories(long, lat, categories)
     response.success(req, res, data, 200)
   } catch (error) {
     response.error(req, res, 'Something wrong happend', 500, error)

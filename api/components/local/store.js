@@ -150,8 +150,8 @@ const deleteFavorite = async (id, idUser) => {
   data.favorite.remove({
     _id: id
   })
-  data.save()
   userModel.updateOne()
+  return data.save()
 }
 
 //------------------------------------------------------------------------------------------------

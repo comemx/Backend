@@ -173,7 +173,7 @@ router.delete('/delete-favorite/:id', verifyToken, async (req, res) => {
   const { id } = req.params
 
   try {
-    const data = await controller.favoritePost(id, req.userData.id)
+    const data = await controller.deleteFavoritePost(id, req.userData.id)
     response.success(req, res, data, 200)
   } catch (error) {
     response.error(req, res, error.message, 400, error)

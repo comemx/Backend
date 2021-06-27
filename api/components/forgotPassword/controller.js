@@ -62,12 +62,17 @@ const recoverPassword = async (email) => {
 
    // send mail with defined transport object
    await transporter.sendMail({
-    from: '"Forgot password" <zmgcomida@gmail.com>', // sender address
+    from: '"comemx" <zmgcomida@gmail.com>', // sender address
     to: email, // list of receivers
-    subject: "Forgot password Subject line", // Subject line
+    subject: "Recuperar contraseña", // Subject line
     //text: "Hello world?", // plain text body
     html:`
-    <b> -------------------------------------------- :</b>
+
+    <span> Hola, ${user[0].fullname}:</span>
+
+    <p>Recibimos una solicitud para restablecer tu contraseña de <strong>comemx</strong>.
+    Ingresa al siguiente link para restablecer la contraseña:</p>
+
     <a href="${verificationLink}"> ${verificationLink}</a>
     `
   });
@@ -81,6 +86,7 @@ const recoverPassword = async (email) => {
   
 
   } catch (error){
+    console.log(error)
     throw new Error('Missing data')
   }
 }

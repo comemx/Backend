@@ -99,6 +99,23 @@ function createLocalValidation(data) {
 }
 
 //------------------------------------------------------------------------------------------------
+//send email
+//------------------------------------------------------------------------------------------------
+
+function recoverPassword(data) {
+    const schema = yup.object().shape({
+        email: yup.string().min(5, "[ Correo ] acepta como minimo 5 caracteres").max(35, "[ Correo ] acepta como maximo 35 caracteres").required("[ Correo ] es requerido")
+    })
+    schema.validateSync(data)
+}
+
+function generatePassword(data) {
+    const schema = yup.object().shape({
+        password: yup.string().min(5, "[ Contraseña ] acepta como minimo 5 caracteres").max(35, "[ Contraseña ] acepta como maximo 35 caracteres")
+    })
+    schema.validateSync(data)
+}
+//------------------------------------------------------------------------------------------------
 //MODULE EXPORTS
 //------------------------------------------------------------------------------------------------
 
@@ -108,5 +125,7 @@ module.exports = {
     updateUsersValidation,
     updateBusinessmanValidation,
     createAndUpdateFoodPromotionsValidation,
-    createLocalValidation
+    createLocalValidation,
+    recoverPassword,
+    generatePassword
 }

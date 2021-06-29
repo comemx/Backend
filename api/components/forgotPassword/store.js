@@ -4,19 +4,22 @@ It is in charge of managing the database, here it is specified, where and when t
 
   - CODE INDEX
 
-    * ( GET ) ONE BY FILTER
-    * ( UPDATE ) PASSWORD OR TOKENS
+    * ( GET ) ONE BY FILTER USER
+    * ( UPDATE ) PASSWORD OR TOKENS USER
+    * ( GET ) ONE BY FILTER BUSINESSMAN
+    * ( UPDATE ) PASSWORD OR TOKENS BUSINESSMAN
 
   - MODULE EXPORTS
 
 */
 
 const userModel = require('../../../storage/models/user')
+const promotionModel = require('../../../storage/models/businessman')
 
 //------------------------------------------------------------------------------------------------
 //CODE INDEX
 //------------------------------------------------------------------------------------------------
-//1.1.1 ( CREATE ) USER
+//( GET ) USER
 //------------------------------------------------------------------------------------------------
 
 const getOneByFilter = async (filter) => {
@@ -25,11 +28,30 @@ const getOneByFilter = async (filter) => {
 }
 
 //------------------------------------------------------------------------------------------------
-//1.1.1 ( CREATE ) USER
+//( UPDATE ) USER
 //------------------------------------------------------------------------------------------------
 
 const update = async (filter, update) => {
   return await userModel.findOneAndUpdate(filter, update, {
+    returnOriginal: false
+  })
+}
+
+//------------------------------------------------------------------------------------------------
+//( GET ) USBUSINESSMANER
+//------------------------------------------------------------------------------------------------
+
+const getOneByFilterBusinessman = async (filter) => {
+  const data = await promotionModel.find(filter)
+  return data
+}
+
+//------------------------------------------------------------------------------------------------
+//( UPDATE ) BUSINESSMAN
+//------------------------------------------------------------------------------------------------
+
+const updateBusinessman = async (filter, update) => {
+  return await promotionModel.findOneAndUpdate(filter, update, {
     returnOriginal: false
   })
 }
@@ -41,4 +63,6 @@ const update = async (filter, update) => {
 module.exports = {
   update,
   getOneByFilter,
+  getOneByFilterBusinessman,
+  updateBusinessman
 }

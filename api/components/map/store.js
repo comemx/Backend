@@ -20,7 +20,7 @@ const localModel = require('../../../storage/models/local')
 
 const search = async (long, lat, categories) => {
   try {
-    const data = await localModel.find({published: true, categories: {$regex: `.*${categories}`, $options:"i"}, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}})
+    const data = await localModel.find({published: true, categories: {$regex: `.*${categories}`, $options:"i"}, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:15000}}})
     if (data.length === 0) {
       return 'No se encontraron resultados'
     } else {
@@ -37,7 +37,7 @@ const search = async (long, lat, categories) => {
 
 const nearbyCategories = async (long, lat, categories) => {
   try {
-    const data = await localModel.find({published: true, categories: categories, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}})
+    const data = await localModel.find({published: true, categories: categories, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:15000}}})
     if (data.length === 0) {
       return 'No se encontraron resultados'
     } else {
@@ -54,7 +54,7 @@ const nearbyCategories = async (long, lat, categories) => {
 
 const nearbyTen = async (long, lat) => {
   try {
-    const data = await localModel.find({published: true, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:2000}}}).limit(10)
+    const data = await localModel.find({published: true, location:{$near:{$geometry:{type:"Point",coordinates:[`${long}`,`${lat}`]},$maxDistance:15000}}}).limit(10)
     if (data.length === 0) {
       return 'No se encontraron resultados'
     } else {

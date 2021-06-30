@@ -76,7 +76,7 @@ function updateBusinessmanValidation(data) {
 function createAndUpdateFoodPromotionsValidation(data) {
     const schema = yup.object().shape({
         name: yup.string().min(3, "[ Nombre ] acepta como minimo 3 caracteres").max(35, "[ Nombre ] acepta como maximo 35 caracteres").required("[ Nombre ] es requerido"),
-        price: yup.number().min(1, "[ Precio ] acepta como minimo 1 numero").max(999999, "[ Precio ] acepta como maximo 6 numeros").integer().required("[ Precio ] es requerido"),
+        price: yup.number().min(1, "[ Precio ] acepta como minimo 1 numero").max(999999, "[ Precio ] acepta como maximo 6 numeros").required("[ Precio ] es requerido"),
         description: yup.string().min(5, "[ Descripcion ] acepta como minimo 5 caracteres").max(35, "[ Descripcion ] acepta como maximo 45 caracteres").required("[ Descripcion ] es requerido"),
     })
     schema.validateSync(data)
